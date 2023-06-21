@@ -1,0 +1,81 @@
+[{
+  "_id": {
+    "$oid": "64007f923b47371b03f2d2bf"
+  },
+  "empId": "UISPL0001",
+  "role": "superAdmin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1677754275311"
+    }
+  },
+  "empStatus": "Pending",
+  "selectCount": 0,
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1677754275311"
+    }
+  },
+  "password": "$2a$10$pMVWSSG7LJcyLh5nwOGQvOv5HwfTLQ06mFX/g25JDvn2yZmnFVSQG"
+},{
+  "_id": {
+    "$oid": "6401e1c547ce7e79511b0eef"
+  },
+  "empId": "UISPL0002",
+  "role": "owner",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1678093918122"
+    }
+  },
+  "empStatus": "Confirmed",
+  "selectCount": 0,
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1678093918122"
+    }
+  },
+  "password": "$2a$10$pMVWSSG7LJcyLh5nwOGQvOv5HwfTLQ06mFX/g25JDvn2yZmnFVSQG",
+  "DOB": "1998-12-28",
+  "NameofSpouse": "abc",
+  "numberOfMember": 1,
+  "relationship": "Husband",
+  "tempPassword": "UISPL0002",
+  "DOB3": "1978-01-03",
+  "NameofFather": "aaa"
+},{
+  "_id": {
+    "$oid": "6409dc5541ad0f4027026041"
+  },
+  "empId": "UISPL0003",
+  "DOB3": "1975-01-01",
+  "NameofFather": "AA",
+  "numberOfMember": 1,
+  "role": "technicalEmployee",
+  "tempPassword": "UISPL0003"
+},{
+  "_id": {
+    "$oid": "6409dd4241ad0f4027026043"
+  },
+  "empId": "UISPL0004"
+},{
+  "_id": {
+    "$oid": "640b2031af7fe6f93b8e3dbb"
+  },
+  "empId": "UISPL0005"
+},{
+  "_id": {
+    "$oid": "640b2042af7fe6f93b8e3dbd"
+  },
+  "empId": "UISPL0006"
+},{
+  "_id": {
+    "$oid": "640b2051af7fe6f93b8e3dbf"
+  },
+  "empId": "UISPL0007"
+},{
+  "_id": {
+    "$oid": "640b206eaf7fe6f93b8e3dc2"
+  },
+  "empId": "UISPL0008"
+}]

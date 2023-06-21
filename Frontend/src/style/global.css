@@ -1,0 +1,2764 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Lora:400,400i,700");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat";
+  text-decoration: none;
+  font-size: 18px !important;
+}
+
+p {
+  font-size: 16px !important;
+}
+
+h1,
+h2 {
+  font-size: 25px !important;
+}
+
+h3,
+h5,
+h6,
+input {
+  font-size: 15px !important;
+}
+
+th,
+td {
+  font-size: 15px !important;
+}
+
+label {
+  display: inline-block;
+  font-size: 15px !important;
+  font-weight: 500;
+}
+
+select {
+  font-size: 15px !important;
+}
+
+.container {
+  width: 80% !important;
+}
+
+.custom-col {
+  width: 72.666667% !important;
+}
+
+.sidebar-col {
+  width: 27.333333% !important;
+}
+
+.wrapper {
+  min-height: 100vh;
+}
+
+.wrapper-padding {
+  padding: 6rem 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-repeat: no-repeat;
+}
+
+.layout {
+  margin: 0 auto;
+}
+
+/* React toast */
+.toastContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0% !important;
+  left: 0% !important;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+
+/* Navbar tabs pages */
+/* account */
+.account-wrapper {
+  min-height: 70vh;
+  text-align: center !important;
+}
+
+.account-wrapper p,
+h1 {
+  font-weight: 700 !important;
+}
+
+/* Navbar tabs pages end */
+/*LOGIN*/
+.login-wrapper {
+  min-height: 70vh;
+}
+
+.loginCard {
+  background: #fbf0ff !important;
+  box-shadow: 10px 10px #0000001f;
+  padding: 30px;
+}
+
+.loginCard h1 {
+  text-align: center;
+}
+
+.emailText p {
+  margin: 0px;
+}
+
+.profile ul {
+  margin: 20px 0px 20px 20px;
+}
+
+.logo {
+  width: 8%;
+}
+
+a {
+  text-decoration: none;
+  color: #5a5af3;
+}
+
+.empTable thead {
+  background-color: #6390e6;
+  height: 5vh;
+  color: #fff;
+}
+
+.links a {
+  margin: 7px;
+}
+
+.marketingDiv {
+  text-align: center;
+}
+
+.marketingDiv p {
+  padding: 5px 80px 5px 80px;
+}
+
+.ecommH1 {
+  margin: 30px 0px 0px 50px;
+  text-align: center;
+}
+
+.ecommerceDiv {
+  display: flex;
+  margin: 30px 0px 0px 50px;
+}
+
+.ecommerceDiv img {
+  width: 29%;
+  margin: 0px 0px 0px 100px;
+}
+
+.ecommerceDiv ul {
+  margin: 50px 0px 0px 72px;
+}
+
+.emailText {
+  margin: 0px 50px 0px 0px;
+  font-weight: 500;
+}
+
+.empDetail {
+  text-align: center;
+  font-weight: 700;
+}
+
+.profileDiv {
+  text-align: center;
+  margin-top: 6rem;
+  border: 1px solid lightslategray;
+  border-radius: 30px;
+  background: #f5e3f0;
+}
+
+.attendanceCls {
+  margin-top: 20px;
+  text-align: -webkit-center;
+}
+
+.usernameCls ::placeholder {
+  font-size: 1rem !important;
+}
+
+/*Navbar Code by Priya */
+
+.margin {
+  margin-top: 6rem !important;
+}
+
+.gatsbyNav {
+  background-color: rgb(195, 231, 248);
+  border-bottom: 1px solid #a4c0cc;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175) !important;
+}
+
+#navbarNav .navbar-nav .nav-item .nav-link {
+  color: #00368b !important;
+  font-size: 30px !important;
+}
+
+.gatsbyNav li:hover {
+  transform: scale(1.1);
+}
+
+.navbar .nav-item .nav-link {
+  padding-right: var(--bs-navbar-nav-link-padding-x);
+  padding-left: var(--bs-navbar-nav-link-padding-x);
+  color: black !important;
+  font-size: 25px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+/* .navbar-item .nav-link {
+  margin: 30px 10px 1px 10px;
+} */
+
+.superAdmin-sidebar li:hover {
+  background-color: #c3e7f8;
+  color: black;
+  font-weight: 400;
+}
+
+.formButtonDiv {
+  text-align: center;
+}
+
+.gats {
+  margin-top: 30px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/*Error-Validation Property*/
+
+.inputError {
+  border: 2px solid red !important;
+}
+
+.inputSuccess {
+  border: 2px solid green !important;
+}
+
+.mb-3 .errorRef {
+  display: block !important;
+  color: red !important;
+  font-size: 14px !important;
+  font-weight: 500;
+}
+
+/*Main Page Section*/
+
+.dms-img {
+  max-width: 90% !important;
+}
+
+.indexContainer h2 {
+  animation: moveInLeft 5s ease-out;
+}
+
+.indexContainerRow {
+  background-color: #fbf5f5;
+  border-radius: 6px;
+}
+
+.indexContainer .mt-3 {
+  font-weight: 500;
+}
+
+.dms-wrapper h2 {
+  font-size: 40px;
+  color: #0d6efd;
+}
+
+.dms-wrapper .img-div-dms {
+  height: 360px;
+}
+
+.img {
+  width: 50%;
+  margin: auto;
+}
+
+/*Footer code*/
+
+#footer {
+  background: #c3e7f8;
+  border-top: 1px solid #a4c0cc;
+  position: relative;
+  z-index: 1;
+}
+
+#footer .footer-contact p {
+  margin-bottom: 8px !important;
+}
+
+.footer-contact {
+  text-align: right;
+}
+
+/*Footer END*/
+
+.relationClass {
+  width: 100%;
+  padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+  -moz-padding-start: calc(0.75rem - 3px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Code for Button Animation */
+:root {
+  --backgroundColor: rgba(246, 241, 209);
+  --colorShadeA: rgb(99, 144, 230);
+  --colorShadeC: rgb(147, 161, 163);
+  --colorShadeD: rgb(219, 239, 248);
+  --colorShadeE: rgb(210, 239, 252);
+}
+
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+
+button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  color: var(--colorShadeA);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+button.editBtn {
+  padding: 5px 10px;
+  font-size: 15px !important;
+  border: 2px solid var(--colorShadeA);
+  background: var(--colorShadeE);
+  transform-style: preserve-3d;
+  transition: all 175ms cubic-bezier(0, 0, 1, 1);
+}
+
+button.editBtn::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--colorShadeC);
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px var(--colorShadeB), 0 0.75em 0 0 var(--colorShadeA);
+  transform: translate3d(0, 0.75em, -1em);
+  transition: all 175ms cubic-bezier(0, 0, 1, 1);
+}
+
+button.editBtn:hover {
+  background: var(--colorShadeD);
+  transform: translate(0, 0.375em);
+}
+
+button.editBtn:hover::before {
+  transform: translate3d(0, 0.75em, -1em);
+}
+
+button.editBtn:active {
+  transform: translate(0em, 0.75em);
+}
+
+button.editBtn:active::before {
+  transform: translate3d(0, 0, -1em);
+  box-shadow: 0 0 0 1px var(--colorShadeB), 0 0.25em 0 0 var(--colorShadeB);
+}
+
+/* End od test code */
+.Detail {
+  text-align: center;
+}
+
+.hiddenField {
+  display: none;
+}
+
+.showPass {
+  margin: 0px 0px 0px 13px;
+}
+
+textarea::placeholder {
+  font-size: 10px;
+  top: 8px;
+  left: 5px;
+  width: 70%;
+}
+
+input::placeholder {
+  font-size: 15px;
+  left: 10px;
+}
+
+input .larger {
+  width: 20px;
+  height: 20px;
+}
+
+.userName {
+  width: 54%;
+  padding: -1.2rem;
+  outline: none;
+  margin-bottom: var(--mb-4);
+  border-radius: 0.5rem;
+}
+
+.btn {
+  margin-right: 5px;
+}
+
+/* carousel */
+.carousel-caption {
+  background: black;
+  opacity: 0.6;
+}
+
+.home-carousel-wrapper .carousel-inner img {
+  height: 80vh;
+  object-fit: fill;
+}
+
+.btn-get-started {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 32px;
+  border-radius: 50px;
+  transition: 0.5s;
+  margin: 10px;
+  color: #fff;
+  background: #6379f8;
+}
+
+.formDiv {
+  border: 1px solid #f7eeee;
+  background: #f7eeee;
+  /* padding: 60px; */
+  padding: 25px;
+  box-shadow: 10px 10px 10px;
+  margin-bottom: 45px;
+  /* width: 100%; */
+}
+
+/* carousel END*/
+
+/*HR ADMIN CODE*/
+#employeeModal {
+  background-color: white !important
+}
+
+.hrModalBtn {
+  background-color: #b7f5ff;
+  font-size: 15px !important;
+  color: #000;
+  border-radius: 5px;
+}
+
+.addressModal {
+  margin-top: 10rem !important;
+  padding: 20px;
+}
+
+.hrContainer {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 90%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.cardDiv {
+  margin: 0.5rem;
+}
+
+.candiBulkContainer {
+  margin-top: 4.4rem;
+  min-height: 74vh;
+}
+
+.candiBulkContainer h2 {
+  padding-top: 15px;
+  font-weight: 700;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+.bi-arrow-left-circle-fill {
+  font-size: 40px !important;
+  color: #000 !important;
+}
+
+.editIcon {
+  font-size: 23px !important;
+  margin-left: 2px !important;
+  cursor: pointer;
+}
+
+.HrEmployeeContainer {
+  min-height: 100vh;
+}
+
+/*HR ADMIN pf management*/
+#dobOfEmp_head,#aadhar_head,#panNum_head,#creationDate_head,#updationDate_head {
+  display: none;
+}
+.dobOfEmp,.aadhar,.panNum,.creationDate,.updationDate {
+  display: none;
+}
+
+/* modal css */
+.lastWorkingDayModal {
+  display: block !important;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+}
+/* Modal Content */
+.lastWorkingDayModal .modal-content {
+  background-color: #ffff !important;
+}
+
+
+.csvEgImg {
+  text-align: center;
+}
+
+.newPfEnrollment h2 {
+  padding-top: 15px;
+  font-weight: 700;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+.newPfEnrollment {
+  margin-top: 4rem;
+  min-height: 75vh;
+}
+
+.pfEnrolledListContainer {
+  width: 100% !important;
+  margin-top: 4rem;
+  min-height: 75vh;
+}
+
+.pfManagementContainer {
+  margin-top: 4rem;
+  min-height: 75vh;
+}
+
+.pfManagementContainer h1 {
+  text-align: center;
+  font-weight: 700 !important;
+}
+
+.pfcards {
+  background: #ffdfd3 !important;
+}
+
+/*HR ADMIN pf management end*/
+.dashboardBtn {
+  font-weight: 600 !important;
+  color: black !important;
+  border: none !important;
+  background: #dcd6ff !important;
+}
+
+.dashboardBtn:hover {
+  background: #a598f6 !important;
+  box-shadow: 0rem 1rem 1rem rgba(0, 0, 0, 0.175);
+}
+
+.data {
+  border: none;
+}
+
+.eName {
+  width: max-content !important;
+}
+
+.text {
+  width: 7rem;
+}
+
+.arrowImg {
+  width: 4%;
+}
+
+.HrProfile {
+  width: fit-content;
+  border: groove;
+}
+
+.HrProfile img {
+  width: 55%;
+  transition: 0.5s ease;
+}
+
+.HrProfile img:hover {
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.HrProfileBody {
+  text-align: center;
+  background: #cfb9f3;
+}
+
+.HrProfileBody h3 {
+  font-weight: 600;
+  font-style: italic;
+  font-family: emoji;
+}
+
+h4.card-title {
+  margin: 25px;
+  background: #ecd0ec;
+  box-shadow: 10px 10px gray;
+  padding: 10px;
+}
+
+.hrDashboard {
+  min-height: 67.2vh;
+  max-width: 90% !important;
+}
+
+.hrDashboardH2 {
+  background-color: #00adad;
+  width: 88%;
+  text-align: center;
+  margin: auto;
+  margin-top: 7rem;
+  border-radius: 40px;
+}
+
+.hrDashboardDiv {
+  background-color: #ffceb9 !important;
+}
+
+.hrDashboardDiv h3 {
+  font-size: 18px !important;
+}
+
+.hrDashboardDiv:hover {
+  background-color: #ffb696 !important;
+  transform: translate(0, 0.375em);
+  transition: 0.3s ease-in-out;
+  box-shadow: 2rem 3rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.accessDiv {
+  background-color: #deeaff !important;
+  margin-bottom: 20px;
+}
+
+.accessDiv p {
+  font-weight: 500;
+}
+
+.accessDiv h3 {
+  font-size: 18px !important;
+}
+
+.accessDiv:hover {
+  background-color: #abc9ff !important;
+  transform: translate(0, 0.375em);
+  transition: 0.3s ease-in-out;
+  box-shadow: 2rem 3rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.accessH5 {
+  text-align: center;
+  padding-top: 10px;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.hrAdminBtnDiv {
+  text-align: center;
+}
+
+.card-img-bottom {
+  width: 30% !important;
+}
+
+.card-title {
+  margin: 25px;
+  background: #ecd0ec;
+  box-shadow: 10px 10px gray;
+  padding: 20px;
+}
+
+.card-title p {
+  font-weight: 600;
+}
+
+.hrAdminBtn {
+  font-weight: 500 !important;
+  color: black !important;
+  margin-top: 10px;
+  font-size: 15px !important;
+  background: #ace7cd !important;
+}
+
+.hrAdminBtn:hover {
+  background-color: #8036cb !important;
+  color: white !important;
+  box-shadow: 5px 5px rgb(236, 204, 234);
+}
+
+.empDiv {
+  margin: 100px 0px 0px 0px;
+}
+
+.AllEmpListTable {
+  overflow-x: scroll !important;
+}
+
+.AllEmpListTable thead {
+  background-color: #6390e6;
+  height: 5vh;
+  color: white;
+}
+
+.empTable {
+  margin: 0rem auto;
+  overflow-x: scroll !important;
+}
+
+.empTable h1 {
+  text-align: center;
+  margin: 1rem;
+  padding: 15px;
+}
+
+.hrTableHeading {
+  background-color: #f0aaa2;
+  border-bottom-left-radius: 30px;
+  border-top-right-radius: 30px;
+  text-align: center;
+  margin: 1rem 0 1rem 0;
+  padding: 15px;
+}
+
+.animate-charcter {
+  display: block;
+  font-weight: 500;
+  animation: moveInLeft 1s ease-out;
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+
+  80% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+.emp {
+  margin: 200px 0px 0px 200px;
+}
+
+.emp table {
+  width: 30%;
+  margin: 20px 0px 0px 0px;
+}
+
+.empname {
+  font-weight: 600;
+  margin: 30px 0 50px 0;
+}
+
+/*HR ADMIN CODE END*/
+
+/* EMPLOYEE LOGIN CODE */
+
+.familyInfoCloseBtn {
+  text-align: center;
+}
+
+.container1 {
+  height: fit-content;
+  width: fit-content;
+  margin: auto;
+  border: 1px solid black;
+  display: grid;
+}
+
+#salaryTable {
+  display: none;
+}
+
+.PreviousMonthData {
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.CTCHidden {
+  display: none;
+}
+
+.CTCHiddenRow {
+  display: none;
+}
+
+.check {
+  text-align: center !important;
+}
+
+.empDashbord {
+  min-height: 70vh;
+  margin-bottom: 10px;
+}
+
+th,
+td {
+  text-align: center;
+  padding: 3px;
+}
+
+.yprofile {
+  border-radius: 30px;
+  background: #d8b7cf;
+  padding-top: 20px;
+}
+
+.email {
+  padding: 3px;
+}
+
+.check label {
+  margin: 0px 10px 0px 10px;
+  font-weight: 600;
+  color: rgb(228, 58, 191);
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 5px;
+}
+
+.subheading {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.presentHidden {
+  display: none;
+}
+
+.presentHiddenRow {
+  display: none;
+}
+
+.paidHidden {
+  display: none;
+}
+
+.paidHiddenRow {
+  display: none;
+}
+
+.salaryHidden {
+  display: none;
+}
+
+.salaryHiddenRow {
+  display: none;
+}
+
+.crossSign {
+  content: "\274C";
+  display: inline-block;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  cursor: pointer;
+}
+
+#modalbtn1 {
+  width: 100%;
+  background-color: #9199f0;
+  border: #9199f0;
+  border-radius: 5px;
+  color: white;
+  padding: 7px;
+  text-align: center;
+  font-size: 15px !important;
+  cursor: pointer;
+}
+
+#modalbtn2 {
+  width: 100%;
+  background-color: #ec9bc7;
+  border: #ec9bc7;
+  border-radius: 5px;
+  color: white;
+  padding: 7px;
+  text-align: center;
+  font-size: 15px !important;
+  cursor: pointer;
+}
+
+#modalbtn3 {
+  width: 100%;
+  background-color: #a2ec9b;
+  border: #a2ec9b;
+  border-radius: 5px;
+  color: white;
+  padding: 7px;
+  text-align: center;
+  font-size: 15px !important;
+  cursor: pointer;
+}
+
+#modalbtn4 {
+  width: 100%;
+  background-color: #c9adf7;
+  border: #c9adf7;
+  border-radius: 5px;
+  color: white;
+  padding: 7px;
+  text-align: center;
+  font-size: 15px !important;
+  cursor: pointer;
+}
+
+#modalbtn5 {
+  width: 100%;
+  background-color: #86bdf0;
+  border: #86bdf0;
+  border-radius: 5px;
+  color: white;
+  padding: 7px;
+  text-align: center;
+  font-size: 15px !important;
+  cursor: pointer;
+}
+
+#modalbtn {
+  width: 100%;
+  background-color: #313aa1;
+  border: #313aa1;
+  border-radius: 5px;
+  color: white;
+  padding: 7px;
+  text-align: center;
+  font-size: 15px !important;
+  cursor: pointer;
+}
+
+.modalbtn {
+  margin-top: 40px;
+  padding: 10px 40px;
+  background-color: #0d6efd;
+  border: #0d6efd;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  font-size: 15px !important;
+  cursor: pointer;
+  margin-top: 40px;
+  padding: 10px 30px 10px 30px;
+}
+
+/* .dropDown1 {
+  width: 150px !important;
+  font-size: 15px !important;
+} */
+
+.dropDown1 option,
+.dropDown2 option {
+  font-size: 15px !important;
+}
+
+/* 
+.dropDown2 {
+  width: fit-content !important;
+  font-size: 15px !important;
+} */
+
+#download {
+  background-color: #775ad8;
+  border: #0d6efd;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* .monthDroupdown {
+  display: flex;
+  justify-content: center;
+} */
+
+.previousSalary {
+  text-align: center;
+}
+
+.salaryCloseBtn {
+  text-align: center;
+}
+
+.ReactModal__Content {
+  background: seashell !important;
+  inset: 100px !important;
+  border: 1px solid #000 !important;
+  width: 50%;
+  margin: auto;
+}
+
+.dropDown1,
+.dropDown2 {
+  border: 1px solid black !important;
+}
+
+.salaryhead {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.salaryTable td {
+  text-align: left !important;
+}
+
+.salaryTable th,
+td {
+  padding: 0px 15px 0px 15px;
+}
+
+#DownloadBtn {
+  text-align: center;
+  margin-top: 3rem;
+  display: none;
+}
+
+.employeeLogo img {
+  width: 7% !important;
+}
+
+.salTable th,
+td {
+  font-size: 15px !important;
+  padding: 5px !important;
+}
+
+.salTable td {
+  background: antiquewhite;
+}
+
+.familyInformation th,
+td {
+  font-size: 15px !important;
+}
+
+/* employee login END*
+
+/* Super Admin */
+
+.formErrorMsg {
+  font-size: 15px !important;
+  font-weight: 600;
+  text-align: center;
+}
+
+.Formcontainer {
+  width: 100%;
+}
+
+.superAdminFormContainer {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  /* margin-right: 10px;
+  margin-left: 10px;
+  width: 90% !important; */
+}
+
+.superAdminProfileContainer {
+  width: 90% !important;
+  min-height: 77.4vh !important;
+}
+
+.superAdminBtnDiv {
+  padding-left: 0px !important;
+  margin: 30px 0px 10px 0px !important;
+}
+
+.superAdminBtn {
+  font-weight: 500 !important;
+  color: black !important;
+  margin-top: 10px;
+  background: #aaa5f8 !important;
+  border: 1px solid #aaa5f8 !important;
+}
+
+.superAdminBtn:hover {
+  background-color: #44d9f3 !important;
+  color: white !important;
+  box-shadow: 5px 5px grey;
+}
+
+.accessRow {
+  margin: 0.2rem !important;
+  background-color: #deeaff !important;
+}
+
+.accessRow h4 {
+  padding-top: 0.5rem !important;
+  font-weight: 700;
+  margin-bottom: 0px !important;
+}
+
+.accessRow p {
+  margin-bottom: 0.5rem;
+}
+
+hr {
+  margin: 0.5rem 0 !important;
+}
+
+.accessRow:hover {
+  transform: translate(0, 0.375em);
+  transition: 0.3s ease-in-out;
+}
+
+.superAdminH2 {
+  padding-top: 10px;
+  font-weight: 700;
+  padding-bottom: 10px;
+  background-color: #f3bcbc;
+}
+
+.superAdminP {
+  margin: 0px 10px 10px 10px !important;
+  background-color: #daf1e6 !important;
+}
+
+.superAdminP p {
+  margin-bottom: 0.5rem !important;
+}
+
+.superAdminAccess {
+  margin: 0px 10px 10px 10px !important;
+  background-color: #f7e1e9 !important;
+  justify-content: space-around;
+}
+
+.superAdminAccess p {
+  text-align: center;
+  font-weight: 500;
+}
+
+.superAdminCard:hover {
+  transform: translate(0, 0.375em);
+}
+
+.text-muted {
+  text-align: center;
+  font-size: 15px !important;
+}
+
+.bulkBox {
+  margin-top: 60px !important;
+}
+
+.bulkText {
+  background: #fae3f7;
+}
+
+/* to hide symbol of range */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.nextBtn {
+  font-weight: 600 !important;
+  background-color: #00368b !important;
+  font-size: 15px !important;
+}
+
+button.nextBtn:hover {
+  transform: translate(0, 0.375em);
+  box-shadow: 5px 5px gray;
+}
+
+button.nextBtn:active::after {
+  transform: translate3d(0, 0, -1em);
+  box-shadow: 5px 5px gray;
+}
+
+.Detail {
+  font-size: 30px !important;
+  margin-bottom: 2rem;
+  background-color: #decaca;
+  box-shadow: 5px 5px gray;
+  animation-name: formHeading;
+  padding: 10px;
+  animation-duration: 8s;
+  text-align: center;
+}
+
+@keyframes formHeading {
+  from {
+    background-color: #f7eeee;
+    box-shadow: 0px 0px gray;
+  }
+
+  to {
+    background-color: #decaca;
+    box-shadow: 5px 5px gray;
+  }
+}
+
+.superAdminContainer {
+  width: 75% !important;
+  margin: 100px auto;
+  display: grid;
+  color: white;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  grid-gap: 20px;
+}
+
+.superadmin-profile-wrapper {
+  min-height: 70vh;
+}
+
+.superadmin-profile-wrapper .icon {
+  height: 17%;
+  width: 17%;
+  transition: 0.3s ease-in-out;
+}
+
+.superadmin-profile-wrapper .icon:hover {
+  transform: scale(1.16);
+  transition: 0.3s ease-in-out;
+}
+
+.superadmin-profile-wrapper .superadmin-links .card {
+  height: 100%;
+}
+
+.superadmin-profile-wrapper .card {
+  background-color: #f3ed76;
+  box-shadow: 10px 10px grey;
+  border: none !important;
+  border-radius: 35px;
+}
+
+.superadmin-profile-wrapper .card1 {
+  background-color: #dcd1f7 !important;
+}
+
+.superadmin-profile-wrapper .card2 {
+  background-color: #f7d1f1;
+}
+
+.superadmin-profile-wrapper .card3 {
+  background-color: #cdf1c6;
+}
+
+/* side bar superadmin after login */
+/* responsive sidenav bar */
+.sidebarIcons {
+  display: flex;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.sidebarIcons i {
+  font-size: 30px !important;
+  color: black;
+  margin-top: 15px;
+}
+
+.sidebarIcons a {
+  margin-top: 15px;
+}
+
+.toggleDiv {
+  display: flex;
+  background: #ffc8c8;
+  justify-content: space-evenly;
+}
+
+.menu {
+  list-style: none;
+  display: block;
+}
+
+.superAdmin-sidebar li:hover {
+  background-color: #e9e8fc;
+  color: black;
+  font-weight: 400;
+}
+
+.superAdmin-sidebar {
+  background-color: #fae3f7 !important;
+  width: fit-content;
+  border-right: 1px solid gray;
+}
+
+#sidebar {
+  background-color: #fae1f4;
+  width: fit-content;
+  border-right: 1px solid gray;
+  position: fixed;
+  z-index: 1;
+}
+
+#sidebar a {
+  font-size: 16px !important;
+}
+
+.superAdmin-sidebar .nav-link {
+  margin: 30px 20px 30px 20px !important;
+}
+
+.countryCode {
+  width: 140px;
+  margin-left: 1px;
+  border-radius: 5px;
+}
+
+.countryClass {
+  display: flex;
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+/*SuperAdmin Sidebar*/
+
+.menu {
+  list-style: none;
+  display: block;
+}
+
+.superanchor {
+  display: block;
+  background: rgb(171, 201, 255);
+  height: 100%;
+  text-decoration: none;
+  line-height: 1em;
+  padding: 15px 0 0 30px;
+  letter-spacing: 1px;
+}
+
+.name1 {
+  text-align: -webkit-center;
+  margin-top: 30px;
+}
+
+#number-label {
+  margin-right: 10px;
+}
+
+#employeeId {
+  text-transform: uppercase;
+}
+
+.contactNoDiv {
+  display: flex;
+}
+
+/*Family form code*/
+
+.famRadioBtn {
+  border: 1px solid #ccc;
+  padding: 1px 0px 3px;
+  border-radius: -1px;
+  margin-bottom: 20px;
+  /* width: 100%; */
+  border-radius: 5px;
+}
+
+/* #newDiv {
+  display: none;
+} */
+
+#child1 {
+  display: none;
+}
+
+#childCheckBox {
+  display: none;
+}
+
+#child2 {
+  display: none;
+}
+
+#children {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#famInput,
+#famInput1,
+#famInput2,
+#famInput3 {
+  margin: 0px 5px 0px 12px;
+  width: 19px;
+  height: 16px;
+  accent-color: #00368b;
+}
+
+.workMode {
+  margin: 0px 5px 0px 0px !important;
+}
+
+#showPass {
+  width: 19px;
+  height: 16px;
+  accent-color: #00368b;
+}
+
+.mb-3 p {
+  display: none;
+}
+
+/* #spouse {
+  display: none;
+} */
+
+.familyLabel {
+  display: inline-block;
+  width: 185px;
+  text-align: start;
+}
+
+.familyInput {
+  width: 200px;
+}
+
+.familyHidden {
+  display: none;
+}
+
+.familyHiddenRow {
+  display: none;
+}
+
+.allEmpDiv {
+  display: flex;
+  min-height: 100vh;
+}
+
+.radioInput {
+  margin: 0px 4px 0px 3px;
+}
+
+.formClass {
+  margin-bottom: 10px;
+}
+
+/*Family form code END*/
+/* password generator */
+
+.box {
+  border: 1px solid black;
+  padding: 30px 5px 30px 5px;
+  border-radius: 15px;
+}
+
+.box input {
+  user-select: none;
+  outline: none;
+}
+
+#passwordBtn {
+  font-family: sans-serif;
+  margin-top: 20px;
+  width: 125px;
+  margin: 20px 6px 10px 9px;
+  height: 40px;
+  text-align: center;
+  background-color: #e100e191;
+  display: flex;
+  color: rgba(255, 255, 255);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+#passwordBtn:hover {
+  color: white;
+  background-color: navy;
+}
+
+.uploadFileButton {
+  padding: 10px 25px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #d3e2ff;
+}
+
+.uploadFileButton:active {
+  background-color: #dc3545;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.uploadFileButton:hover {
+  background-color: #dc3545;
+}
+
+.superadminDiv h2 {
+  padding: 12rem 30rem 0rem 30rem;
+}
+
+.superadminDiv {
+  display: flex;
+}
+
+.contryCode {
+  width: 140px;
+  margin: 0px 10px 0px 3px;
+  padding: 5px;
+}
+
+.superAdminProfile {
+  grid-column: 1/ 5;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #f79b6d;
+  box-shadow: 10px 10px #6a5a8a;
+  margin-bottom: 35px;
+  animation-name: div;
+  animation-duration: 4s;
+}
+
+.superAdminProfile h1 {
+  font-size: 30px !important;
+  position: relative;
+  animation-name: headerAnimation;
+  animation-duration: 4s;
+}
+
+@keyframes headerAnimation {
+  0% {
+    color: red;
+    left: 0px;
+    top: 0px;
+  }
+
+  25% {
+    color: yellow;
+    left: 500px;
+    top: 0px;
+  }
+
+  100% {
+    color: rgb(107, 192, 241);
+    left: 0px;
+    top: 0px;
+  }
+}
+
+@keyframes div {
+  0% {
+    background-color: red;
+  }
+
+  10% {
+    background-color: rgb(0, 255, 179);
+  }
+
+  20% {
+    background-color: rgb(235, 42, 186);
+  }
+
+  30% {
+    background-color: red;
+  }
+
+  40% {
+    background-color: rgb(245, 245, 53);
+  }
+
+  50% {
+    background-color: blue;
+  }
+
+  100% {
+    background-color: green;
+  }
+}
+
+.tab {
+  background-color: #fff;
+  color: black;
+}
+
+.superAdminProfile p {
+  font-weight: 600;
+}
+
+.addEmpDiv {
+  display: flex;
+}
+
+.addEmpDiv h2 {
+  padding: 12rem 30rem 0rem 30rem;
+}
+
+.newEmpDiv {
+  background-color: #f7eeee;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px #bbb9eb;
+}
+
+.newEmpDiv img {
+  width: 25%;
+}
+
+.viewEmpDiv {
+  background-color: #f7eeee;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px #bbb9eb;
+}
+
+.viewEmpDiv img {
+  width: 23%;
+}
+
+.uploadEmp img {
+  width: 41%;
+}
+
+.uploadEmp {
+  background-color: #f7eeee;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px #bbb9eb;
+}
+
+/* Bulk Page Code*/
+
+.bulkEmpDiv {
+  display: flex;
+}
+
+#file1 {
+  color: navy;
+  margin: 10px 0px 20px 0px;
+}
+
+.basicInfoInput {
+  width: 200px;
+}
+
+.basicInfo {
+  display: inline-block;
+  width: 165px;
+  text-align: start;
+}
+
+.pfLabel {
+  display: inline-block;
+  width: 148px;
+  text-align: start;
+}
+
+.empLabel {
+  display: inline-block;
+  width: 148px;
+  text-align: start;
+}
+
+.paymentLabel {
+  display: inline-block;
+  width: 148px;
+  text-align: start;
+}
+
+.formDivClass {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.formClass select {
+  width: 200px;
+}
+
+.bulk-emp-table-div {
+  display: none;
+  overflow-x: scroll !important;
+}
+
+@media screen and (max-width: 992px) {
+  .login-wrapper {
+    min-height: 81.7vh;
+  }
+
+  .pfEnrolledListContainer {
+    margin-top: 4rem;
+    min-height: 86.8vh;
+    width: 100% !important;
+  }
+
+  .pfManagementContainer {
+    margin-top: 4rem;
+    min-height: 86.8vh;
+  }
+
+  .empDashbord {
+    min-height: 84.2vh;
+  }
+
+  .candiBulkContainer {
+    margin-top: 4.4rem;
+    min-height: 86.3vh;
+  }
+
+  .newPfEnrollment {
+    margin-top: 4rem;
+    min-height: 86.9vh;
+  }
+
+  .account-wrapper {
+    min-height: 86.3vh;
+  }
+
+  .superAdminProfileContainer {
+    width: 90% !important;
+    min-height: 88.1vh !important;
+  }
+
+  .btn-primary {
+    margin-bottom: 7px;
+    font-size: 15px !important;
+  }
+
+  h1,
+  h2 {
+    font-size: 18px !important;
+  }
+
+  .superadmin-profile-wrapper {
+    min-height: 84.3vh !important;
+  }
+
+  #DownloadBtn {
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .logo {
+    width: 15% !important;
+    padding: 0px !important;
+  }
+
+  .custom-col {
+    width: 100% !important;
+  }
+
+  /* .container-fluid {
+    padding-left: calc(var(--bs-gutter-x) * 0.5) !important;
+  } */
+
+  .home-carousel-wrapper .first-slide-carousel-caption {
+    bottom: 0% !important;
+  }
+
+  .home-carousel-wrapper .carousel-inner {
+    height: 40vh;
+  }
+
+  .home-carousel-wrapper .carousel-inner img {
+    height: 40vh;
+  }
+
+  .dms-wrapper .img-div-dms {
+    height: 270px;
+  }
+
+  /* .superadmin-profile-wrapper .superadmin-links .card {
+    height: 220px;
+  } */
+
+  .carousel-caption h2 {
+    font-size: 12px;
+  }
+
+  .carousel-caption p {
+    font-size: 12px;
+  }
+
+  .indexContainer h2 {
+    font-size: 18px;
+  }
+
+  .indexContainer p {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 511px) {
+  .logo {
+    width: 25% !important;
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .ownerBackArrow {
+    display: block !important;
+  }
+
+  .OwnerContainer {
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+  }
+
+  .empTable {
+    overflow-x: scroll !important;
+  }
+
+  #sidebar {
+    margin-left: -14px;
+  }
+
+  .ownerColumn {
+    margin-left: 50px !important;
+  }
+}
+
+@media screen and (max-width: 1792px) {
+  #navbarNav .navbar-nav .nav-item .nav-link {
+    font-size: 20px !important;
+  }
+}
+
+@media screen and (max-width: 1360px) {
+  #navbarNav .navbar-nav .nav-item .nav-link {
+    font-size: 18px !important;
+  }
+}
+
+@media screen and (max-width: 1140px) {
+  #navbarNav .navbar-nav .nav-item .nav-link {
+    font-size: 15px !important;
+  }
+}
+
+@media only screen and (max-width: 1280px) and (min-width: 1280px) {
+  .login-wrapper {
+    min-height: 73vh;
+  }
+
+  .pfEnrolledListContainer {
+    margin-top: 4rem;
+    min-height: 77.5vh;
+    width: 100% !important;
+  }
+
+  .pfManagementContainer {
+    margin-top: 4rem;
+    min-height: 77.5vh;
+  }
+
+  .empDashbord {
+    min-height: 73vh;
+  }
+
+  .candiBulkContainer {
+    margin-top: 4.4rem;
+    min-height: 76.6vh;
+  }
+
+  .newPfEnrollment {
+    margin-top: 4rem;
+    min-height: 77.5vh;
+  }
+
+  .hrDashboard {
+    min-height: 70.7vh;
+  }
+
+  .account-wrapper {
+    min-height: 73vh;
+  }
+
+  .superAdminProfileContainer {
+    width: 90% !important;
+    min-height: 79.5vh !important;
+  }
+
+  .superadmin-profile-wrapper {
+    min-height: 73vh;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .home-carousel-wrapper .carousel-inner {
+    height: 32vh;
+  }
+
+  .home-carousel-wrapper .carousel-inner img {
+    height: 32vh;
+  }
+
+  .ecommerce-wrapper .ecom-ul ul li {
+    font-size: 16px;
+  }
+
+  .formDiv {
+    padding: 18px;
+  }
+
+  .arrowImg {
+    width: 8%;
+  }
+}
+
+/* Owner Login */
+#documentTable {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 20px 20px 20px 20px;
+}
+
+#documentTable:hover {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.docDownloadBtn a {
+  text-decoration: none;
+  font-size: 15px !important;
+  color: #000;
+  font-weight: 700;
+}
+
+.docDownloadBtn a:hover {
+  border: rgb(0, 0, 0);
+}
+
+.btn-close {
+  padding: 10px !important;
+  float: right;
+  text-align: end;
+}
+
+.btn-close:hover {
+  background-color: #9c9c9c;
+  border-radius: 20px;
+}
+
+.ownerBackArrow {
+  display: none;
+}
+
+.OwnerContainer {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  /* padding-left: calc(var(--bs-gutter-x) * .5); */
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.seeDocBtn {
+  background-color: #c6e3c0 !important;
+  border-color: #198754 !important;
+}
+
+.seeDocBtn:hover {
+  background-color: #198754 !important;
+  border-color: none !important;
+  font-weight: 700;
+  color: white !important;
+}
+
+.ownersTable {
+  width: 95%;
+  margin: auto;
+}
+
+#ctc-file {
+  font-size: 15px !important;
+}
+
+.inputFont {
+  font-size: 13px !important;
+}
+
+option {
+  font-size: 13px !important;
+}
+
+.select {
+  font-size: 15px !important;
+}
+
+.update a {
+  background: #2b22ee;
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.superadmin-links {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* owner sidebar */
+
+.oSidebarIcon {
+  width: 32px;
+}
+
+.toggleOwnerDiv {
+  background: #c6e3c0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* .image {
+  margin-top: 20px
+} */
+
+.ownerSidebarIcons {
+  margin-left: 5px;
+  margin-right: 10px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 5fr;
+}
+
+.ownerSidebarIcons i {
+  font-size: 30px !important;
+  color: black;
+  margin-top: 15px;
+}
+
+.logoText a {
+  margin: 10px 5px 10px 15px;
+}
+
+/* .ownerSidebarIcons a {
+  margin-top: 15px;
+} */
+
+/* notification */
+
+.icon-button {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+}
+
+.icon-button:hover {
+  cursor: pointer;
+}
+
+.icon-button:active {
+  background: #cccccc;
+}
+
+.icon-button__badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background: red;
+  color: #ffffff;
+  display: none;
+  border-radius: 50%;
+}
+
+.material-icons {
+  color: black;
+}
+
+.ownerSidebar {
+  background: #ffe8f6 !important;
+}
+
+.ownerSidebar li {
+  font-weight: bold;
+}
+
+.ownerSidebar-wrapper {
+  margin-top: 5rem;
+  width: fit-content !important;
+}
+
+.sideScrollbar {
+  height: 24rem;
+  overflow: hidden;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.sideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.ownerSidebar li:hover {
+  background-color: #bbb9eb;
+  color: black;
+  font-weight: 400;
+}
+
+/* owner sidebar end */
+
+.CTC_info {
+  display: flex;
+}
+
+.mb-5 {
+  margin-bottom: 0rem !important;
+}
+
+.listOfEmp h3,
+.listOfEmp1 h3 {
+  font-size: 18px !important;
+}
+
+.listOfEmp {
+  background-color: #faf2f8;
+  color: black;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px #bbb9eb;
+  padding: 40px;
+  transition: transform 0.1s;
+  margin: 5px 10px 20px 10px;
+}
+
+.listOfEmp:hover {
+  -ms-transform: scale(1.2);
+  /* IE 9 */
+  -webkit-transform: scale(1.2);
+  /* Safari 3-8 */
+  transform: scale(1.2);
+  border: 1px solid #000;
+}
+
+.listOfEmp img {
+  width: 20%;
+  margin: 7px 7px;
+}
+
+.listOfEmp1 {
+  background-color: #faf2f8;
+  color: black;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px #a6f1f7;
+  padding: 40px;
+  transition: transform 0.1s;
+  margin: 5px 10px 20px 10px;
+}
+
+.listOfEmp1:hover {
+  -ms-transform: scale(1.2);
+  /* IE 9 */
+  -webkit-transform: scale(1.2);
+  /* Safari 3-8 */
+  transform: scale(1.2);
+  border: 1px solid #000;
+}
+
+.listOfEmp1 img {
+  width: 20%;
+  margin: 7px 7px;
+}
+
+.titleOwner {
+  background-color: #9191ff;
+  color: #fff;
+  padding-left: 20px;
+}
+
+.ownerDetails p {
+  padding: 10px;
+  color: #000;
+  font-weight: 600;
+}
+
+.ownerDetails {
+  text-align: center;
+  background-color: #b9fedd;
+}
+
+.payrollDashboard {
+  padding: 52px 250px 100px 250px;
+  text-align: center;
+  height: 15%;
+  border-radius: 10px;
+  background: #f5af9f;
+  box-shadow: 10px 10px lightblue;
+}
+
+.ownerGrid {
+  display: flex;
+  flex-direction: column;
+}
+
+.ownerGrid> :nth-child(2) {
+  margin-left: 467px;
+  margin-right: 20px;
+  border: 1px solid red;
+  border-radius: 10x;
+  padding: 50px;
+}
+
+/* #sidebar1 {
+  margin: 0;
+  padding: 25px;
+  background-color: gray;
+  position: fixed;
+  overflow: auto;
+  font-weight: bold;
+}
+
+.sidebar1 a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+} */
+
+.dashDiv {
+  display: flex;
+  border: 1px solid #000;
+}
+
+/* owner profile sidebar */
+
+.ownerProfile-sidebar li:hover {
+  transform: scale(1.1);
+}
+
+.ownerProfile-sidebar .navbar-item .nav-link {
+  margin: 35px;
+  font-weight: 500;
+  border: 1px solid #5283f7;
+  background: #5283f7;
+  border-radius: 7px;
+  padding: 7px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.ownerProfile-sidebar :nth-child(5) a {
+  background-color: #6cbf65 !important;
+  border: 1px solid #6cbf65 !important;
+}
+
+.ownerProfile-sidebar :nth-child(4) a {
+  background-color: #c94a73 !important;
+  border: 1px solid #c94a73 !important;
+}
+
+.ownerProfile-sidebar :nth-child(3) a {
+  background-color: #41bdd9 !important;
+  border: 1px solid #41bdd9 !important;
+}
+
+/* @media screen and (max-width: 700px) {
+  .sidebar1 {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar1 a {
+    float: left;
+  }
+
+  div.content {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar1 a {
+    text-align: center;
+    float: none;
+  }
+} */
+
+/*Code by Priya for edit confirmation date*/
+.editConfirmDate {
+  width: 30px;
+  height: 30px;
+}
+
+.upload img {
+  width: 5%;
+}
+
+/*Code for Modal of Reject candidates*/
+/* modal css */
+.RejectReasonModal {
+  display: block !important;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: row !important;
+  width: 100%;
+  color: var(--bs-modal-color);
+  pointer-events: auto;
+  background-color: #fde8f5 !important;
+  background-clip: padding-box;
+  border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+  border-radius: var(--bs-modal-border-radius);
+  outline: 0;
+  padding: 10px !important;
+  justify-content: space-between !important;
+}
+
+.modal .modal-dialog .modal-content {
+  flex-direction: column !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid grey !important;
+}
+
+.modal-footer {
+  border-top: 1px solid grey !important;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-weight: bold;
+  text-align: end;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.myRejectClass {
+  text-align: left;
+}
+
+.myRejectClass label {
+  padding: 10px;
+}
+
+.myRejectClass label input {
+  margin-right: 5px;
+}
+
+.loginDetail button {
+  box-shadow: 10px 10px gray;
+}
+
+.text-center {
+  padding-top: 20px;
+  font-weight: 700;
+  padding-bottom: 20px;
+}
+
+.save-btn {
+  margin-left: 5px;
+}
+
+.table> :not(caption)>*>* {
+  padding: 5px !important;
+}
+
+.split1 a,
+.split2 a,
+.split3 a {
+  font-size: 17px !important;
+}
+
+.split1 {
+  background: rgb(254, 255, 202);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.split2 {
+  background: rgb(239, 223, 255);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.split3 {
+  background: rgb(227, 250, 219);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.rejectInfoModal {
+  border: 1px solid rgb(18, 31, 104);
+  padding: 20px;
+}
+
+.RejectMheading {
+  background: #ac9ae3;
+  padding-bottom: 30px;
+}
+
+.modalBtnDiv {
+  text-align: center;
+}
+
+.notificationIcon {
+  text-decoration: none;
+}
+
+.btn-success {
+  background: lightgreen !important;
+  border: 1px solid lightgreen !important;
+  font-size: 15px !important;
+}
+
+.btn-danger {
+  background: rgb(247, 75, 63) !important;
+  border: 1px solid rgb(253, 81, 69) !important;
+  padding: 5px !important;
+  font-size: 15px !important;
+}
+
+.btn-info {
+  background: rgb(247, 167, 92) !important;
+  color: #fff !important;
+  border: 1px solid rgb(247, 167, 92) !important;
+  padding: 5px !important;
+  font-size: 15px !important;
+}
+
+.w-80 {
+  width: 80% !important;
+}
+
+.ecomRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.ecomPage {
+  text-align: center;
+}
+
+.profileTable {
+  text-align: center;
+  border: black !important;
+}
+
+.profileTableDiv {
+  overflow-x: auto;
+  margin: 30px 30px 30px 30px;
+}
+
+.tableHeading {
+  background: #fae3f7;
+}
+
+.empTable .table,
+.empTable .table-bordered,
+.empTable .table-striped {
+  border-color: black !important;
+  box-shadow: 10px 10px rgb(210, 211, 209);
+  font-size: 15px;
+}
+
+.ownerText {
+  margin-bottom: 0px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.superAdmin-sidebar p {
+  background-color: #ffc8c8;
+}
+
+.ownerProfilebar {
+  margin: 0;
+  padding-top: 5rem;
+  width: 200px;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  background: rgb(234, 252, 205);
+  border-right: 1px solid rgb(162, 248, 23);
+  border-left: 1px solid rgb(162, 248, 23);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.ownerProfilebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+}
+
+@media screen and (max-width: 700px) {
+  .ownerProfilebar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    padding-top: 3rem;
+    border-top: 1px solid rgb(162, 248, 23);
+    border-bottom: 1px solid rgb(162, 248, 23);
+  }
+
+  .ownerProfilebar a {
+    float: left;
+  }
+
+  div.content {
+    margin-left: 0;
+  }
+}
+
+/* @media screen and (max-width: 400px) {
+  .ownerProfilebar a {
+    text-align: center;
+    float: none;
+  }
+} */
+
+/* .profileBack {
+  display: flex;
+} */
+
+
+.ownerDetail {
+  background-color: #b9fedd;
+}
+
+.ownerLogo img {
+  width: 13%;
+  margin-bottom: 20px;
+}
+
+.viewColumn {
+  border: 1px solid rgb(195, 228, 240);
+  background: rgb(195, 228, 240) !important;
+  padding: 40px;
+  margin-bottom: 1rem;
+}
+
+.viewColumn p,
+.editColumn p,
+.uploadColumn p {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.editColumn {
+  border: 1px solid #f7cdbc;
+  background: #f7cdbc !important;
+  padding: 40px;
+  margin-bottom: 1rem;
+}
+
+.uploadColumn {
+  border: 1px solid rgb(201, 186, 243);
+  background: rgb(201, 186, 243) !important;
+  padding: 40px;
+  margin-bottom: 1rem;
+}
+
+.viewColumn:hover {
+  transform: scale(1.1);
+  border: 1px solid black;
+  box-shadow: 0 1rem 3rem grey !important;
+}
+
+.editColumn:hover {
+  transform: scale(1.1);
+  border: 1px solid black;
+  box-shadow: 0 1rem 3rem grey !important;
+}
+
+.uploadColumn:hover {
+  transform: scale(1.1);
+  border: 1px solid black;
+  box-shadow: 0 1rem 3rem grey !important;
+}
+
+.profileCard {
+  /* display: flex !important;
+  flex-direction: row !important; */
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  /* border-radius: 10px !important; */
+}
+
+.viewColumn :nth-child(1) {
+  background: #fa9fb6;
+}
+
+.editColumn :nth-child(1) {
+  background: #dbf8c1;
+}
+
+.uploadColumn :nth-child(1) {
+  background: #fceeaf;
+}
+
+.profileBack {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ownerDetail {
+  background-color: #b9fedd;
+  padding: 1px;
+}
+
+/* css for serial number */
+
+.css-serial {
+  counter-reset: serial-number;
+  /* Set the serial number counter to 0 */
+}
+
+.css-serial td:first-child:before {
+  counter-increment: serial-number;
+  /* Increment the serial number counter */
+  content: counter(serial-number);
+  /* Display the counter */
+}
+
+select:disabled {
+  color: black;
+}
