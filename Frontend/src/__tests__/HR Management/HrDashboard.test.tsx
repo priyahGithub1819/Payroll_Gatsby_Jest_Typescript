@@ -10,22 +10,11 @@ import "@testing-library/jest-dom/extend-expect"
 const server = setupServer();
 
 const routes = [
-    {
-        path:"/app/hrdashboard/",
-        component:HRDashboard,
-      }, {
-    path:"/HR%20Management/employee/",
-    component:()=><h1>view employee list page render now</h1>,
-  }, {
-    path:"/HR%20Management/editRejectCandi/",
-    component:()=><h1>view & edit rejected candidate render now</h1>,
-  }, {
-    path:"/HR%20Management/shortlistedCandidate/",
-    component:()=><h1>Upload candidate List render now</h1>,
-  }, {
-    path:"/HR%20Management/pfManagement/",
-    component:()=><h1>PF Management page render now</h1>,
-  },
+    { path:"/app/hrdashboard/",component:HRDashboard,},
+    { path:"/HR%20Management/employee/", component:()=><h1>view employee list page render now</h1>,},
+    { path:"/HR%20Management/editRejectCandi/",component:()=><h1>view & edit rejected candidate render now</h1>,},
+    { path:"/HR%20Management/shortlistedCandidate/", component:()=><h1>Upload candidate List render now</h1>,},
+    { path:"/HR%20Management/pfManagement/",component:()=><h1>PF Management page render now</h1>,},
 ]
 
 const user = {
@@ -100,13 +89,9 @@ const loadUser = ({ userData=user } = {}) => {
 };
 
 
-
 describe("Testing candidate selection page", () => {
   beforeAll(() => server.listen());
-  afterEach(() => {
-    server.resetHandlers();
- 
-});
+  afterEach(() => {server.resetHandlers();});
   afterAll(() => server.close());
 
 
