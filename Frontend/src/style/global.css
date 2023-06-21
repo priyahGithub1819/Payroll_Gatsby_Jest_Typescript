@@ -86,7 +86,9 @@ body {
   height: 100%;
   width: 100%;
 }
-
+.Toastify__toast-container {
+  width: auto!important ;
+}
 /* Navbar tabs pages */
 /* account */
 .account-wrapper {
@@ -540,6 +542,9 @@ input .larger {
 /*HR ADMIN pf management*/
 #dobOfEmp_head,#aadhar_head,#panNum_head,#creationDate_head,#updationDate_head {
   display: none;
+}
+.table-cell {
+  display: table-cell;
 }
 .dobOfEmp,.aadhar,.panNum,.creationDate,.updationDate {
   display: none;
@@ -2496,6 +2501,12 @@ div.content {
   margin-left: 5px;
 }
 
+.saveBtnDisable {
+  display: none;
+}
+.saveBtnEnable {
+  display: block;
+}
 .table> :not(caption)>*>* {
   padding: 5px !important;
 }
