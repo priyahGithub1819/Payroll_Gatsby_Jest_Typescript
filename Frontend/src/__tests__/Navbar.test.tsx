@@ -18,7 +18,6 @@ describe("The Index page test cases", () => {
     const { getByTestId } = tree();
     const homebtn = screen.getByTestId("homeBtn");
     fireEvent.click(homebtn);
-    // expect(screen.getByRole('homeLink').closest('a')).toHaveAttribute('href', '/');
     expect(screen.getByRole("homeLink", homebtn)).toHaveAttribute("href", "/");
   });
 
