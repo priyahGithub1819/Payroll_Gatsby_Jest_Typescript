@@ -96,7 +96,7 @@ describe("new pf enrolled page test case", () => {
       }
     }
     expect(queryByText("Sachin Yadav")).toBeInTheDocument();
-  },40000);
+  });
 
   // arrow button navigation
   test("should check arrow btn navigates to dashboard or not", () => {

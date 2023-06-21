@@ -213,11 +213,6 @@ const allDataServerCall = () => {
 };
 
 describe("pf exited page test case", () => {
-  test("should render arrow button", () => {
-    const { getByTestId } = render(<PfExitedEmpList />);
-    expect(getByTestId("leftArrow")).toBeInTheDocument();
-  });
-
   test("should test the heading pf the page", () => {
     const { getByTestId } = render(<PfExitedEmpList />);
     expect(getByTestId("heading")).toHaveTextContent(

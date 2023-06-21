@@ -200,7 +200,6 @@ describe("Pf EnrolledList page test case", () => {
     expect(getByTestId("table")).toBeInTheDocument();
   });
 
-  // todays test case
   test("should check number of checkboxes", () => {
     const { getAllByRole } = render(<PfEnrolledList />);
     const checkBoxes = getAllByRole("checkBox");

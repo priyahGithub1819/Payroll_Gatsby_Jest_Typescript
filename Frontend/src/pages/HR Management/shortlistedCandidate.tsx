@@ -102,7 +102,7 @@ function ShortlistedCandidate() {
       <div className="container candiBulkContainer">
         <div className="row justify-content-center">
           <div className="col-lg-12">
-            <Link to="/app/hrdashboard">
+            <Link to="/app/hrdashboard" data-testid="arrowLink">
               {/* <img src="/arrow.png" alt="" className="arrowImg" /> */}
               <i className="bi bi-arrow-left-circle-fill"></i>
             </Link>
@@ -117,6 +117,7 @@ function ShortlistedCandidate() {
                 className="form-control"
                 onChange={changeHandler}
                 accept=".csv"
+                data-testid="inputFile"
                 style={{ display: "block", margin: "10px auto" }}
               />
               <h6 className="text-muted">Hint : Upload candidate information CSV file here.</h6>
@@ -139,7 +140,7 @@ function ShortlistedCandidate() {
               <h1 className="text-center mb-4">
                 Candidate's Information Table
               </h1>
-              <table className="table table-striped table-bordered table-sm">
+              <table className="table table-striped table-bordered table-sm" data-testid="table-info-heading">
                 <thead>
                   <tr>
                     {tableRows.map((rows, index) => {
