@@ -7,7 +7,6 @@ const candidateInfo = require("../model/candidateModel");
 exports.createCandiInfo = catchAysncError(async (req, res, next) => {
   try {
     const candiInfo = await candidateInfo.insertMany(req.body);
-    // console.log(req.body);
     res.send(candiInfo);
     res.status(200).json(candiInfo);
   } catch (error) {

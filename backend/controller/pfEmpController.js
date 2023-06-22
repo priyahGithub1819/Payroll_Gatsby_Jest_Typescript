@@ -35,29 +35,10 @@ exports.createPfEmpInfo = catchAysncError(async (req, res, next) => {
 
   if(notUpdated.length>0)
   {
-    // console.log(5)
     return res.status(200).json({success:true,error:`${notUpdated} not added yet in ERP system`})
   }
-  // console.log(4)
+
   res.status(200).json({success:true,message:"added all pfEmp data"})
-
-
-  // try {
-  //   const candiInfo = await pfEmpInfo.insertMany(req.body);
-  //   // console.log(req.body);
-  //   res.send(candiInfo);
-  //   res.status(200).json(candiInfo);
-  // } catch (error) {
-  //   if (error.code === 11000) {
-  //     const err = { ...error };
-  //     let errMessageArray = err.writeErrors[0].err.errmsg.split("key: ");
-  //     let strErrMessage = errMessageArray[1];
-  //     let empErrorKey = strErrMessage.split(': "')[0].split("{ ")[1];
-  //     let empErrorValue = strErrMessage.split(': "')[1].split(`" }`)[0];
-  //     let mainErrorMessage = `Pf Information of Employee with ${empErrorKey} = ${empErrorValue} already exists`;
-  //     return res.status(200).json({ success: false, error: mainErrorMessage });
-  //   }
-  // }
 });
 
 // To get employee information for Owner
