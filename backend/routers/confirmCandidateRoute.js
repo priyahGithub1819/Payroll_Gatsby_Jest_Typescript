@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createconfirmCandidate, getconfirmCandidate } = require("../controller/confirmCandidateContol");
+const { createconfirmCandidate } = require("../controller/confirmCandidateContol");
 const {
   isAdmin,
   isAuthenticated,
