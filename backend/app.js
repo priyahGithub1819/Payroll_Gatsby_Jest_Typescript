@@ -10,7 +10,6 @@ const candiUpload = require("./routers/candidateRoute");
 const dotenv = require("dotenv");
 const errormiddleware = require("./middleware/error");
 dotenv.config({ path: "backend/config/config.env" });
-const notificationMsg = require("./routers/notificationMsgRoute");
 const uploadDocument = require("./routers/uploadDocRouter");
 const uploadEmpPf = require("./routers/pfEmpRoute")
 
@@ -40,9 +39,6 @@ app.use("/api/v2", ctcUpload);
 
 //Candidate info Upload routing
 app.use("/api/v2", candiUpload);
-
-//notification
-app.use("/api/v2", notificationMsg);
 
 //upload document
 app.use("/api/v2", uploadDocument);
