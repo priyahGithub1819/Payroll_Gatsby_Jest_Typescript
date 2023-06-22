@@ -1,63 +1,69 @@
-import React, { useState } from "react"
-import Layout from "../../components/Layout"
-import Papa from "papaparse"
-import { createManyUser } from "../../services/apiFunction"
-import SideBar from "../../components/SideBar"
-import { Link } from "gatsby"
-import { toast } from "react-toastify"
+import React, { useState } from "react";
+import Layout from "../../components/Layout";
+import Papa from "papaparse";
+import { createManyUser } from "../../services/apiFunction";
+import SideBar from "../../components/SideBar";
+import { Link } from "gatsby";
+import { toast } from "react-toastify";
 
 function AddBulkEmployee() {
   // State to store parsed data
-  const [parsedData, setParsedData] = useState<any>([])
+  const [parsedData, setParsedData] = useState<any>([]);
   //State to store table Column name
-  const [tableRows, setTableRows] = useState<any>([])
+  const [tableRows, setTableRows] = useState<any>([]);
   //State to store the values
-  const [values, setValues] = useState<any>([])
+  const [values, setValues] = useState<any>([]);
   // On clear btn click
   const onClearBtnClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-    var bulkfile = document.getElementById("bulk-file") as HTMLInputElement
-    bulkfile.value = ""
-    var tableWrapper = document.getElementById("table-wrapper") as HTMLInputElement
-    tableWrapper.style.display = "none"
-    var saveclearbtns = document.getElementById("save-clear-btns") as HTMLInputElement
-    saveclearbtns.style.display = "none"
-    var tableinfoheading = document.getElementById("table-info-heading") as HTMLInputElement
-    tableinfoheading.classList.add("d-none")
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
+    bulkfile.value = "";
+    var tableWrapper = document.getElementById(
+      "table-wrapper"
+    ) as HTMLInputElement;
+    tableWrapper.style.display = "none";
+    var saveclearbtns = document.getElementById(
+      "save-clear-btns"
+    ) as HTMLInputElement;
+    saveclearbtns.style.display = "none";
+    var tableinfoheading = document.getElementById(
+      "table-info-heading"
+    ) as HTMLInputElement;
+    tableinfoheading.classList.add("d-none");
+  };
   // On Save btn click
-  const emp: any[] = []
+  const emp: any[] = [];
   // Function on Save button click
   const saveTableDataToDatabase = async (e: any) => {
-    e.preventDefault()
-    const allTableRows = document.querySelectorAll("tbody tr")
-    allTableRows.forEach(tr => {
-      let obj: any = {}
-      let tableDataArray = tr.querySelectorAll("td")
+    e.preventDefault();
+    const allTableRows = document.querySelectorAll("tbody tr");
+    allTableRows.forEach((tr) => {
+      let obj: any = {};
+      let tableDataArray = tr.querySelectorAll("td");
       // Store data in object
-      obj.empId = tableDataArray[0].textContent
-      obj.role = tableDataArray[1].textContent
-      obj.numberOfMember = tableDataArray[2].textContent
-      obj.status = tableDataArray[3].textContent
-      obj.NameofSpouse = tableDataArray[4].textContent
-      obj.relationship = tableDataArray[5].textContent
-      obj.DOB = tableDataArray[6].textContent
-      obj.child1 = tableDataArray[7].textContent
-      obj.child1Gender = tableDataArray[8].textContent
-      obj.DOB1 = tableDataArray[9].textContent
-      obj.child2 = tableDataArray[10].textContent
-      obj.child2Gender = tableDataArray[11].textContent
-      obj.DOB2 = tableDataArray[12].textContent
-      obj.NameofFather = tableDataArray[13].textContent
-      obj.DOB3 = tableDataArray[14].textContent
-      obj.NameofMother = tableDataArray[15].textContent
-      obj.DOB4 = tableDataArray[16].textContent
-      obj.tempPassword = tableDataArray[17].textContent
-      emp.push(obj)
-    })
+      obj.empId = tableDataArray[0].textContent;
+      obj.role = tableDataArray[1].textContent;
+      obj.numberOfMember = tableDataArray[2].textContent;
+      obj.status = tableDataArray[3].textContent;
+      obj.NameofSpouse = tableDataArray[4].textContent;
+      obj.relationship = tableDataArray[5].textContent;
+      obj.DOB = tableDataArray[6].textContent;
+      obj.child1 = tableDataArray[7].textContent;
+      obj.child1Gender = tableDataArray[8].textContent;
+      obj.DOB1 = tableDataArray[9].textContent;
+      obj.child2 = tableDataArray[10].textContent;
+      obj.child2Gender = tableDataArray[11].textContent;
+      obj.DOB2 = tableDataArray[12].textContent;
+      obj.NameofFather = tableDataArray[13].textContent;
+      obj.DOB3 = tableDataArray[14].textContent;
+      obj.NameofMother = tableDataArray[15].textContent;
+      obj.DOB4 = tableDataArray[16].textContent;
+      obj.tempPassword = tableDataArray[17].textContent;
+      emp.push(obj);
+    });
     // Post all employees data from array into Database using axios
-    const { error } = await createManyUser(emp)
-    console.log(emp)
+    const { error } = await createManyUser(emp);
+    console.log(emp);
     if (error) {
       // window.alert(error)
       toast.error(error);
@@ -65,37 +71,43 @@ function AddBulkEmployee() {
       // alert("data Added successfully")
       toast.success("Information added successfully.");
     }
-  }
-
+  };
+//Function for Onchange events
   const changeHandler = (event: any) => {
     // Passing file data (event.target.files[0]) to parse using Papa.parse
     Papa.parse(event.target.files[0], {
       header: true,
       skipEmptyLines: true,
       complete: function (results) {
-        const rowsArray: any = []
-        const valuesArray: any = []
+        const rowsArray: any = [];
+        const valuesArray: any = [];
         // Iterating data to get column name and their values
         results.data.map((d: any) => {
-          rowsArray.push(Object.keys(d))
-          valuesArray.push(Object.values(d))
-        })
+          rowsArray.push(Object.keys(d));
+          valuesArray.push(Object.values(d));
+        });
         // Parsed Data Response in array format
-        setParsedData(results.data)
+        setParsedData(results.data);
         // Filtered Column Names
-        setTableRows(rowsArray[0])
+        setTableRows(rowsArray[0]);
         // Filtered Values
-        setValues(valuesArray)
+        setValues(valuesArray);
         // Display Table Div
-        var tableWrapper = document.getElementById("table-wrapper") as HTMLInputElement
-        tableWrapper.style.display = "block"
-        var saveclearbtns = document.getElementById("save-clear-btns") as HTMLInputElement
-        saveclearbtns.style.display = "block"
-        var tableinfoheading = document.getElementById("table-info-heading") as HTMLInputElement
-        tableinfoheading.classList.remove("d-none")
+        var tableWrapper = document.getElementById(
+          "table-wrapper"
+        ) as HTMLInputElement;
+        tableWrapper.style.display = "block";
+        var saveclearbtns = document.getElementById(
+          "save-clear-btns"
+        ) as HTMLInputElement;
+        saveclearbtns.style.display = "block";
+        var tableinfoheading = document.getElementById(
+          "table-info-heading"
+        ) as HTMLInputElement;
+        tableinfoheading.classList.remove("d-none");
       },
-    })
-  }
+    });
+  };
 
   return (
     <Layout>
@@ -104,7 +116,6 @@ function AddBulkEmployee() {
           <div className="col-lg-3">
             <SideBar />
           </div>
-
           <div className="col-lg-9">
             <div className="row ownerColumn justify-content-center">
               <div className=" margin col-lg-9  col-lg-8 col-md-6 col-sm-6 wrapper">
@@ -122,7 +133,9 @@ function AddBulkEmployee() {
                       onChange={changeHandler}
                       accept=".csv"
                     />
-                    <h6 className="text-muted">Hint : Upload bulk employee information CSV file here.</h6>
+                    <h6 className="text-muted">
+                      Hint : Upload bulk employee information CSV file here.
+                    </h6>
                     <div style={{ textAlign: "center" }}>
                       <img
                         className="img-fluid"
@@ -146,20 +159,20 @@ function AddBulkEmployee() {
                     <table className="table table-striped table-bordered table-sm">
                       <thead>
                         <tr>
-                          {tableRows.map((rows:any, index:number) => {
-                            return <th key={index}>{rows}</th>
+                          {tableRows.map((rows: any, index: number) => {
+                            return <th key={index}>{rows}</th>;
                           })}
                         </tr>
                       </thead>
                       <tbody>
-                        {values.map((value:any, index:number) => {
+                        {values.map((value: any, index: number) => {
                           return (
                             <tr key={index}>
-                              {value.map((val:any, i:number) => {
-                                return <td key={i}>{val}</td>
+                              {value.map((val: any, i: number) => {
+                                return <td key={i}>{val}</td>;
                               })}
                             </tr>
-                          )
+                          );
                         })}
                       </tbody>
                     </table>
@@ -172,7 +185,7 @@ function AddBulkEmployee() {
                     <div className="col-4 offset-8 d-flex justify-content-end ps-5">
                       <button
                         className="btn btn-success"
-                        onClick={e => saveTableDataToDatabase(e)}
+                        onClick={(e) => saveTableDataToDatabase(e)}
                       >
                         Save
                       </button>
@@ -191,6 +204,6 @@ function AddBulkEmployee() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
-export default AddBulkEmployee
+export default AddBulkEmployee;
