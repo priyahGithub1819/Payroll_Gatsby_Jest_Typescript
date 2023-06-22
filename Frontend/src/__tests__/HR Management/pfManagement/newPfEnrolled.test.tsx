@@ -60,7 +60,6 @@ describe("new pf enrolled page test case", () => {
       "../../../../static/employeePfInformation.csv"
     );
     const data = await readCsvFile(filePath);
-    console.log(data);
 
     const fileInput = getByTestId("inputFile");
     await waitFor(() => userEvent.click(fileInput));
