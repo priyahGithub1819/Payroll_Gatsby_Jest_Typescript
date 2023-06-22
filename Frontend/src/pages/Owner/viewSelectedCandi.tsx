@@ -33,7 +33,6 @@ function App() {
         selectedCandi.push(d)
       }
     })
-
     setCandirecords(selectedCandi)
   }
 
@@ -44,9 +43,6 @@ function App() {
   //To reject the candidate
   const saveRejectCandi = async () => {
     if (rejectReason.rejectedMessage) {
-      // window.alert(
-      //   "Candidate" + rejectReason.candidateName + " is rejected successfully"
-      // )
       toast.success("Candidate " + rejectReason.candidateName + " is rejected successfully");
       await editCandiStatus(rejectReason.id, {
         candiStatus: "Rejected",
@@ -56,7 +52,6 @@ function App() {
       setRejectReason(rejectedReasonInitialValue)
       getAllCandidates()
     } else {
-      //alert("Please select any reason to reject the candidate.")
       toast.success("Please select any reason to reject the candidate.");
     }
   }

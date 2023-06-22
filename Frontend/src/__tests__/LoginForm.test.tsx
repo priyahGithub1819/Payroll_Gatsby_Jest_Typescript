@@ -5,14 +5,7 @@ import "@testing-library/jest-dom";
 import "react-toastify/dist/ReactToastify.css";
 import userEvent from "@testing-library/user-event";
 import * as ReactDOM from "react-dom";
-import { ToastContainer } from "react-toastify";
-import { toast } from "react-toastify";
-// import renderer from "react-test-renderer";
-// import Link from 'link-react';
-import Index from "../pages/index";
 import LoginForm from "../components/Login";
-import Navbar from "../components/Navbar";
-import Layout from "../components/Layout";
 
 const validatePassword = (password: any) => {
   const regex = /^\d{8}$/;
@@ -48,7 +41,7 @@ describe("Testing ID value equal to label", () => {
     screen.debug();
   });
 
-  test.only("Test Placeholder", () => {
+  test("Test Placeholder", () => {
     render(<LoginForm />);
     const element = screen.getByPlaceholderText("Enter Username");
     expect(element).toBeInTheDocument();
@@ -66,7 +59,6 @@ describe("Testing ID value equal to label", () => {
     render(<LoginForm />);
     const element = screen.getAllByTitle("Input");
     expect(element).toHaveLength(3);
-    // expect(element).toBeTruthy();
     screen.debug();
   });
   test("Should render the Password label on Login Page", () => {
@@ -82,7 +74,6 @@ describe("Testing ID value equal to label", () => {
 
   test("Rendering the Checked checkboxes on Login Page", () => {
     const component = render(<LoginForm />);
-    // console.log(component);
     const linkElement = screen.getByRole("checkbox", { checked: true });
     expect(linkElement).toBeInTheDocument();
   });

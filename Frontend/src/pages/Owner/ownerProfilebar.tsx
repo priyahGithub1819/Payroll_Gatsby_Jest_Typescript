@@ -11,7 +11,6 @@ const Ownerprofilebar = () => {
 
     attr.forEach(item => {
       if (item.getAttribute("aria-current") === "page") {
-        // item.closest(".navbar-item").classList.add("tab") 
       }
     })
   }, [])

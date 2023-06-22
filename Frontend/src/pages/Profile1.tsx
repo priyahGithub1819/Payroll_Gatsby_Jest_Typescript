@@ -27,17 +27,6 @@ const months = [
   "December",
 ];
 
-//  interfact ILeaves{
-//   casual leave: number,
-// holiday: number,
-// month: string,
-// present: number,
-// privilege leave: number,
-// sick leave: number,
-// totalBusinessDay: number,
-// year:string
-//  }
-
 type ILeaves = {
   pl: number;
   sl: number;
@@ -81,15 +70,13 @@ const Profile = () => {
     doc.save("SalarySlip.pdf");
   }
 
+  //Function for show the previous month salary
   async function showSalary(e: any) {
-    // console.log(e.target.value,selectedAttendanceYear);
     if (e.target.value) {
-      //console.log(e.target.value,selectedAttendanceYear);
       const d = await getUserData(
         Number(e.target.value),
         selectedAttendanceYear
       );
-console.log(d);
 
       if (d.success === true) {
         setSelectedMonthsalaryData([]);
@@ -106,7 +93,6 @@ console.log(d);
           );
         });
         setSelectedMonthsalaryData(fData);
-        
 
         const element1 = document.getElementById("salaryTable") as HTMLElement;
         element1.style.display = "block";
@@ -123,6 +109,7 @@ console.log(d);
   const ref4 = useRef(null);
 
   // check box functionality
+  //For family checkbox
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const familyInfo = document.querySelector(".familyHidden") as HTMLElement;
@@ -131,9 +118,6 @@ console.log(d);
       ) as HTMLElement;
       familyInfo.style.display = "revert";
       familyInfoRow.style.display = "revert";
-
-      // familyInfo.classList.add("displayBlock")
-      // familyInfoRow.classList.add("displayBlock")
     } else {
       const familyInfo = document.querySelector(".familyHidden") as HTMLElement;
       const familyInfoRow = document.querySelector(
@@ -143,7 +127,7 @@ console.log(d);
       familyInfoRow.style.display = "none";
     }
   };
-
+  //For salary checkbox
   const handleClick3 = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const salaryInfo = document.querySelector(".salaryHidden") as HTMLElement;
@@ -161,7 +145,7 @@ console.log(d);
       salaryInfoRow.style.display = "none";
     }
   };
-
+  //For ctc checkbox
   const handleClick4 = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const CTCHidden = document.querySelector(".CTCHidden") as HTMLElement;
@@ -185,11 +169,12 @@ console.log(d);
   const [previousMonthAttendance, setPreviousMonthAttendance] = useState<any>();
   const [previousMonthsalaryData, setPreviousMonthsalaryData] = useState<any>();
 
+  //Function to findout the number of days in month
   function getDaysInMonth(year: number, month: number) {
     return new Date(year, month, 0).getDate();
   }
 
-  // Salary calculation according to CTC
+  // Salary calculation function according to CTC
   const calculateSalaryDetail = ({
     ctc,
     month,
@@ -201,11 +186,7 @@ console.log(d);
     "casual leave": cl,
     holiday,
   }: CalculateSalary) => {
-    //const currentYear = new Date().getFullYear()
-    //const previousMonth = new Date().getMonth(month)
     const getmonth = String(month);
-    //console.log(typeof.months.indexOf(month));
-
     const daysOfPreviousMonth = getDaysInMonth(
       year,
       months.indexOf(getmonth) + 1
@@ -254,20 +235,19 @@ console.log(d);
       year,
     };
   };
+
   // Fetching the data from database
   const getEmployeeData = async (monthData: any) => {
     // for data of logged in employee
     let l = await loadUser();
     const data = l.employee;
-
     var id = data.payrollData.empId;
-
     const singleEmpPf = await getSinglePfData(id);
 
     // for Particular employee CTC
     let CTC = await getMyCTC();
+    
     // for attendance of an employee
-    //console.log(CTC);
     let presentData = await getUserData(monthData.month, monthData.year);
 
     setRecords({ ...data, pfEmpData: singleEmpPf });
@@ -299,7 +279,6 @@ console.log(d);
     year: number;
   }
 
-  // getEmployeeData()
   useEffect(() => {
     const d = new Date();
     const oldMonth = new Date(d.getFullYear(), d.getMonth() - 1);
@@ -307,7 +286,6 @@ console.log(d);
       month: oldMonth.getMonth(),
       year: oldMonth.getFullYear(),
     };
-
     getEmployeeData(monthData);
   }, []);
 
@@ -550,8 +528,6 @@ ${
   };
 
   return (
-    // <div className="vh-100">
-
     <div className="empDashbord container-fluid">
       <div className="profileDiv">
         <div className="yprofile">
@@ -703,7 +679,7 @@ ${
             )}
           </Table>
         </div>
-        {/* </div> */}
+        {/* Family information modal */}
         <Modal
           ariaHideApp={false}
           isOpen={modalIsOpen}
@@ -720,6 +696,7 @@ ${
             </button>
           </div>
         </Modal>
+        {/* Salary information modal */}
         <Modal ariaHideApp={false} isOpen={modal1IsOpen}>
           <div className="familyInformation">
             <h1 className="heading">
@@ -861,7 +838,10 @@ ${
                 <div className="salaryhead">
                   <h1 className="titalColor">uvXcel It Solution Pvt.Ltd</h1>
                   <hr />
-                  <h2>Salary slip of {selectedMonthsalaryData[0].month} - {selectedMonthsalaryData[0].year}</h2>
+                  <h2>
+                    Salary slip of {selectedMonthsalaryData[0].month} -{" "}
+                    {selectedMonthsalaryData[0].year}
+                  </h2>
                 </div>
               ) : (
                 ""

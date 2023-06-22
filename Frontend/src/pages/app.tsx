@@ -13,8 +13,6 @@ const RouterPage = (
     props: { pageComponent: JSX.Element } & RouteComponentProps
   ) => props.pageComponent;
 
-
-
 const App = () => {
     return (
         <>
@@ -43,10 +41,6 @@ const App = () => {
                         path="/myProfile"
                         component={Myprofile} />
                     <Login path="/app/login" />
-                    {/* <RouterPage path="/app/login" pageComponent={} /> */}
-                    {/* <RouterPage path="/app/login" pageComponent={<Login/>} />
-                    <RouterPage path="/app/user" pageComponent={<Profile1/>} /> */}
-                    {/* <Owner path="app/own" /> */}
                 </Router>
             </Layout>
         </>

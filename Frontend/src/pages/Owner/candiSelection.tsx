@@ -41,7 +41,6 @@ function App() {
       
       toast.success(
         "Candidate " + rejectReason.candidateName + " is rejected successfully")
-      // )
       await editCandiStatus(rejectReason.id, {
         candiStatus: "Rejected",
         rejectedMessage: rejectReason.rejectedMessage,
@@ -50,17 +49,13 @@ function App() {
       setRejectReason(rejectedReasonInitialValue)
       await getAllCandidates()
     } else {
-      //alert("Please select any reason to reject the candidate.")
       toast.success("Please select any reason to reject the candidate.")
     }
   }
 
   //To Select/Aprrove the candidate
-  const saveApproveCandi = async (id:any, candidateName:any) => {
-  
+  const saveApproveCandi = async (id:any, candidateName:any) => {  
     await editCandiStatus(id, { candiStatus: "Selected" })
-    // getAllCandidates()
-    // window.alert("Candidate" + candidateName + " is selected successfully")
     toast.success("Candidate " + id + " is selected successfully")
     await getAllCandidates()
   }
@@ -69,12 +64,7 @@ function App() {
   const saveHoldCandi = async (id:any, candidateName:any) => {
     editCandiStatus(id, { candiStatus: "Hold" })
     getAllCandidates()
-    //window.alert("Candidate" + candidateName + " is on hold")
-    toast.success("Candidate " + id + " is on hold"
-    
-    
-    
-    )
+    toast.success("Candidate " + id + " is on hold")
     getAllCandidates()
   }
 

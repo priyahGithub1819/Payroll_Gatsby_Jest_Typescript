@@ -118,9 +118,9 @@ const Layout: React.FC<PageProps> = ({ children }) => {
         value={{ user, callUser, protectedApi, protectedUser }}
       >
         <div className="layout">
-          <NavBar />
+          {/* <NavBar /> */}
           {children}
-          <footer id="footer" className="footer">
+          {/* <footer id="footer" className="footer">
             <div className="container-fluid">
               <div className="row">
                 <div className="col-lg-4 col-md-5 text-center text-md-start">
@@ -138,7 +138,7 @@ const Layout: React.FC<PageProps> = ({ children }) => {
                 </div>
               </div>
             </div>
-          </footer>
+          </footer> */}
         </div>
       </UserData.Provider>
     </>
