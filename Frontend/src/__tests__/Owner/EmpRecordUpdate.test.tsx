@@ -6,13 +6,9 @@ import userEvent from "@testing-library/user-event";
 import UpdateEmp from "../../pages/Owner//empRecordUpdate";
 import { getByTestId, waitFor } from "@testing-library/dom";
 import "@testing-library/jest-dom/extend-expect";
-// import { toHaveStyle } from '@testing-library/jest-native/dist/to-have-style'
-// expect.extend({toHaveStyle})
-
 
 // to mock the window.alert because it in not html part thats why we have to mock it to run
 global.alert = jest.fn();
-
 
 const validateCTC = (ctc: any) => {
   const regexUsername = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
