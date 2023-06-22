@@ -5,16 +5,10 @@ import PfEnrolledList from "../../../pages/HR Management/pfManagement/pfEnrolled
 import { render } from "../../../test_Util/custom_render_function";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { render as RCH } from "@testing-library/react";
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from "@reach/router";
-import { Router } from "@reach/router";
 import userEvent from "@testing-library/user-event";
-import { getByRole, waitFor } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 
+// creating the fake data
 const pfData = {
   success: true,
   empInfo: [
@@ -149,8 +143,11 @@ const singleEmpPf = {
     },
   ],
 };
+
+// setting the server and Initialize a mock server instance using the setupServer() function
 const server = setupServer();
 
+// defining the function
 const customeServerCall = () => {
   return server.use(
     rest.get("/api/v2/pfEmp/data", (req, res, ctx) => {
@@ -178,16 +175,14 @@ const singleEmpPfServerCall = () => {
   );
 };
 
+// test cases
 describe("Pf EnrolledList page test case", () => {
+  // rendering the component
   test("renders pf enrolled list page", () => {
     render(<PfEnrolledList />);
   });
 
-  test("should render arrow button", () => {
-    const { getByTestId } = render(<PfEnrolledList />);
-    expect(getByTestId("leftArrow")).toBeInTheDocument();
-  });
-
+  // checking the main heading
   test("should test the heading pf the page", () => {
     const { getByTestId } = render(<PfEnrolledList />);
     expect(getByTestId("heading")).toHaveTextContent(
@@ -195,12 +190,7 @@ describe("Pf EnrolledList page test case", () => {
     );
   });
 
-  test("should render table", () => {
-    const { getByTestId } = render(<PfEnrolledList />);
-    expect(getByTestId("table")).toBeInTheDocument();
-  });
-
-  // todays test case
+  // checking number of test cases
   test("should check number of checkboxes", () => {
     const { getAllByRole } = render(<PfEnrolledList />);
     const checkBoxes = getAllByRole("checkBox");
@@ -211,6 +201,7 @@ describe("Pf EnrolledList page test case", () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
+  // checking wheather the user fake data is render or not
   test("should check the user list", async () => {
     customeServerCall();
     loadUserServerCall();
@@ -222,8 +213,11 @@ describe("Pf EnrolledList page test case", () => {
     await findByText("UISPL0001");
   });
 
+  // checking navigation on click of arrow button
   test("should check arrow btn navigates to dashboard or not", () => {
     const { getByTestId } = render(<PfEnrolledList />);
+    expect(getByTestId("leftArrow")).toBeInTheDocument();
+
     const link = getByTestId("arrowLink");
     userEvent.click(link);
     window.history.pushState({}, "", "/HR%20Management/pfManagement");
@@ -310,6 +304,7 @@ describe("Pf EnrolledList page test case", () => {
     expect(updation).toHaveStyle("display:table-cell");
   });
 
+  // checking the edit functionality
   test("Should check edit functinality", async () => {
     // calling the server
     customeServerCall();

@@ -5,11 +5,10 @@ import { getAllPfEmpData } from "../../../services/apiFunction";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { indianDate, dateFormat } from "../../../services/utils";
-import { display } from "html2canvas/dist/types/css/property-descriptors/display";
 
 function PfEnrolledList() {
+  // useState
   const [records, setRecords] = useState([]);
-
   const [pfEmpToEdit, setPfEmpToEdit] = useState({
     name: "",
     empId: "",
@@ -28,6 +27,7 @@ function PfEnrolledList() {
 
   const [lastWorkingDay, setLastWorkingDay] = useState<any>(false);
 
+  // function to get all data from database
   const getAllPfEmpList = async () => {
     let data = await getAllPfEmpData();
     setRecords(data.empInfo);
@@ -37,7 +37,7 @@ function PfEnrolledList() {
     getAllPfEmpList();
   }, []);
 
-  // to target particular record
+  // onChange Function
   const onValueChange = (e: any) => {
     setPfEmpToEdit({ ...pfEmpToEdit, [e.target.name]: e.target.value });
 
@@ -56,7 +56,7 @@ function PfEnrolledList() {
       input.style = "appearance: block";
       input.style.border = "1px solid black";
     });
-    // tableRow.querySelector(".save-btn").style.display = ""
+
     const saveBtn = tableRow.querySelector(".save-btn");
     saveBtn.classList.add("saveBtnEnable");
 
@@ -65,7 +65,6 @@ function PfEnrolledList() {
     });
     const currentEmp = await axios.get(`/api/v2/single-pfemp/${empId}`);
     setPfEmpToEdit(currentEmp.data);
-    // document.getElementById("select").disabled = false
   };
 
   // on save button click
@@ -122,6 +121,7 @@ function PfEnrolledList() {
       await getAllPfEmpList();
     }
   };
+
   // modal save button-
   const onSaveLastWorkingDay = () => {
     if (!pfEmpToEdit.lastWorkingDay) {
@@ -131,8 +131,7 @@ function PfEnrolledList() {
     }
   };
 
-  // code for checkboxes
-
+  // code for checkboxes to hide and show table columns
   function tableColumnHideShow(id: any) {
     var checkboxValue = document.getElementById(id) as HTMLInputElement;
 
@@ -156,6 +155,7 @@ function PfEnrolledList() {
       IdData.value = "show";
     }
   }
+
   return (
     <Layout>
       <div className="container-fluid pfEnrolledListContainer">
@@ -348,7 +348,6 @@ function PfEnrolledList() {
                               <select
                                 style={{ appearance: "none" }}
                                 name="pfStatus"
-                                // disabled={true}
                                 className="data select"
                                 id="select"
                                 defaultValue={record.pfStatus}
@@ -369,7 +368,6 @@ function PfEnrolledList() {
                               <i
                                 className="bi bi-check-circle-fill save-btn editIcon data-toggle=modal data-target=#myModal saveBtnDisable"
                                 data-testid="saveButton"
-                                //  style={{ display: "none" }}
                                 onClick={(e) => {
                                   onSaveBtnClick(e, record._id, record.name);
                                 }}
@@ -412,9 +410,6 @@ function PfEnrolledList() {
                         className="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                        // onClick={() => {
-                        //   setLastWorkingDay(false)
-                        // }}
                         onClick={onSaveLastWorkingDay}
                       ></button>
                     </div>
@@ -443,9 +438,6 @@ function PfEnrolledList() {
                       >
                         Save
                       </button>
-                      {/* <button type="button" className="btn btn-primary">
-                        Save
-                      </button> */}
                     </div>
                   </div>
                 </div>

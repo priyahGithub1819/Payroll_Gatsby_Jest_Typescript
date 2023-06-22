@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "gatsby";
 
 const HrDashboard = () => {
-  
   return (
     <>
       <section className="mt-5" style={{ minHeight: "65vh" }}>

@@ -4,9 +4,10 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "gatsby";
 import { getOwnerData } from "../../services/apiFunction";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function App() {
+  // All use state
   const [candirecords, setCandirecords] = useState<any>([]);
   const [rejectCandi, setRejectCandi] = useState<any>([]);
   const [candiToEdit, setCandiToEdit] = useState<any>({
@@ -21,11 +22,11 @@ function App() {
     candiStatus: "",
     rejectedMessage: "",
   });
+
   // To get all candidate from db
   const getAllCandidates = async () => {
-    // console.log("hii from")
     let data = await getOwnerData();
-    
+
     if (data.success === true) {
       data.candiInfo.map((record: any) => {
         if (record?.candiStatus === "Rejected") {
@@ -41,12 +42,13 @@ function App() {
     getAllCandidates();
   }, []);
 
+  // onChange function
   const onValueChange = (e: any) => {
     setCandiToEdit({ ...candiToEdit, [e.target.name]: e.target.value });
   };
+
   //On edit button click
   const onEditBtnClick = async (e: any, candiId: number) => {
-
     const tableRow = e.target.closest("tr");
     const rowData = tableRow.querySelectorAll(".data");
     tableRow.querySelectorAll(".data").forEach((input: any) => {
@@ -59,9 +61,9 @@ function App() {
     const currentCandi = await axios.get(`/api/v2/single-candi/${candiId}`);
     setCandiToEdit(currentCandi.data);
   };
+
   //On save button click
   const onSaveBtnClick = async (e: any, candiId: number, name: string) => {
-
     if (
       candiToEdit.candidateName === "" ||
       candiToEdit.eduQual === "" ||
@@ -72,9 +74,6 @@ function App() {
       candiToEdit.expectedCTC === ""
     ) {
       toast.error("Field should not be empty.");
-      // toast.error("Field should not be empty.", {
-      //   position: toast.POSITION.TOP_CENTER,
-      // })
       if (candiToEdit.candidateName === "") {
         const tableRow = e.target.closest("tr");
         tableRow.querySelectorAll(".name").forEach((input: any) => {
@@ -134,12 +133,6 @@ function App() {
         <div className="row justify-content-center">
           <div className="col-lg-12">
             <Link to="/app/hrdashboard">
-              {/* <img
-                src="/arrow.png"
-                alt=""
-                className="arrowImg"
-                // style={{ width: "3%" }}
-              /> */}
               <i
                 className="bi bi-arrow-left-circle-fill"
                 data-testid="arrowBtn"
@@ -204,7 +197,7 @@ function App() {
                               <input
                                 name="candidateName"
                                 className="data name"
-                                data-testid = "candidateName"
+                                data-testid="candidateName"
                                 onChange={onValueChange}
                                 type="text"
                                 defaultValue={candirecord.candidateName}
@@ -254,7 +247,7 @@ function App() {
                             <td>
                               <input
                                 name="currentCTC"
-                                data-testid = "currentCTC"
+                                data-testid="currentCTC"
                                 className="data text currectCTC"
                                 onChange={onValueChange}
                                 type="text"
@@ -273,14 +266,6 @@ function App() {
                               />
                             </td>
                             <td>
-                              {/* <button
-                                onClick={e =>
-                                  onEditBtnClick(e, candirecord.candidateId)
-                                }
-                                className="editBtn edit"
-                              >
-                                Edit
-                              </button> */}
                               <i
                                 className="bi bi-pen-fill editIcon"
                                 role="editBtn"
@@ -288,15 +273,6 @@ function App() {
                                   onEditBtnClick(e, candirecord.candidateId)
                                 }
                               ></i>
-                              {/* <button
-                                className=" save-btn editBtn edit"
-                                style={{ display: "none" }}
-                                onClick={e =>
-                                  onSaveBtnClick(e, candirecord.candidateId)
-                                }
-                              >
-                                Save
-                              </button> */}
                               <i
                                 className="bi bi-check-circle-fill save-btn editIcon"
                                 style={{ display: "none" }}
