@@ -2,7 +2,6 @@ import axios from "axios"
 import Layout from "../../components/Layout"
 import React, { useState, useEffect } from "react"
 import SideBar from "../../components/OwnersSidebar"
-//import p from "../pages/"
 import { toast } from "react-toastify"
 
 const UploadDocument = () => {
@@ -16,23 +15,18 @@ const UploadDocument = () => {
       const formData = new FormData()
       formData.append("myFile", uploadFile)
       const data = await axios.post("api/v2/document/upload", formData)
-      console.log(data)
-      // window.alert("File uploaded successfully")
       toast.success("File uploaded successfully")
-      // window.location.reload(false)
     }
   }
   // On clear button click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
-    // document.getElementById("bulk-file").value = ""
     window.location.reload()
   }
 
   const [docs, setDocs] = useState([])
   const getAllDocuments = async () => {
     const { data } = await axios.get("/api/v2/document/all")
-    // console.log(docs)
     if (data.success === false) {
       window.alert(data.error)
     } else if (data.success === true) {
@@ -42,12 +36,9 @@ const UploadDocument = () => {
 
   useEffect(() => {
     getAllDocuments()
-    console.log("Looking into Document")
-    //console.log(p)
   }, [])
 
   useEffect(() => {
-    console.log(docs)
   }, [docs])
 
   const seeDocBtnClick = () => {
@@ -151,7 +142,6 @@ const UploadDocument = () => {
                               <td>{Index + 1}</td>
                               <td>{docs.originalname}</td>
                               <td>{docs.mimetype}</td>
-                              {/* {docs.mimetype.includes("image/") === true ? <td> <img src = {`/document/${docs.filename}`} alt="AddEmpImg" className="icon" /></td> : ""} */}
                               <td>
                                 <button className="docDownloadBtn btn btn-light">
                                   <a

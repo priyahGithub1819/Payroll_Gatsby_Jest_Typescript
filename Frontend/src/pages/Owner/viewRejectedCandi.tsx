@@ -1,51 +1,46 @@
-import React, { useEffect } from "react"
-import Layout from "../../components/Layout"
-import "bootstrap/dist/css/bootstrap.min.css"
-import { useState } from "react"
-import { getOwnerData } from "../../services/apiFunction"
-import SideBar from "../../components/OwnersSidebar"
-import Modal from "react-modal"
-import { Link } from "gatsby"
+import React, { useEffect } from "react";
+import Layout from "../../components/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import { getOwnerData } from "../../services/apiFunction";
+import SideBar from "../../components/OwnersSidebar";
+import Modal from "react-modal";
+import { Link } from "gatsby";
 
 function App() {
-  const [candirecords, setCandirecords] = useState<any>([])
-  const [modalIsOpen, setModalIsOpen] = useState(false)
-
+  const [candirecords, setCandirecords] = useState<any>([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   //To get all Candidate data
   const getAllCandidates = async () => {
-    let rejectCandi:any = []
-    let data = await getOwnerData()
+    let rejectCandi: any = [];
+    let data = await getOwnerData();
 
     if (data.success === true) {
-      setCandirecords(data.candiInfo)
+      setCandirecords(data.candiInfo);
     }
 
-    data.candiInfo.map((d:any) => {
+    data.candiInfo.map((d: any) => {
       if (d.candiStatus === "Rejected") {
-        rejectCandi.push(d)
+        rejectCandi.push(d);
       }
-    })
+    });
+    setCandirecords(rejectCandi);
+  };
 
-    setCandirecords(rejectCandi)
-  }
-
-  const onButtonClick = (rejectedMessage:any) => {
-    setModalIsOpen(true)
+  const onButtonClick = (rejectedMessage: any) => {
+    setModalIsOpen(true);
     setTimeout(() => {
-     var commonModal = document.getElementById(
-        "common-modal"
-      ) as HTMLElement
-      commonModal.innerHTML = `<p>${rejectedMessage}</p>`
-      var heading = document.getElementById("heading") as HTMLElement
-      heading.innerText =
-        "Candidate's rejection details"
-    }, 200)
-  }
+      var commonModal = document.getElementById("common-modal") as HTMLElement;
+      commonModal.innerHTML = `<p>${rejectedMessage}</p>`;
+      var heading = document.getElementById("heading") as HTMLElement;
+      heading.innerText = "Candidate's rejection details";
+    }, 200);
+  };
 
   useEffect(() => {
-    getAllCandidates()
-  }, [])
+    getAllCandidates();
+  }, []);
 
   return (
     <Layout>
@@ -78,7 +73,7 @@ function App() {
                     </thead>
                     <tbody>
                       {candirecords &&
-                        candirecords.map((candirecord:any, Index:number) => {
+                        candirecords.map((candirecord: any, Index: number) => {
                           if (candirecord.candiStatus == "Rejected") {
                             return (
                               <tr key={Index}>
@@ -95,7 +90,7 @@ function App() {
                                   {" "}
                                   <button
                                     id="modalbtn"
-                                    data-testid = "seeDetailsBtn"
+                                    data-testid="seeDetailsBtn"
                                     onClick={() =>
                                       onButtonClick(candirecord.rejectedMessage)
                                     }
@@ -104,24 +99,28 @@ function App() {
                                   </button>
                                 </td>
                               </tr>
-                            )
+                            );
                           }
                         })}
                     </tbody>
                   </table>
                 </div>
                 <Modal ariaHideApp={false} isOpen={modalIsOpen}>
-                {/* <Modal isOpen={modalIsOpen}> */}
+                  {/* <Modal isOpen={modalIsOpen}> */}
                   <h1
-                  data-testid="reject-Message-Model"
+                    data-testid="reject-Message-Model"
                     className="RejectMheading text-center pt-4"
                     id="heading"
                   ></h1>
-                  <div className="rejectInfoModal" data-testid="reject-message-div" id="common-modal"></div>
+                  <div
+                    className="rejectInfoModal"
+                    data-testid="reject-message-div"
+                    id="common-modal"
+                  ></div>
                   <div className="modalBtnDiv">
                     <button
                       className="modalbtn"
-                      data-testid = "closeRejectModal"
+                      data-testid="closeRejectModal"
                       onClick={() => setModalIsOpen(false)}
                     >
                       Close
@@ -134,6 +133,6 @@ function App() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
-export default App
+export default App;

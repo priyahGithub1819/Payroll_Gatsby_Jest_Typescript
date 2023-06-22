@@ -5,7 +5,6 @@ import Layout from "../components/Layout"
 export default function account() {
   return (
     <Layout>
-      {/* <section id="account" className=""> */}
         <div className="container-fluid margin account-wrapper">
             <h1>Accounting</h1>
             <img
@@ -29,7 +28,6 @@ export default function account() {
             </div>
           </div>
         </div>
-      {/* </section> */}
     </Layout>
   )
 }

@@ -4,35 +4,20 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import { useState } from "react"
 import { allUserData } from "../../services/apiFunction"
 import SideBar from "../../components/OwnersSidebar"
-// import { Link } from "gatsby"
-// import axios from "axios"
 
 function App() {
   const [records, setRecords] = useState<any>([])
  const getAllEmployees = async () => {
    let data = await allUserData()
-  //  try {
-  //    const { data } = await axios.get("/api/v2/payroll/user/all")
-  //   //  console.log(data)
-      // return data
       setRecords(data.employeeData)
-    // } catch (error:any) {
-    //   return error.response.data
-    // }
   }
 
   useEffect(() => {
-    // console.log("bug")
     getAllEmployees()
-    // allUserData().then((data)=>setRecords(data))
-    // document.querySelectorAll("td,th").forEach(data => {
-    //   data.classList.add("text-center")
-    // })
   }, [])
 
   return (
     <Layout>
-      {/* {console.log("bug1")} */}
       <div className="OwnerContainer">
         <div className="row ownerRow">
           <div className="col-lg-3">
@@ -45,7 +30,6 @@ function App() {
                   List of Existing Employee
                 </h2>
                 <div className="empTable">
-                  {/* <button onClick={()=>setRecords({})}>press</button> */}
                   <table className="table table-bordered">
                     <thead>
                       <tr>

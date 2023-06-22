@@ -7,8 +7,6 @@ const Myprofile = () => {
   const [user, setUser] = useState({})
   const getUser = async () => {
     const data = await loadUser()
-    console.log("data")
-    console.log(data)
     setUser(data)
   }
   useEffect(() => {
@@ -29,10 +27,6 @@ const Myprofile = () => {
                   </div>
                   <div className="ownerDetail">
                     <div className="p-3">
-                      {/* <p>Name : {user.employee.basic.name.firstName}</p>
-                      <p>Employee ID : {user.employee.payrollData.empId}</p>
-                      <p>Contact No :  {user.employee.basic.mobile.number}</p>
-                      <p>Designation :  {user.employee.basic.designation}</p> */}
                     </div>
                   </div>
                 </div>
@@ -40,7 +34,6 @@ const Myprofile = () => {
                 <div className="superadmin-links py-4 row">
                   <div className="viewColumn col-lg-3 ">
                     <h4>View Access</h4>
-
                     <p>List of All Employee</p>
                     <p>List of Confirmed Employees</p>
                     <p>List of Onboard Candidates</p>
