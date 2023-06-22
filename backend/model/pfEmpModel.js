@@ -45,12 +45,10 @@ const pfEmpSchema = new mongoose.Schema({
   },
   updatedby: {
     empId: {type:String},
-    // email: {type:String,required:true},
     date: {type:Date}
   },
   createdby: {
     empId: {type:String},
-    // email: {type:String,required:true},
     date: {type:Date}
   }
 });
