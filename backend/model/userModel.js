@@ -84,7 +84,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// const userModel = new mongoose.model("employee", userSchema);
 const userModel = con.ACLMDB.model("employee", userSchema);
 
 module.exports = userModel;
