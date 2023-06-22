@@ -1,11 +1,10 @@
-import React from "react"
-import Layout from "../components/Layout"
-import { Link } from "gatsby"
+import React from "react";
+import Layout from "../components/Layout";
+import { Link } from "gatsby";
 
 export default function superadminpayroll() {
   return (
     <Layout>
-      {/* <section id="payroll" className="payroll-div-wrapper"> */}
       <div className="container-fluid margin account-wrapper">
         <h1>Payroll</h1>
         <img
@@ -32,8 +31,6 @@ export default function superadminpayroll() {
           </Link>
         </div>
       </div>
-
-      {/* </section> */}
     </Layout>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import React from "react"
-import Layout from "../components/Layout"
+import React from "react";
+import Layout from "../components/Layout";
 
 export default function projects() {
   return (
@@ -13,7 +13,6 @@ export default function projects() {
         />
         <div className="row">
           <div className="col-12">
-            {/* <div className="text-center"> */}
             <ul className="list-unstyled">
               <li>
                 <p>
@@ -41,10 +40,9 @@ export default function projects() {
                 </p>
               </li>
             </ul>
-            {/* </div> */}
           </div>
         </div>
       </div>
     </Layout>
-  )
+  );
 }
