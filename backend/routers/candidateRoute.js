@@ -1,40 +1,41 @@
 const express = require("express");
 const router = express.Router();
 const {
-    createCandiInfo,
-    ownerData,
-    editCandiData,
-    singleCandi,
-    editRejectCandi,
+  createCandiInfo,
+  ownerData,
+  editCandiData,
+  singleCandi,
+  editRejectCandi,
 } = require("../controller/candidateController");
 const {
-    isAdmin,
-    isAuthenticated,
-    isNewEmployee,
+  isAdmin,
+  isAuthenticated,
+  isNewEmployee,
 } = require("../middleware/isAuthenticated");
 
 //Creating route for HR admin to upload candidate's Info
 router
-    .route("/payroll/candidate/all")
-    .post(isAuthenticated, isAdmin("hrAdmin"), createCandiInfo);
+  .route("/payroll/candidate/all")
+  .post(isAuthenticated, isAdmin("hrAdmin"), createCandiInfo);
 
 //To Display candidate list to Owner
 router
-    .route("/owner/data")
-    .get(isAuthenticated, isAdmin("hrAdmin", "owner"), ownerData);
+  .route("/owner/data")
+  .get(isAuthenticated, isAdmin("hrAdmin", "owner"), ownerData);
 
 //To edit status of Candidate
 router
-    .route("/edit-candi/:id")
-    .put(isAuthenticated, isAdmin("hrAdmin", "owner"), editCandiData);
+  .route("/edit-candi/:id")
+  .put(isAuthenticated, isAdmin("hrAdmin", "owner"), editCandiData);
 
-
+// To edit single candidate
 router
-    .route("/single-candi/:id")
-    .get(isAuthenticated, isAdmin("hrAdmin", "owner"), singleCandi);
+  .route("/single-candi/:id")
+  .get(isAuthenticated, isAdmin("hrAdmin", "owner"), singleCandi);
 
+//To edit rejected candidate
 router
-    .route("/edit-rejectcandi/:id")
-    .put(isAuthenticated, isAdmin("hrAdmin", "owner"), editRejectCandi);
+  .route("/edit-rejectcandi/:id")
+  .put(isAuthenticated, isAdmin("hrAdmin", "owner"), editRejectCandi);
 
 module.exports = router;
