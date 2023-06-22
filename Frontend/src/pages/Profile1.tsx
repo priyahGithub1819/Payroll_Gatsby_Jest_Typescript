@@ -70,6 +70,7 @@ const Profile = () => {
     doc.save("SalarySlip.pdf");
   }
 
+  //Function for show the previous month salary
   async function showSalary(e: any) {
     if (e.target.value) {
       const d = await getUserData(
@@ -108,6 +109,7 @@ const Profile = () => {
   const ref4 = useRef(null);
 
   // check box functionality
+  //For family checkbox
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const familyInfo = document.querySelector(".familyHidden") as HTMLElement;
@@ -125,7 +127,7 @@ const Profile = () => {
       familyInfoRow.style.display = "none";
     }
   };
-
+  //For salary checkbox
   const handleClick3 = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const salaryInfo = document.querySelector(".salaryHidden") as HTMLElement;
@@ -143,7 +145,7 @@ const Profile = () => {
       salaryInfoRow.style.display = "none";
     }
   };
-
+  //For ctc checkbox
   const handleClick4 = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const CTCHidden = document.querySelector(".CTCHidden") as HTMLElement;
@@ -167,11 +169,12 @@ const Profile = () => {
   const [previousMonthAttendance, setPreviousMonthAttendance] = useState<any>();
   const [previousMonthsalaryData, setPreviousMonthsalaryData] = useState<any>();
 
+  //Function to findout the number of days in month
   function getDaysInMonth(year: number, month: number) {
     return new Date(year, month, 0).getDate();
   }
 
-  // Salary calculation according to CTC
+  // Salary calculation function according to CTC
   const calculateSalaryDetail = ({
     ctc,
     month,
@@ -232,6 +235,7 @@ const Profile = () => {
       year,
     };
   };
+
   // Fetching the data from database
   const getEmployeeData = async (monthData: any) => {
     // for data of logged in employee
@@ -242,6 +246,8 @@ const Profile = () => {
 
     // for Particular employee CTC
     let CTC = await getMyCTC();
+    
+    // for attendance of an employee
     let presentData = await getUserData(monthData.month, monthData.year);
 
     setRecords({ ...data, pfEmpData: singleEmpPf });
@@ -273,7 +279,6 @@ const Profile = () => {
     year: number;
   }
 
-  // getEmployeeData()
   useEffect(() => {
     const d = new Date();
     const oldMonth = new Date(d.getFullYear(), d.getMonth() - 1);
@@ -281,7 +286,6 @@ const Profile = () => {
       month: oldMonth.getMonth(),
       year: oldMonth.getFullYear(),
     };
-
     getEmployeeData(monthData);
   }, []);
 
@@ -675,7 +679,7 @@ ${
             )}
           </Table>
         </div>
-        {/* </div> */}
+        {/* Family information modal */}
         <Modal
           ariaHideApp={false}
           isOpen={modalIsOpen}
@@ -692,6 +696,7 @@ ${
             </button>
           </div>
         </Modal>
+        {/* Salary information modal */}
         <Modal ariaHideApp={false} isOpen={modal1IsOpen}>
           <div className="familyInformation">
             <h1 className="heading">

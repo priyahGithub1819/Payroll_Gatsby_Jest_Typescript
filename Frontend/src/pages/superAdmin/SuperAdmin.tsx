@@ -1,10 +1,9 @@
-import React from "react"
-import { Link } from "gatsby"
-import "bootstrap/dist/css/bootstrap.min.css"
+import React from "react";
+import { Link } from "gatsby";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const SuperaAdmin = () => {
   return (
-
     <div className="container superadmin-profile-wrapper margin">
       <div className="row justify-content-center mb-3">
         <div className="col-12">
@@ -21,7 +20,7 @@ const SuperaAdmin = () => {
             <div className="card-body">
               <h4 className="text-center">Add Employee To Payroll</h4>
               <div className="text-center">
-                <Link to="/superAdmin/addEmployee/" data-testid = "addEmp">
+                <Link to="/superAdmin/addEmployee/" data-testid="addEmp">
                   <img src="/addemp.png" alt="AddEmpImg" className="icon" />
                 </Link>
               </div>
@@ -36,7 +35,7 @@ const SuperaAdmin = () => {
             <div className="card-body">
               <h4 className=" text-center">View All Employee</h4>
               <div className="text-center">
-                <Link to="/superAdmin/viewAllEmployee/" data-testid = "viewEmp">
+                <Link to="/superAdmin/viewAllEmployee/" data-testid="viewEmp">
                   <img src="/viewIcon.png" alt="ViewImg" className="icon" />
                 </Link>
               </div>
@@ -51,7 +50,10 @@ const SuperaAdmin = () => {
             <div className="card-body">
               <h4 className=" text-center">Upload Bulk Employee</h4>
               <div className="text-center">
-                <Link to="/superAdmin/addBulkEmployee/" data-testid = "uploadBulkEmp">
+                <Link
+                  to="/superAdmin/addBulkEmployee/"
+                  data-testid="uploadBulkEmp"
+                >
                   <img src="/upload.png" alt="UploadImg" className="icon" />
                 </Link>
               </div>
@@ -63,6 +65,6 @@ const SuperaAdmin = () => {
         </div>
       </div>
     </div>
-  )
-}
-export default SuperaAdmin
+  );
+};
+export default SuperaAdmin;

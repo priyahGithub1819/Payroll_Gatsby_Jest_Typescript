@@ -11,7 +11,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp">
           <h3>All Employees</h3>
-          <Link to="/Owner/listOfEmp">
+          <Link to="/Owner/listOfEmp"
+          data-testid="empList">
             {/* <img
               src="/empList.png"
               alt="AddEmpImg"
@@ -23,7 +24,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp">
           <h3>Confirmed Employee</h3>{" "}
-          <Link to="/Owner/confirmEmp">
+          <Link to="/Owner/confirmEmp"
+           data-testid="confirmedEmpList">
             {" "}
             <img src="/search.png" alt="UploadImg" className="icon img-fluid" />
           </Link>
@@ -31,7 +33,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp">
           <h3>Employee Confirmation</h3>
-          <Link to="/Owner/empConfirm">
+          <Link to="/Owner/empConfirm"
+          data-testid="employeeConfirmation">
             {" "}
             <img
               src="/empConfirm.png"
@@ -43,7 +46,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp">
           <h3>Employee record update</h3>{" "}
-          <Link to="/Owner/empRecordUpdate">
+          <Link to="/Owner/empRecordUpdate"
+           data-testid="empRecordUpdate">
             {" "}
             <img
               src="/growth.png"
@@ -58,7 +62,8 @@ const Owner = () => {
       <div className="row justify-content-center mb-3">
         <div className="col-xl-2 col-lg-4 col-md-5  listOfEmp1">
           <h3>Candidate Selection</h3>{" "}
-          <Link to="/Owner/candiSelection">
+          <Link to="/Owner/candiSelection"
+          data-testid="candiSelection">
             <img
               src="/empRecruit.png"
               alt="ViewImg"
@@ -69,7 +74,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
           <h3>Selected Candidates</h3>{" "}
-          <Link to="/Owner/viewSelectedCandi">
+          <Link to="/Owner/viewSelectedCandi"
+          data-testid="viewSelectedCandi">
             {" "}
             <img
               src="/select.png"
@@ -81,14 +87,16 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
           <h3>On hold Candidates</h3>
-          <Link to="/Owner/viewHoldCandi">
+          <Link to="/Owner/viewHoldCandi"
+          data-testid="OnHoldCandi">
             <img src="/hold.png" alt="ViewImg" className="icon img-fluid " />
           </Link>
           <h6>View the list of on hold candidates</h6>
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
           <h3>Rejected Candidates</h3>{" "}
-          <Link to="/Owner/viewRejectedCandi">
+          <Link to="/Owner/viewRejectedCandi"
+          data-testid="viewRejectedCandi">
             {" "}
             <img
               src="/rejected.png"
@@ -102,7 +110,8 @@ const Owner = () => {
       <div className="row justify-content-center mb-3">
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
           <h3>Onboard Candidates</h3>{" "}
-          <Link to="/Owner/viewOnboardCandi">
+          <Link to="/Owner/viewOnboardCandi"
+          data-testid="viewOnboardCandi">
             <img
               src="/onboarding.png"
               alt="UploadImg"
@@ -113,7 +122,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
           <h3> Upload CTC</h3>{" "}
-          <Link to="/Owner/addCTC">
+          <Link to="/Owner/addCTC"
+          data-testid="addCTC">
             {" "}
             <img
               src="/uploadCTC.png"
@@ -125,7 +135,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
           <h3> Update CTC</h3>{" "}
-          <Link to="/Owner/updateCTC">
+          <Link to="/Owner/updateCTC"
+          data-testid="updateCTC">
             {" "}
             <img
               src="/updatedCTC.png"
@@ -137,7 +148,8 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
           <h3> Upload & View Payroll Documents </h3>{" "}
-          <Link to="/Owner/uploadPayrollDoc">
+          <Link to="/Owner/uploadPayrollDoc"
+          data-testid="uploadPayrollDoc">
             {" "}
             <img
               src="/viewDocument.png"

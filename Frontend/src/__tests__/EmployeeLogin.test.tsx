@@ -336,8 +336,6 @@ describe("empConfirm.test.tsx", () => {
   //First test case
   it("component should render", async () => {
     //Calling custome server
-
-    //customeServerCall();
     singlePfServerCall();
     ctcServerCall();
     loadUserServerCall();
@@ -354,8 +352,6 @@ describe("empConfirm.test.tsx", () => {
 
   it("checking chekbox is working or not and the family information of an employee is displayed on modal or not.", async () => {
     //Calling custome server
-
-    //customeServerCall();
     singlePfServerCall();
     loadUserServerCall();
     ctcServerCall();
@@ -387,8 +383,6 @@ describe("empConfirm.test.tsx", () => {
   
   it("Checking the salary information of employee is displayed on modal or not.", async () => {
     //Calling custome server
-
-    //customeServerCall();
     singlePfServerCall();
     loadUserServerCall();
     ctcServerCall();
@@ -426,55 +420,3 @@ describe("empConfirm.test.tsx", () => {
     // debug()
   });
 })
-
-
-
-
-
-
-// describe("Employee profile  teste", () => {
-//   let container: HTMLDivElement;
-
-//   beforeEach(() => {
-//     container = document.createElement("div");
-//     document.body.appendChild(container);
-//     ReactDOM.render(<Profile />, container);
-//   });
-//   test("should match the text", () => {
-//     const text = screen.getByText("My profile");
-//     expect(text).toBeInTheDocument();
-//   });
-
-//   test("checkbox should checked", () => {
-//     //  const checkBox = container.querySelector("[data-test='check1']")as HTMLElement;
-//     const check = screen.getByLabelText(
-//       "Family Information"
-//     ) as HTMLInputElement;
-//     expect(check.checked).toEqual(false);
-//     check.checked = true;
-//     expect(check.checked).toEqual(true);
-//   });
-
-//   test("checkbox should checked using fireEvent", async () => {
-//     const check = screen.getByLabelText(
-//       "Family Information"
-//     ) as HTMLInputElement;
-//     // expect(screen.getByLabelText('Family Information')).toBeChecked()
-//     fireEvent.change(check, { target: { checked: true } });
-//     //userEvent.click(check);
-//     expect(check.checked).toBe(true);
-//   });
-
-//   test("clicking on checkbox some style should change. ", async () => {
-//     const { container } = render(<Profile />);
-//     const checkbox = container.querySelector('.check1')as HTMLInputElement;
-//     const element = container.querySelector('.familyHidden');
-//     expect(element).toHaveStyle("display: table-cell;");
-//     fireEvent.change(checkbox, { target: { checked: true } });
-//     expect(checkbox.checked).toBe(true);
-//     //expect(element).toHaveStyle('display: revert');
-//     // expect(container.querySelector(".familyHidden")).toHaveStyle(
-//     //   "display: table-cell"
-//     // );
-//   });
-// });
