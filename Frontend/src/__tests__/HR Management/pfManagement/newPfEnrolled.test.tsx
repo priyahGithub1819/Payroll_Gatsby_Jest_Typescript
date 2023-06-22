@@ -1,16 +1,14 @@
 import React from "react";
-import { screen, fireEvent, getByText } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import NewPfEnrollment from "../../../pages/HR Management/pfManagement/newPfEnrollment";
 import { render } from "../../../test_Util/custom_render_function";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
 import { readCsvFile } from "../../../test_Util/readCsv";
 import path from "path";
 import userEvent from "@testing-library/user-event";
-import { getByRole, waitFor } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 
 describe("new pf enrolled page test case", () => {
+  // rendering the component
   test("should render the page", () => {
     const newPf = render(<NewPfEnrollment />);
     expect(newPf);
@@ -37,14 +35,17 @@ describe("new pf enrolled page test case", () => {
     return true;
   }
 
-// should check uploaded file is csv only
+  // should check uploaded file is csv only
   test("should check file type is csv", async () => {
-    const { getByTestId , debug } = render(<NewPfEnrollment />);
+    const { getByTestId, debug } = render(<NewPfEnrollment />);
 
-    const file = new File(["name,empId,empDob\nJohn,123,1990-01-01"], "employees.csv", { type: "text/csv" });
+    const file = new File(
+      ["name,empId,empDob\nJohn,123,1990-01-01"],
+      "employees.csv",
+      { type: "text/csv" }
+    );
     const isValidCSVFile = validateCSVFile(file);
-    expect(isValidCSVFile).toBe(true)
-
+    expect(isValidCSVFile).toBe(true);
   });
 
   // render CSV file
