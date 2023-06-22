@@ -1,10 +1,10 @@
-import React from "react"
-import Layout from "../components/Layout"
+import React from "react";
+import Layout from "../components/Layout";
 
 export default function attendance() {
   return (
     <Layout>
-      <section id="account" className="account-wrapper ">
+      <section id="account" className="account-wrapper">
         <div className="container-fluid accountPage margin">
           <div className="centered">
             <h1 className="text-center">Attendance System</h1>
@@ -28,5 +28,5 @@ export default function attendance() {
         </div>
       </section>
     </Layout>
-  )
+  );
 }

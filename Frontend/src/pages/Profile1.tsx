@@ -27,17 +27,6 @@ const months = [
   "December",
 ];
 
-//  interfact ILeaves{
-//   casual leave: number,
-// holiday: number,
-// month: string,
-// present: number,
-// privilege leave: number,
-// sick leave: number,
-// totalBusinessDay: number,
-// year:string
-//  }
-
 type ILeaves = {
   pl: number;
   sl: number;
@@ -82,14 +71,11 @@ const Profile = () => {
   }
 
   async function showSalary(e: any) {
-    // console.log(e.target.value,selectedAttendanceYear);
     if (e.target.value) {
-      //console.log(e.target.value,selectedAttendanceYear);
       const d = await getUserData(
         Number(e.target.value),
         selectedAttendanceYear
       );
-console.log(d);
 
       if (d.success === true) {
         setSelectedMonthsalaryData([]);
@@ -106,7 +92,6 @@ console.log(d);
           );
         });
         setSelectedMonthsalaryData(fData);
-        
 
         const element1 = document.getElementById("salaryTable") as HTMLElement;
         element1.style.display = "block";
@@ -131,9 +116,6 @@ console.log(d);
       ) as HTMLElement;
       familyInfo.style.display = "revert";
       familyInfoRow.style.display = "revert";
-
-      // familyInfo.classList.add("displayBlock")
-      // familyInfoRow.classList.add("displayBlock")
     } else {
       const familyInfo = document.querySelector(".familyHidden") as HTMLElement;
       const familyInfoRow = document.querySelector(
@@ -201,11 +183,7 @@ console.log(d);
     "casual leave": cl,
     holiday,
   }: CalculateSalary) => {
-    //const currentYear = new Date().getFullYear()
-    //const previousMonth = new Date().getMonth(month)
     const getmonth = String(month);
-    //console.log(typeof.months.indexOf(month));
-
     const daysOfPreviousMonth = getDaysInMonth(
       year,
       months.indexOf(getmonth) + 1
@@ -259,15 +237,11 @@ console.log(d);
     // for data of logged in employee
     let l = await loadUser();
     const data = l.employee;
-
     var id = data.payrollData.empId;
-
     const singleEmpPf = await getSinglePfData(id);
 
     // for Particular employee CTC
     let CTC = await getMyCTC();
-    // for attendance of an employee
-    //console.log(CTC);
     let presentData = await getUserData(monthData.month, monthData.year);
 
     setRecords({ ...data, pfEmpData: singleEmpPf });
@@ -550,8 +524,6 @@ ${
   };
 
   return (
-    // <div className="vh-100">
-
     <div className="empDashbord container-fluid">
       <div className="profileDiv">
         <div className="yprofile">
@@ -861,7 +833,10 @@ ${
                 <div className="salaryhead">
                   <h1 className="titalColor">uvXcel It Solution Pvt.Ltd</h1>
                   <hr />
-                  <h2>Salary slip of {selectedMonthsalaryData[0].month} - {selectedMonthsalaryData[0].year}</h2>
+                  <h2>
+                    Salary slip of {selectedMonthsalaryData[0].month} -{" "}
+                    {selectedMonthsalaryData[0].year}
+                  </h2>
                 </div>
               ) : (
                 ""

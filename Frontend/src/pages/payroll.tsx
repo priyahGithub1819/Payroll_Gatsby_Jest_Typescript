@@ -1,13 +1,13 @@
-import React from "react"
-import Layout from "../components/Layout"
-import { Link } from "gatsby"
+import React from "react";
+import Layout from "../components/Layout";
+import { Link } from "gatsby";
 
 export default function payroll() {
   return (
     <Layout>
       <section id="payroll" className="payroll-div-wrapper">
         <div className="container-fluid margin">
-        <h1 className="text-center">Payroll</h1>
+          <h1 className="text-center">Payroll</h1>
           <div style={{ textAlign: "center" }}>
             <img
               className="img-responsive w-80 ps-3"
@@ -28,9 +28,14 @@ export default function payroll() {
           </div>
         </div>
         <div className="update text-center">
-          <Link to="/app/owner" className="btn btn-outline-secondary dashboardBtn">Go To Dashboard</Link>
+          <Link
+            to="/app/owner"
+            className="btn btn-outline-secondary dashboardBtn"
+          >
+            Go To Dashboard
+          </Link>
         </div>
       </section>
     </Layout>
-  )
+  );
 }
