@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  screen,
-  fireEvent,
-  getByText,
-  getAllByRole,
-} from "@testing-library/react";
 import { render as RCH } from "@testing-library/react"; // (RCH:- render component here)
 import {
   createHistory,
@@ -22,26 +16,28 @@ const render = (ui: any, { route = "/HR%20Management/pfManagement" } = {}) => {
   return RCH(<LocationProvider history={history}>{ui}</LocationProvider>);
 };
 
+// test cases
 describe("PF management dashboard page test case", () => {
+  // rendering page render
   test("should PF management dashboard page renders", () => {
     const dashboard = render(<PfManagement />);
     expect(dashboard);
   });
-  test("should render arrow button", () => {
-    const { getByTestId } = render(<PfManagement />);
-    expect(getByTestId("leftArrow")).toBeInTheDocument();
-  });
 
+  // checking main heading
   test("should test the heading pf the page", () => {
     const { getByTestId } = render(<PfManagement />);
     expect(getByTestId("heading")).toHaveTextContent("PF Management");
   });
+
+  // checking number of cards present in dashboard
   test("should test number of cards", () => {
     const { getAllByRole } = render(<PfManagement />);
     const cards = getAllByRole("card");
     expect(cards).toHaveLength(3);
   });
 
+  // checking the link is navigating to correct page or not
   test("Should check the navigation of pfEnrolledList to correct page", () => {
     const history = createHistory(createMemorySource("/"));
     window.history.pushState({}, "", "/HR%20Management/pfManagement");
@@ -87,8 +83,11 @@ describe("PF management dashboard page test case", () => {
     );
   });
 
+  // checking navigation on click of arrow button
   test("should check arrow btn navigates to dashboard or not", () => {
     const { getByTestId } = render(<PfManagement />);
+    expect(getByTestId("leftArrow")).toBeInTheDocument();
+
     const link = getByTestId("arrowLink");
     userEvent.click(link);
     window.history.pushState({}, "", "/app/hrdashboard");

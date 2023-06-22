@@ -241,13 +241,12 @@ const Profile = () => {
     // for data of logged in employee
     let l = await loadUser();
     const data = l.employee;
-
     var id = data.payrollData.empId;
-
     const singleEmpPf = await getSinglePfData(id);
 
     // for Particular employee CTC
     let CTC = await getMyCTC();
+    
     // for attendance of an employee
     let presentData = await getUserData(monthData.month, monthData.year);
 
@@ -287,7 +286,6 @@ const Profile = () => {
       month: oldMonth.getMonth(),
       year: oldMonth.getFullYear(),
     };
-
     getEmployeeData(monthData);
   }, []);
 

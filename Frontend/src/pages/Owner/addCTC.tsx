@@ -3,7 +3,6 @@ import Layout from "../../components/Layout";
 import Papa from "papaparse";
 import { createCtcData } from "../../services/apiFunction";
 import SideBar from "../../components/OwnersSidebar";
-//import axios from "axios";
 import { Link } from "gatsby";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,7 +37,7 @@ function AddCTC() {
     // ForEach loop to target/access data of each Row of table.
     allTableRows.forEach((tr) => {
       // Empty object to store each row's data. Means this object will contain single employee data.
-      let obj:any = {};
+      let obj: any = {};
       // Target td i.e. Data from Row and store it in an Array.
       // e.g. format of below array for this project will be [td, td, td, td, td] if the Columns are 5 in a Row
       let tableDataArray = tr.querySelectorAll("td");
@@ -51,12 +50,9 @@ function AddCTC() {
     });
     // Post all employees CTC data from array into Database using axios
     const { error } = await createCtcData(empCTC);
-    // const {error} = await axios.post("/api/v2/payroll/ctc/create", empCTC)
     if (error) {
-      // window.alert(error)
       toast.error(error);
     } else {
-      //alert("CTC uploaded successfully.")
       toast.success("CTC of an employee uploaded successfully.");
     }
   };
@@ -69,7 +65,7 @@ function AddCTC() {
         const rowsArray: any = [];
         const valuesArray: any = [];
         // Iterating data to get column name and their values
-        results.data.map((d:any) => {
+        results.data.map((d: any) => {
           rowsArray.push(Object.keys(d));
           valuesArray.push(Object.values(d));
         });
@@ -100,7 +96,6 @@ function AddCTC() {
             <SideBar />
           </div>
           <div className="col-lg-9">
-            {/* <div className="uploadTable"> */}
             {/* File Uploader */}
             <div className="row ownerColumn justify-content-center">
               <div className=" margin col-lg-9  col-lg-8 col-md-6 col-sm-6 wrapper">
@@ -116,11 +111,9 @@ function AddCTC() {
                       onChange={changeHandler}
                       accept=".csv"
                       style={{ display: "block", margin: "10px auto" }}
-                      data-testid ="csvFile"
+                      data-testid="csvFile"
                     />
-                    <h6 className="text-muted">
-                      Upload CTC CSV file here.
-                    </h6>
+                    <h6 className="text-muted">Upload CTC CSV file here.</h6>
                     <div style={{ textAlign: "center" }}>
                       <img
                         className="img-fluid w-75"
@@ -149,10 +142,10 @@ function AddCTC() {
                         </tr>
                       </thead>
                       <tbody>
-                        {values.map((value:any, index) => {
+                        {values.map((value: any, index) => {
                           return (
                             <tr key={index}>
-                              {value.map((val:any, i:any) => {
+                              {value.map((val: any, i: any) => {
                                 return <td key={i}>{val}</td>;
                               })}
                             </tr>
@@ -183,7 +176,6 @@ function AddCTC() {
                   </div>
                 </div>
               </div>
-              {/* </div> */}
             </div>
           </div>
         </div>

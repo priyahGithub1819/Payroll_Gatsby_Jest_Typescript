@@ -11,11 +11,7 @@ function App() {
   //To get All employee data
   const getAllEmployees = async () => {
     let data = await allUserData()
-    // console.log(data)
     setRecords(data.employeeData)
-    
-    // console.log(confirmedRecords)
-    // setRecords(data)
   }
 
   useEffect(() => {
@@ -55,8 +51,6 @@ function App() {
                       <tbody>
                         {records &&
                           records.map((record:any, Index:number) => {
-                            // console.log("in map",record)
-                            // console.log(record.basic.confirmationDate);
                             let confirmationdate =
                               record.basic.confirmationDate.split("-")
                             if (record.payrollData.empStatus === "Confirmed")

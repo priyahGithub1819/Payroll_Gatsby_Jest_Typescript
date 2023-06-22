@@ -38,7 +38,6 @@ function App() {
   }, [])
 
   const onValueChange = (e:any) => {
-    // console.log(e.target.value)
     return setEmpToEdit({ ...empToEdit, [e.target.name]: e.target.value })
   }
 
@@ -57,9 +56,7 @@ function App() {
     setEmpToEdit(data)
   }
   const onSaveBtnClick = async (e:any, empId:any, name:string) => {
-    // console.log(empId, name)
     if (empToEdit.CTC === "") {
-      //alert("Field should not be empty.")
       toast.error("Field should not be empty.", {
         position: toast.POSITION.TOP_CENTER,
       })
@@ -68,14 +65,12 @@ function App() {
         input.style.border = "2px solid red"
       })
     } else {
-      // console.log(empId,empToEdit)
       await axios.put(`/api/v2/edit-ctc/${empId}`, empToEdit)
       e.target.style.display = "none"
       const tableRow = e.target.closest("tr")
       tableRow.querySelectorAll(".data").forEach((input:any) => {
         input.style.border = "none"
       })
-      //window.alert("CTC of " + name + "is updated successfully.")
       toast.success("CTC of " + empId + " is updated successfully.")
     }
   }
@@ -105,7 +100,6 @@ function App() {
                     <tbody>
                       {allCtc &&
                         allCtc.map((record:any, Index:number) => {
-                          // console.log(record)
                           return (
                             <tr key={Index}>
                               <td>{Index + 1}</td>
@@ -119,7 +113,6 @@ function App() {
                                   data-testid="myCTC"
                                   onChange={onValueChange}
                                   value={record.CTC}
-                                  // readOnly
                                 />
                               </td>
                               <td>

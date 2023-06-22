@@ -8,14 +8,11 @@ const Myprofile = () => {
   const [user, setUser] = useState<any>()
   const getUser = async () => {
     const data = await loadUser()
-    console.log("data")
-    console.log(data)
     setUser(data)
   }
   useEffect(() => {
     getUser()
   }, [])
-
 
   return (
     <>
@@ -42,7 +39,6 @@ const Myprofile = () => {
                 <div className="superadmin-links py-4 row">
                   <div className="viewColumn col-lg-3 ">
                     <h4>View Access</h4>
-
                     <p>List of All Employee</p>
                     <p>List of Confirmed Employees</p>
                     <p>List of Onboard Candidates</p>

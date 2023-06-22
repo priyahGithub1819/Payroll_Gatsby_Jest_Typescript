@@ -2,31 +2,32 @@ import React from "react";
 import HRDashboard from "../../pages/HR Management/HrDashboard";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {act, screen,cleanup} from "@testing-library/react"
-import { render ,multiRender} from "../../test_Util/custom_render_function";
-import userEvent from "@testing-library/user-event"
-import "@testing-library/jest-dom/extend-expect"
+import { act, screen, cleanup } from "@testing-library/react";
+import { render, multiRender } from "../../test_Util/custom_render_function";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom/extend-expect";
 
 const server = setupServer();
 
 const routes = [
-    {
-        path:"/app/hrdashboard/",
-        component:HRDashboard,
-      }, {
-    path:"/HR%20Management/employee/",
-    component:()=><h1>view employee list page render now</h1>,
-  }, {
-    path:"/HR%20Management/editRejectCandi/",
-    component:()=><h1>view & edit rejected candidate render now</h1>,
-  }, {
-    path:"/HR%20Management/shortlistedCandidate/",
-    component:()=><h1>Upload candidate List render now</h1>,
-  }, {
-    path:"/HR%20Management/pfManagement/",
-    component:()=><h1>PF Management page render now</h1>,
+  { path: "/app/hrdashboard/", component: HRDashboard },
+  {
+    path: "/HR%20Management/employee/",
+    component: () => <h1>view employee list page render now</h1>,
   },
-]
+  {
+    path: "/HR%20Management/editRejectCandi/",
+    component: () => <h1>view & edit rejected candidate render now</h1>,
+  },
+  {
+    path: "/HR%20Management/shortlistedCandidate/",
+    component: () => <h1>Upload candidate List render now</h1>,
+  },
+  {
+    path: "/HR%20Management/pfManagement/",
+    component: () => <h1>PF Management page render now</h1>,
+  },
+];
 
 const user = {
   success: true,
@@ -91,111 +92,120 @@ const user = {
   },
 };
 
-const loadUser = ({ userData=user } = {}) => {
- return server.use(
+const loadUser = ({ userData = user } = {}) => {
+  return server.use(
     rest.get("/api/v2/me", (req, res, ctx) => {
       return res(ctx.json(userData));
     })
   );
 };
 
-
-
 describe("Testing candidate selection page", () => {
   beforeAll(() => server.listen());
   afterEach(() => {
     server.resetHandlers();
- 
-});
+  });
   afterAll(() => server.close());
 
-
   it("WHEN super admin dashboard component is mounted THEN render page", async () => {
-    loadUser()
-    const {queryByText,debug,findByText} = await act(()=> multiRender(routes, {
-      path: "/app/hrdashboard/",
-    })
+    loadUser();
+    const { queryByText, debug, findByText } = await act(() =>
+      multiRender(routes, {
+        path: "/app/hrdashboard/",
+      })
     );
-    expect(queryByText("Hr Admin Dashboard")).toBeInTheDocument()
+    expect(queryByText("Hr Admin Dashboard")).toBeInTheDocument();
   });
 
-  it("WHEN Click on view employee list button THEN render view employee page",async ()=>{
-    loadUser()
-    await act(()=> multiRender(routes, {
-      path: "/app/hrdashboard/",
-    })
+  it("WHEN Click on view employee list button THEN render view employee page", async () => {
+    loadUser();
+    await act(() =>
+      multiRender(routes, {
+        path: "/app/hrdashboard/",
+      })
     );
-    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument()
-    
-    const targetBtn = screen.getByTestId("employeeList")
-    userEvent.click(targetBtn)
+    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();
 
-    cleanup()
+    const targetBtn = screen.getByTestId("employeeList");
+    userEvent.click(targetBtn);
 
-     multiRender(routes, {
+    cleanup();
+
+    multiRender(routes, {
       path: `${targetBtn.getAttribute("href")}`,
-    })
+    });
 
-    expect(screen.getByText("view employee list page render now")).toBeInTheDocument()
-  })
+    expect(
+      screen.getByText("view employee list page render now")
+    ).toBeInTheDocument();
+  });
 
-  it("WHEN Click on view and edit reject candidate button THEN render that page",async ()=>{
-    loadUser()
-    await act(()=> multiRender(routes, {
-      path: "/app/hrdashboard/",
-    })
+  it("WHEN Click on view and edit reject candidate button THEN render that page", async () => {
+    loadUser();
+    await act(() =>
+      multiRender(routes, {
+        path: "/app/hrdashboard/",
+      })
     );
-    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument()
-    
-    const targetBtn = screen.getByTestId("rejectedCandiList")
-    userEvent.click(targetBtn)
+    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();
 
-    cleanup()
+    const targetBtn = screen.getByTestId("rejectedCandiList");
+    userEvent.click(targetBtn);
 
-     multiRender(routes, {
+    cleanup();
+
+    multiRender(routes, {
       path: `${targetBtn.getAttribute("href")}`,
-    })
+    });
 
-    expect(screen.queryByText("view & edit rejected candidate render now")).toBeInTheDocument()
-  })
+    expect(
+      screen.queryByText("view & edit rejected candidate render now")
+    ).toBeInTheDocument();
+  });
 
-  it("WHEN Click on view and edit reject candidate button THEN render that page",async ()=>{
-    loadUser()
-    await act(()=> multiRender(routes, {
-      path: "/app/hrdashboard/",
-    })
+  it("WHEN Click on view and edit reject candidate button THEN render that page", async () => {
+    loadUser();
+    await act(() =>
+      multiRender(routes, {
+        path: "/app/hrdashboard/",
+      })
     );
-    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument()
-    
-    const targetBtn = screen.getByTestId("uploadCandiList")
-    userEvent.click(targetBtn)
+    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();
 
-    cleanup()
+    const targetBtn = screen.getByTestId("uploadCandiList");
+    userEvent.click(targetBtn);
 
-     multiRender(routes, {
+    cleanup();
+
+    multiRender(routes, {
       path: `${targetBtn.getAttribute("href")}`,
-    })
+    });
 
-    expect(screen.getByText("Upload candidate List render now")).toBeInTheDocument()
-  })
+    expect(
+      screen.getByText("Upload candidate List render now")
+    ).toBeInTheDocument();
+  });
 
-  it("WHEN Click on view and edit reject candidate button THEN render that page",async ()=>{
-    loadUser()
-    await act(()=> multiRender(routes, {
-      path: "/app/hrdashboard/",
-    })
+  it("WHEN Click on view and edit reject candidate button THEN render that page", async () => {
+    loadUser();
+    await act(() =>
+      multiRender(routes, {
+        path: "/app/hrdashboard/",
+      })
     );
-    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument()
-    
-    const targetBtn = screen.getByTestId("PfManagement")
-    userEvent.click(targetBtn)
+    expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();
 
-    cleanup()
+    const targetBtn = screen.getByTestId("PfManagement");
+    userEvent.click(targetBtn);
 
-     multiRender(routes, {
+    cleanup();
+
+    multiRender(routes, {
       path: `${targetBtn.getAttribute("href")}`,
-    })
+    });
 
-    expect(screen.getByText("PF Management page render now")).toBeInTheDocument()
-  })
+    expect(
+      screen.getByText("PF Management page render now")
+    ).toBeInTheDocument();
+  });
 });

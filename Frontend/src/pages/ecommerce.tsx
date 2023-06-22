@@ -4,8 +4,6 @@ import Layout from "../components/Layout"
 export default function ecommerce() {
   return (
     <Layout>
-    {/* changes done by prapti */}
-      {/* <section id="account" className=""> */}
       <div className="container-fluid margin account-wrapper">
           <h1>Ecommerce</h1>
           <img
@@ -26,7 +24,6 @@ export default function ecommerce() {
           </div>
         </div>
       </div>
-      {/* </section> */}
     </Layout>
   )
 }

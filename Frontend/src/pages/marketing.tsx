@@ -4,7 +4,6 @@ import Layout from "../components/Layout"
 export default function marketing() {
   return (
     <Layout>
-      {/* <section id="account" className="account-wrapper wrapper"> */}
       <div className="container-fluid account-wrapper margin">
         <h1>Marketing & New Leads</h1>
           <img
@@ -25,7 +24,6 @@ export default function marketing() {
           </div>
         </div>
       </div>
-      {/* </section> */}
     </Layout>
   )
 }

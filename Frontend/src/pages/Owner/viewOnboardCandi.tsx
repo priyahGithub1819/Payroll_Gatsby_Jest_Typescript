@@ -1,35 +1,34 @@
-import React, { useEffect } from "react"
-import Layout from "../../components/Layout"
-import "bootstrap/dist/css/bootstrap.min.css"
-import { useState } from "react"
-import { getOwnerData } from "../../services/apiFunction"
-import SideBar from "../../components/OwnersSidebar"
-import { Link } from "gatsby"
+import React, { useEffect } from "react";
+import Layout from "../../components/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import { getOwnerData } from "../../services/apiFunction";
+import SideBar from "../../components/OwnersSidebar";
+import { Link } from "gatsby";
 
 function App() {
-  const [candirecords, setCandirecords] = useState<any>([])
-  const [rejectBoxShow, setRejectBoxShow] = useState(false)
+  const [candirecords, setCandirecords] = useState<any>([]);
+  const [rejectBoxShow, setRejectBoxShow] = useState(false);
 
   //To get All candidates data
   const getAllCandidates = async () => {
-    let onbordCandi:any = []
-    let data = await getOwnerData()
+    let onbordCandi: any = [];
+    let data = await getOwnerData();
 
     if (data.success === true) {
-      setCandirecords(data.candiInfo)
+      setCandirecords(data.candiInfo);
     }
 
-    data.candiInfo.map((d:any) => {
+    data.candiInfo.map((d: any) => {
       if (d.candiStatus === "Onboard") {
-        onbordCandi.push(d)
+        onbordCandi.push(d);
       }
-    })
-
-    setCandirecords(onbordCandi)
-  }
+    });
+    setCandirecords(onbordCandi);
+  };
   useEffect(() => {
-    getAllCandidates()
-  }, [])
+    getAllCandidates();
+  }, []);
 
   //To display list of Candidates to be onboard
   return (
@@ -62,7 +61,7 @@ function App() {
                     </thead>
                     <tbody>
                       {candirecords &&
-                        candirecords.map((candirecord:any, Index:number) => {
+                        candirecords.map((candirecord: any, Index: number) => {
                           if (candirecord.candiStatus == "Onboard") {
                             return (
                               <tr key={Index}>
@@ -76,7 +75,7 @@ function App() {
                                 <td>{candirecord.currentCTC}</td>
                                 <td>{candirecord.expectedCTC}</td>
                               </tr>
-                            )
+                            );
                           }
                         })}
                     </tbody>
@@ -88,7 +87,7 @@ function App() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default App
+export default App;

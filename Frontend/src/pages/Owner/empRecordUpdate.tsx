@@ -68,26 +68,19 @@ function App() {
   const getAllEmployees = async () => {
     // To get user data
     let data = await allUserData();
-    // console.log(data.employeeData)
 
     // to get user CTC
     let ctcData = await getAllCTC();
-    // setAllCtc(ctcData.all)
-    //console.log("in",ctcData)
-    // setAllCtc(CTC.allCtc)
     setRecords(data.employeeData);
 
     if (ctcData.success && data.success) {
       setAllCtc(ctcData.resultData);
-      // console.log("x",allCtc)
     } else {
       window.alert(ctcData.error);
     }
   };
-  //console.log(allCtc)
   useEffect(() => {
     getAllEmployees();
-    // console.log("x",allCtc)
   }, []);
 
   const onValueChange = (e: any) => {
@@ -96,7 +89,6 @@ function App() {
 
   //To edit designation and CTC columns
   const onEditClick = async (e: any, empId: any) => {
-    //console.log(empToEdit)
     const tableRow = e.target.closest("tr");
     const rowData = tableRow.querySelectorAll(".data");
     tableRow.querySelectorAll(".data").forEach((input: any) => {
@@ -125,7 +117,6 @@ function App() {
     name: string,
     lastName: string
   ) => {
-    //console.log(empId,name);
     const { CTC } = empToEdit;
     if (empToEdit.CTC === "") {
       alert("Field should not be empty.");
@@ -133,9 +124,6 @@ function App() {
       tableRow.querySelectorAll(".CTC").forEach((input: any) => {
         input.style.border = "2px solid red";
       });
-      // toast.error("Field should not be empty", {
-      //   position: toast.POSITION.TOP_CENTER,
-      // })
     } else if (empToEdit.designation === "") {
       alert("Field should not be empty.");
       const tableRow = e.target.closest("tr");
@@ -156,7 +144,6 @@ function App() {
       tableRow.querySelectorAll(".data").forEach((input: any) => {
         input.style.border = "none";
       });
-      // window.alert("Record is updated successfully")
       toast.success(`Information of ${empId} is updated successfully`);
     }
   };

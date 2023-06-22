@@ -1,14 +1,14 @@
 import * as React from "react";
 import { PageProps } from "gatsby";
 import Layout from "../components/Layout";
-import "../style/global.css"
+import "../style/global.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Home () {
+export default function Home() {
   return (
-    <Layout>     
+    <Layout>
       <section id="home-carousel" className="home-carousel-wrapper">
         <div
           id="carouselExampleIndicators"
@@ -158,8 +158,7 @@ export default function Home () {
             </div>
           </div>
         </div>
-      </section>    
+      </section>
     </Layout>
   );
-};
-
+}

@@ -1,6 +1,6 @@
-import React from "react"
-import Layout from "../components/Layout"
-import { Link } from "gatsby"
+import React from "react";
+import Layout from "../components/Layout";
+import { Link } from "gatsby";
 
 export default function hrpayroll() {
   return (
@@ -28,9 +28,14 @@ export default function hrpayroll() {
           </div>
         </div>
         <div className="update text-center">
-        <Link to="/app/hrdashboard" className="btn btn-outline-secondary dashboardBtn">Go To Dashboard</Link>
-      </div>
+          <Link
+            to="/app/hrdashboard"
+            className="btn btn-outline-secondary dashboardBtn"
+          >
+            Go To Dashboard
+          </Link>
+        </div>
       </section>
     </Layout>
-  )
+  );
 }

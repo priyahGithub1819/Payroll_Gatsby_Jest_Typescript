@@ -51,7 +51,6 @@ function App() {
   const saveApproveCandi = (id:any, candidateName:any) => {
     editCandiStatus(id, { candiStatus: "Selected" })
     getAllCandidates()
-    //window.alert("Candidate " + candidateName + " is selected")
     toast.success("Candidate " + candidateName + " is selected");
     getAllCandidates()
   }
