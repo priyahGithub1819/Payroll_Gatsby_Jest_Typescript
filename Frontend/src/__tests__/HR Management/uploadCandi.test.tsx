@@ -3,17 +3,16 @@ import { screen, fireEvent, getByText } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ShortlistedCandidate from "../../pages/HR Management/shortlistedCandidate";
 import { render } from "../../test_Util/custom_render_function";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
 import { readCsvFile } from "../../test_Util/readCsv";
 import path from "path";
 import userEvent from "@testing-library/user-event";
-import { getByRole, waitFor } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 
+// test cases
 describe("Upload final candidate list test case", () => {
   test("should render the page", () => {
-    const uloadCandi = render(<ShortlistedCandidate />);
-    expect(uloadCandi);
+    const uploadCandi = render(<ShortlistedCandidate />);
+    expect(uploadCandi);
   });
 
   // to check input type

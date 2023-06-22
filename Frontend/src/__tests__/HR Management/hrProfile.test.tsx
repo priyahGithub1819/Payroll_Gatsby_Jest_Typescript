@@ -2,23 +2,27 @@ import React from "react";
 import HRProfile from "../../pages/HR Management/hrProfile";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {act, screen,cleanup} from "@testing-library/react"
-import { render ,multiRender} from "../../test_Util/custom_render_function";
-import userEvent from "@testing-library/user-event"
-import "@testing-library/jest-dom/extend-expect"
+import { act, screen, cleanup } from "@testing-library/react";
+import { render, multiRender } from "../../test_Util/custom_render_function";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom/extend-expect";
 
+// setting the server
 const server = setupServer();
 
+//routes
 const routes = [
   {
-    path:"/HR%20Management/hrProfile/",
-    component:HRProfile,
-  }, {
-    path:"/app/hrdashboard",
-    component:()=><h1>Hr dashboard render now</h1>,
+    path: "/HR%20Management/hrProfile/",
+    component: HRProfile,
   },
-]
+  {
+    path: "/app/hrdashboard",
+    component: () => <h1>Hr dashboard render now</h1>,
+  },
+];
 
+// creating fake data
 const user = {
   success: true,
   employee: {
@@ -82,54 +86,53 @@ const user = {
   },
 };
 
-const loadUser = ({ userData=user } = {}) => {
- return server.use(
+// function defination
+const loadUser = ({ userData = user } = {}) => {
+  return server.use(
     rest.get("/api/v2/me", (req, res, ctx) => {
       return res(ctx.json(userData));
     })
   );
 };
 
-
-
+// test cases
 describe("Testing candidate selection page", () => {
   beforeAll(() => server.listen());
   afterEach(() => {
     server.resetHandlers();
- 
-});
+  });
   afterAll(() => server.close());
 
-
   it("WHEN super admin profile component is mounted THEN render user information", async () => {
-    loadUser()
-    const {queryByText,debug,findByText} = await act(()=> render(<HRProfile />, {
-      route: "/HR Management/hrProfile/",
-    })
+    loadUser();
+    const { queryByText, debug, findByText } = await act(() =>
+      render(<HRProfile />, {
+        route: "/HR Management/hrProfile/",
+      })
     );
-    expect(queryByText("Hr Admin Profile")).toBeInTheDocument()
-    await findByText("Employee ID : UISPL0005")
+    expect(queryByText("Hr Admin Profile")).toBeInTheDocument();
+    await findByText("Employee ID : UISPL0005");
   });
 
-  it("WHEN Click on my dashboard button THEN render my component page",async ()=>{
-    loadUser()
-    await act(()=> multiRender(routes, {
-      path: "/HR%20Management/hrProfile/",
-    })
+  it("WHEN Click on my dashboard button THEN render my component page", async () => {
+    loadUser();
+    await act(() =>
+      multiRender(routes, {
+        path: "/HR%20Management/hrProfile/",
+      })
     );
-    // console.log(window.location.href)
-    expect(screen.queryByText("Hr Admin Profile")).toBeInTheDocument()
-    await screen.findByText("Employee ID : UISPL0005")
-    
-    const myDashboardBtn = screen.getByTestId("hrdashboardBtn")
-    userEvent.click(myDashboardBtn)
+    expect(screen.queryByText("Hr Admin Profile")).toBeInTheDocument();
+    await screen.findByText("Employee ID : UISPL0005");
 
-    cleanup()
+    const myDashboardBtn = screen.getByTestId("hrdashboardBtn");
+    userEvent.click(myDashboardBtn);
 
-     multiRender(routes, {
+    cleanup();
+
+    multiRender(routes, {
       path: `${myDashboardBtn.getAttribute("href")}`,
-    })
+    });
 
-    expect(screen.getByText("Hr dashboard render now")).toBeInTheDocument()
-  })
+    expect(screen.getByText("Hr dashboard render now")).toBeInTheDocument();
+  });
 });

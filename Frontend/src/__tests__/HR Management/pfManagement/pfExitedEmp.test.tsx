@@ -7,6 +7,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { render } from "../../../test_Util/custom_render_function";
 
+// creating the fake data
 const pfData = {
   success: true,
   empInfo: [
@@ -186,8 +187,11 @@ const allData = {
     },
   ],
 };
+
+// setting the server and Initialize a mock server instance using the setupServer() function
 const server = setupServer();
 
+// defining the function
 const customeServerCall = () => {
   return server.use(
     rest.get("/api/v2/pfEmp/data", (req, res, ctx) => {
@@ -212,6 +216,7 @@ const allDataServerCall = () => {
   );
 };
 
+// test cases
 describe("pf exited page test case", () => {
   test("should test the heading pf the page", () => {
     const { getByTestId } = render(<PfExitedEmpList />);
@@ -220,17 +225,14 @@ describe("pf exited page test case", () => {
     );
   });
 
-  test("should render table", () => {
-    const { getByTestId } = render(<PfExitedEmpList />);
-    expect(getByTestId("table")).toBeInTheDocument();
-  });
-
+  // checking the number of columns
   test("should check number of columns in the table", () => {
     const { getAllByRole } = render(<PfExitedEmpList />);
     const AllColumns = getAllByRole("column");
     expect(AllColumns).toHaveLength(15);
   });
 
+  // checking navigation on click of arrow button
   test('should navigate to "/HR Management/pfManagement" when the arrow is clicked', () => {
     const { getByTestId } = render(<PfExitedEmpList />);
     const leftArrow = getByTestId("arrowLink");
@@ -243,17 +245,20 @@ describe("pf exited page test case", () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
+  // checking the table data
   test("Should check the data render or not", async () => {
+    // calling the functions
     customeServerCall();
     loadUserServerCall();
     allDataServerCall();
 
-    const { debug, findByText } = await act(() =>
+    const { debug, findByText, getByTestId } = await act(() =>
       render(<PfExitedEmpList />, {
         route: "/HR Management/pfManagement/PfExitedEmpList",
       })
     );
+
+    expect(getByTestId("table")).toBeInTheDocument();
     await findByText("UISPL0001");
-    debug();
   });
 });
