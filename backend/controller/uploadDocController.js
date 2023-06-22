@@ -13,8 +13,6 @@ exports.uploadDocument = catchAysncError(async (req, res, next) => {
 
 //To get all document
 exports.getAllDocs = catchAysncError(async (req, res, next) => {
-  const docs = await UploadDoc.find()
-  res
-    .status(200)
-    .json({ success: true, docs });
+  const docs = await UploadDoc.find();
+  res.status(200).json({ success: true, docs });
 });

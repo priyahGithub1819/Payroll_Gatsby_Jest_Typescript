@@ -16,9 +16,6 @@ const payrollUserSchema = new mongoose.Schema({
   numberOfMember: {
     type: Number,
   },
-  // status: {
-  //   type: String,
-  // },
   NameofSpouse: {
     type: String,
     required: false,
@@ -105,18 +102,12 @@ const payrollUserSchema = new mongoose.Schema({
     type: String,
     default: "Pending",
   },
-  // selectCount: {
-  //   type: Number,
-  //   default: 0,
-  // },
   updatedby: {
     empId: {type:String},
-    // email: {type:String,required:true},
     date: {type:Date}
   },
   createdby: {
     empId: {type:String},
-    // email: {type:String,required:true},
     date: {type:Date}
   }
 });
@@ -138,15 +129,6 @@ payrollUserSchema.pre("save", async function (next) {
     }
   }
 });
-
-// //compare temp password
-// payrollUserSchema.methods.compareTempPassword = async function (enterPassword) {
-//   const pass = await bcrypt.compare(
-//     enterPassword.toString(),
-//     this.tempPassword
-//   );
-//   return pass;
-// };
 
 //compare password
 payrollUserSchema.methods.comparePassword = async function (enterPassword) {
