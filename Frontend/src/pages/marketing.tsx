@@ -1,16 +1,16 @@
-import React from "react"
-import Layout from "../components/Layout"
+import React from "react";
+import Layout from "../components/Layout";
 
 export default function marketing() {
   return (
     <Layout>
       <div className="container-fluid account-wrapper margin">
         <h1>Marketing & New Leads</h1>
-          <img
-            className=" img-responsive w-50"
-            src="/marketing.jpg"
-            alt="site banner"
-          />
+        <img
+          className=" img-responsive w-50"
+          src="/marketing.jpg"
+          alt="site banner"
+        />
 
         <div className="row">
           <div className="col-12">
@@ -25,5 +25,5 @@ export default function marketing() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
