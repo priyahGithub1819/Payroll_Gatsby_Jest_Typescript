@@ -1,52 +1,46 @@
-import React, { useEffect } from "react"
-import Layout from "../../components/Layout"
-import "bootstrap/dist/css/bootstrap.min.css"
-import { useState } from "react"
-import { allUserData, getAllPfEmpData } from "../../services/apiFunction"
-import Modal from "react-modal"
-import SideBar from "../../components/SideBar"
-import { indianDate } from "../../services/utils"
+import React, { useEffect } from "react";
+import Layout from "../../components/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import { allUserData, getAllPfEmpData } from "../../services/apiFunction";
+import Modal from "react-modal";
+import SideBar from "../../components/SideBar";
+import { indianDate } from "../../services/utils";
 
 const App = () => {
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
-  const [records, setRecords] = useState<any>([])
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [records, setRecords] = useState<any>([]);
 
   //Function to fetch data from database
   const getAllEmployees = async () => {
-    let combinedData = []
+    let combinedData = [];
 
-    let l = await allUserData()
-    const payrollUser = l.employeeData
-    // console.log(data)
+    let l = await allUserData();
+    const payrollUser = l.employeeData;
 
-    let k = await getAllPfEmpData()
-    const empPaymentData = k.empInfo
-    console.log(empPaymentData)
+    let k = await getAllPfEmpData();
+    const empPaymentData = k.empInfo;
 
-    let pfUser = new Map()
+    let pfUser = new Map();
 
     for (let i = 0; i < empPaymentData.length; i++) {
-      pfUser.set(empPaymentData[i].empId, i)
+      pfUser.set(empPaymentData[i].empId, i);
     }
 
-    // console.log(user)
-
     for (let i = 0; i < payrollUser.length; i++) {
-      // console.log(user.get(empPaymentData[i].empId))
       if (pfUser.has(payrollUser[i].payrollData.empId)) {
         combinedData.push({
           ...payrollUser[i],
-          empPaymentData: empPaymentData[pfUser.get(payrollUser[i].payrollData.empId)],
-        })
-      }
-      else {
-        combinedData.push({ ...payrollUser[i] })
+          empPaymentData:
+            empPaymentData[pfUser.get(payrollUser[i].payrollData.empId)],
+        });
+      } else {
+        combinedData.push({ ...payrollUser[i] });
       }
     }
-    console.log(combinedData)
 
-    setRecords(combinedData)
-  }
+    setRecords(combinedData);
+  };
   //Basic information modal data
   const onButtonClick = (
     email: string,
@@ -57,9 +51,9 @@ const App = () => {
     probationP: number,
     confDate: any
   ) => {
-    setModalIsOpen(true)
+    setModalIsOpen(true);
     setTimeout(() => {
-      var input = document.getElementById("common-modal") as HTMLInputElement
+      var input = document.getElementById("common-modal") as HTMLInputElement;
 
       input.innerHTML = `<table class="profileTable table table-bordered table-striped table-sm"><thead className="thead">
       <tr>
@@ -81,11 +75,11 @@ const App = () => {
     <td>${indianDate(joiningD) === undefined ? "NA" : indianDate(joiningD)}</td>
     <td>${probationP === undefined ? "NA" : probationP}</td>
     <td>${indianDate(confDate) === undefined ? "NA" : indianDate(confDate)}</td>
-  </tr></tbody></table>`
-      var innerValue = document.getElementById("heading") as HTMLInputElement
-      innerValue.innerText = "Basic Information"
-    }, 200)
-  }
+  </tr></tbody></table>`;
+      var innerValue = document.getElementById("heading") as HTMLInputElement;
+      innerValue.innerText = "Basic Information";
+    }, 200);
+  };
   //Employee position modal
   const onButtonClick1 = (
     department: string,
@@ -94,9 +88,9 @@ const App = () => {
     role: string,
     workMode: string
   ) => {
-    setModalIsOpen(true)
+    setModalIsOpen(true);
     setTimeout(() => {
-      var input = document.getElementById("common-modal") as HTMLInputElement
+      var input = document.getElementById("common-modal") as HTMLInputElement;
 
       input.innerHTML = ` <table class="profileTable table table-bordered table-striped table-sm"> 
       <thead class="thead">
@@ -116,57 +110,56 @@ const App = () => {
      <td>${role === undefined ? "NA" : role}</td>
      <td>${workMode === undefined ? "NA" : workMode}</td>
 
-   </tr></tbody> </table>`
-   var innerValue = document.getElementById("heading") as HTMLInputElement
-   innerValue.innerText = "Employee Position"
-    }, 200)
-  }
+   </tr></tbody> </table>`;
+      var innerValue = document.getElementById("heading") as HTMLInputElement;
+      innerValue.innerText = "Employee Position";
+    }, 200);
+  };
   //Family information modal
   const onButtonClick2 = (
-    fmember:number,
-    status:string,
-    parents:string,
-    Nspouse:string,
-    relationship:string,
-    sDOB:any,
-    c1Name:string,
-    c1Gender:string,
-    c1DOB:any,
-    c2Name:string,
-    c2Gender:string,
-    c2DOB:any,
-    fName:string,
-    fDOB:any,
-    mName:string,
-    mDOB:any
+    fmember: number,
+    status: string,
+    parents: string,
+    Nspouse: string,
+    relationship: string,
+    sDOB: any,
+    c1Name: string,
+    c1Gender: string,
+    c1DOB: any,
+    c2Name: string,
+    c2Gender: string,
+    c2DOB: any,
+    fName: string,
+    fDOB: any,
+    mName: string,
+    mDOB: any
   ) => {
-    console.log(status)
-    console.log(sDOB)
-    console.log(c1DOB)
-    setModalIsOpen(true)
+    setModalIsOpen(true);
     setTimeout(() => {
-      var input = document.getElementById("common-modal") as HTMLInputElement
+      var input = document.getElementById("common-modal") as HTMLInputElement;
 
       input.innerHTML = `<table class="table table-bordered table-sm table-striped">
       <thead>
         <tr>
           <th class="text-center">Number of Family Members</th>
           <th class="text-center">Status</th>
-          ${status === "MARRIED"
-          ? `<th class="text-center">Spouse Details</th>
+          ${
+            status === "MARRIED"
+              ? `<th class="text-center">Spouse Details</th>
           <th class="c1-hide text-center">Child 1</th>
           <th class="c2-hide text-center">Child 2</th>`
-          : ` <th class="text-center">Father Details</th>
+              : ` <th class="text-center">Father Details</th>
               <th class="text-center">Mother Details</th>`
-        }
+          }
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>${fmember === undefined ? "NA" : fmember}</td>
           <td>${status === undefined ? "NA" : status}</td>
-        ${status === "MARRIED"
-          ? `
+        ${
+          status === "MARRIED"
+            ? `
             <td>
               <table class="table table-bordered">
                 <thead>
@@ -180,10 +173,11 @@ const App = () => {
                   <tr>
                     <td>${Nspouse === undefined ? "NA" : Nspouse}</td>
                     <td>${relationship === undefined ? "NA" : relationship}</td>
-                    <td>${(sDOB && indianDate(sDOB)) === undefined
-            ? "NA"
-            : indianDate(sDOB)
-          }</td>
+                    <td>${
+                      (sDOB && indianDate(sDOB)) === undefined
+                        ? "NA"
+                        : indianDate(sDOB)
+                    }</td>
                   </tr>
                 </tbody>
               </table>
@@ -201,10 +195,11 @@ const App = () => {
                   <tr>
                     <td>${c1Name === undefined ? "NA" : c1Name}</td>
                     <td>${c1Gender === undefined ? "NA" : c1Gender}</td>
-                    <td>${(c1DOB && indianDate(c1DOB)) === undefined
-            ? "NA"
-            : indianDate(c1DOB)
-          }</td>
+                    <td>${
+                      (c1DOB && indianDate(c1DOB)) === undefined
+                        ? "NA"
+                        : indianDate(c1DOB)
+                    }</td>
                   </tr>
                 </tbody>
               </table>
@@ -222,15 +217,16 @@ const App = () => {
                   <tr>
                     <td>${c2Name === undefined ? "NA" : c2Name}</td>
                     <td>${c2Gender === undefined ? "NA" : c2Gender}</td>
-                    <td>${(c2DOB && indianDate(c2DOB)) === undefined
-            ? "NA"
-            : indianDate(c2DOB)
-          }</td>
+                    <td>${
+                      (c2DOB && indianDate(c2DOB)) === undefined
+                        ? "NA"
+                        : indianDate(c2DOB)
+                    }</td>
                   </tr>
                 </tbody>
               </table>
             </td>`
-          : `<td>
+            : `<td>
             <table class="table table-bordered">
                   <thead>
                     <tr>
@@ -241,10 +237,11 @@ const App = () => {
                   <tbody>
                     <tr>
                       <td>${fName === undefined ? "NA" : fName}</td>
-                      <td>${(fDOB && indianDate(fDOB)) === undefined
-            ? "NA"
-            : indianDate(fDOB)
-          }</td>
+                      <td>${
+                        (fDOB && indianDate(fDOB)) === undefined
+                          ? "NA"
+                          : indianDate(fDOB)
+                      }</td>
                     </tr>
                   </tbody>
                 </table> 
@@ -259,10 +256,11 @@ const App = () => {
                 <tbody>
                   <tr>
                     <td>${mName === undefined ? "NA" : mName}</td>
-                    <td>${(mDOB && indianDate(mDOB)) === undefined
-            ? "NA"
-            : indianDate(mDOB)
-          }</td?
+                    <td>${
+                      (mDOB && indianDate(mDOB)) === undefined
+                        ? "NA"
+                        : indianDate(mDOB)
+                    }</td?
                   </tr>
                 </tbody>
               </table>
@@ -270,35 +268,35 @@ const App = () => {
         }
         </tr>
       </tbody>
-    </table>`
-    var innerValue = document.getElementById("heading") as HTMLInputElement
-    innerValue.innerText = "Family Information"
+    </table>`;
+      var innerValue = document.getElementById("heading") as HTMLInputElement;
+      innerValue.innerText = "Family Information";
       // Conditions for hiding/showing children
       if (c1Name === "" || c1Name === undefined) {
-        document.querySelectorAll(".c1-hide").forEach(i => {
-          i.classList.add("d-none")
-        })
+        document.querySelectorAll(".c1-hide").forEach((i) => {
+          i.classList.add("d-none");
+        });
       } else {
-        document.querySelectorAll(".c1-hide").forEach(i => {
-          i.classList.remove("d-none")
-        })
+        document.querySelectorAll(".c1-hide").forEach((i) => {
+          i.classList.remove("d-none");
+        });
       }
       if (c2Name === "" || c2Name === undefined) {
-        document.querySelectorAll(".c2-hide").forEach(i => {
-          i.classList.add("d-none")
-        })
+        document.querySelectorAll(".c2-hide").forEach((i) => {
+          i.classList.add("d-none");
+        });
       } else {
-        document.querySelectorAll(".c2-hide").forEach(i => {
-          i.classList.remove("d-none")
-        })
+        document.querySelectorAll(".c2-hide").forEach((i) => {
+          i.classList.remove("d-none");
+        });
       }
-    }, 200)
-  }
+    }, 200);
+  };
   //Pan and Pf Uan details modal
-  const onButtonClick3 = (pan:any, pf:any) => {
-    setModalIsOpen(true)
+  const onButtonClick3 = (pan: any, pf: any) => {
+    setModalIsOpen(true);
     setTimeout(() => {
-      var input = document.getElementById("common-modal") as HTMLInputElement
+      var input = document.getElementById("common-modal") as HTMLInputElement;
 
       input.innerHTML = `<table class="profileTable table table-bordered table-striped table-sm">  <thead className="thead">
       <tr>
@@ -308,21 +306,21 @@ const App = () => {
     </thead> <tbody><tr>
     <td>${pan === undefined ? "NA" : pan}</td>
     <td>${pf === undefined ? "NA" : pf}</td>
-  </tr></tbody></table>`
-      var innerValue = document.getElementById("heading") as HTMLInputElement
-    innerValue.innerText = "PAN & PF information"
-    }, 200)
-  }
+  </tr></tbody></table>`;
+      var innerValue = document.getElementById("heading") as HTMLInputElement;
+      innerValue.innerText = "PAN & PF information";
+    }, 200);
+  };
   //Payment details modal
   const onButtonClick4 = (
-    paymentType:string,
-    bankName:string,
-    ifscCode:string,
-    accountNumber:number
+    paymentType: string,
+    bankName: string,
+    ifscCode: string,
+    accountNumber: number
   ) => {
-    setModalIsOpen(true)
+    setModalIsOpen(true);
     setTimeout(() => {
-      var input = document.getElementById("common-modal") as HTMLInputElement
+      var input = document.getElementById("common-modal") as HTMLInputElement;
       input.innerHTML = `
       <table class="profileTable table table-bordered table-striped table-sm">  <thead className="thead"><tr>
       <th>Payment Type</th>
@@ -334,19 +332,19 @@ const App = () => {
       <td>${bankName === undefined ? "NA" : bankName}</td>
       <td>${ifscCode === undefined ? "NA" : ifscCode}</td>
       <td>${accountNumber === undefined ? "NA" : accountNumber}</td>
-    </tr></tbody></table>`
-      var innerValue = document.getElementById("heading") as HTMLInputElement
-    innerValue.innerText = "Payment Information"
-    }, 200)
-  }
+    </tr></tbody></table>`;
+      var innerValue = document.getElementById("heading") as HTMLInputElement;
+      innerValue.innerText = "Payment Information";
+    }, 200);
+  };
 
   useEffect(() => {
-    getAllEmployees()
-    document.querySelectorAll("td,th").forEach(data => {
-      data.classList.add("text-center")
-    })
-    getAllEmployees()
-  }, [])
+    getAllEmployees();
+    document.querySelectorAll("td,th").forEach((data) => {
+      data.classList.add("text-center");
+    });
+    getAllEmployees();
+  }, []);
 
   return (
     <Layout>
@@ -358,7 +356,6 @@ const App = () => {
           <div className="col-lg-9">
             <div className="row ownerColumn justify-content-center">
               <div className="margin col-xl-11 col-lg-10 col-md-10 col-sm-6 wrapper">
-                {/* <div className="col-lg-11"> */}
                 <h2 className="text-center tableHeading">
                   View All Employee Details
                 </h2>
@@ -368,7 +365,6 @@ const App = () => {
                     Export to Excel
                   </button>
                 </h5>
-                {/* </div> */}
                 <div className="AllEmpListTable">
                   <table className="table table-bordered css-serial">
                     <thead>
@@ -385,7 +381,7 @@ const App = () => {
                     </thead>
                     <tbody>
                       {records &&
-                        records.map((record:any, Index:number) => {
+                        records.map((record: any, Index: number) => {
                           return (
                             <tr key={Index}>
                               <td></td>
@@ -461,7 +457,11 @@ const App = () => {
                                 <button
                                   id="modalbtn4"
                                   onClick={() =>
-                                    onButtonClick3(record.basic.selfDeclaration.idProofs.panCard.panCardNumber, record.empPaymentData.pfUanNumber)
+                                    onButtonClick3(
+                                      record.basic.selfDeclaration.idProofs
+                                        .panCard.panCardNumber,
+                                      record.empPaymentData.pfUanNumber
+                                    )
                                   }
                                 >
                                   See Information{" "}
@@ -483,7 +483,7 @@ const App = () => {
                                 </button>
                               </td>
                             </tr>
-                          )
+                          );
                         })}
                     </tbody>
                   </table>
@@ -493,7 +493,7 @@ const App = () => {
           </div>
         </div>
         {/* modal */}
-        <Modal isOpen={modalIsOpen} test-dataid= "myModal">
+        <Modal isOpen={modalIsOpen} test-dataid="myModal">
           <h1 className="heading text-center pt-4" id="heading"></h1>
           <div style={{ overflowX: "scroll", width: "100%" }}>
             <div className="familyInformation" id="common-modal"></div>
@@ -506,7 +506,6 @@ const App = () => {
         </Modal>
       </div>
     </Layout>
-    // </div>
-  )
-}
-export default App
+  );
+};
+export default App;

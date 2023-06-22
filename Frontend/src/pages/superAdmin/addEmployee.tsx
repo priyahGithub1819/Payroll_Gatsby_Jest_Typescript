@@ -1,180 +1,172 @@
-import React, { useState, useEffect, useRef } from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
-import "../../style/global.css"
-import { navigate } from "gatsby"
-import { createUser } from "../../services/apiFunction"
-import "react-toastify/dist/ReactToastify.css"
-import Layout from "../../components/Layout"
-import SideBar from "../../components/SideBar"
-import { Link } from "gatsby"
-import { toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import { getNewUsers, getSingleEmp } from "../../services/apiFunction"
-import { dateFormat } from "../../services/utils"
+import React, { useState, useEffect, useRef } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../../style/global.css";
+import { navigate } from "gatsby";
+import { createUser } from "../../services/apiFunction";
+import "react-toastify/dist/ReactToastify.css";
+import Layout from "../../components/Layout";
+import SideBar from "../../components/SideBar";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getNewUsers, getSingleEmp } from "../../services/apiFunction";
+import { dateFormat } from "../../services/utils";
 
-const regAlphaSpace = /^[a-zA-Z ]*$/
-const isValidEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
-const validEmailType = ["uvxcel.com", "uvxcel.in"]
-const nameValidation = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/
+const regAlphaSpace = /^[a-zA-Z ]*$/;
+const isValidEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+const validEmailType = ["uvxcel.com", "uvxcel.in"];
+const nameValidation = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 
 const Superadmin = (location: any) => {
-  const [checkError, setCheckError] = useState(false)
-
-  const [maritalStatus, setMaritalStatus] = useState()
-
-  const [id, setId] = useState([])
+  const [checkError, setCheckError] = useState(false);
+  const [maritalStatus, setMaritalStatus] = useState();
+  const [id, setId] = useState([]);
   const getAllEmployees = async () => {
-    let data = await getNewUsers()
-    console.log(data)
-    setId(data.data)
-  }
-
+    let data = await getNewUsers();
+    setId(data.data);
+  };
   useEffect(() => {
-    console.log(id)
-    getAllEmployees()
-  }, [])
+    getAllEmployees();
+  }, []);
 
-  // useEffect(() => {
-  //   if(defaultValue){
-  //     console.log(defaultValue)
-  //   }
-  // }, [defaultValue])
-  // Function to restrict space
   function spaceBlock() {
-    let allInputs = document.querySelectorAll(".preventSpaces") as NodeListOf<Element>
+    let allInputs = document.querySelectorAll(
+      ".preventSpaces"
+    ) as NodeListOf<Element>;
     allInputs.forEach((input: any) => {
-      if (input.selectionStart === 0 
-        // && window.event.code === "Space" 
-        ) {
+      if (input.selectionStart === 0) {
         // window.event.code.preventDefault()
       }
-    })
+    });
   }
+
   // Function to Show hide password
   const showPasswordFunction = () => {
-    var password = document.getElementById("employeePassword") as HTMLInputElement
+    var password = document.getElementById(
+      "employeePassword"
+    ) as HTMLInputElement;
     if (password.type === "password") {
-      password.type = "text"
+      password.type = "text";
     } else {
-      password.type = "password"
+      password.type = "password";
     }
-  }
+  };
   // Function for employee who has single parent
   const numberOfMembers = () => {
-    let singleRadio = document.getElementById("famInput1") as HTMLInputElement
-    let marriedRadio = document.getElementById("famInput") as HTMLInputElement
-    let exampleInputnumberOfMember = document.getElementById("exampleInputnumberOfMember") as HTMLInputElement
-    let famInput2 = document.getElementById("famInput2") as HTMLInputElement
-    let famInput3 = document.getElementById("famInput3") as HTMLInputElement
-    if (exampleInputnumberOfMember.value === "1" && singleRadio.checked
-    ) {
-      var parentT = document.getElementById("parents") as HTMLElement
-      parentT.style.display = "block"
+    let singleRadio = document.getElementById("famInput1") as HTMLInputElement;
+    let marriedRadio = document.getElementById("famInput") as HTMLInputElement;
+    let exampleInputnumberOfMember = document.getElementById(
+      "exampleInputnumberOfMember"
+    ) as HTMLInputElement;
+    let famInput2 = document.getElementById("famInput2") as HTMLInputElement;
+    let famInput3 = document.getElementById("famInput3") as HTMLInputElement;
+    if (exampleInputnumberOfMember.value === "1" && singleRadio.checked) {
+      var parentT = document.getElementById("parents") as HTMLElement;
+      parentT.style.display = "block";
       document.querySelectorAll(".motherDiv").forEach((item: any) => {
-        item.style.display = "none"
-      })
+        item.style.display = "none";
+      });
       document.querySelectorAll(".fatherDiv").forEach((item: any) => {
-        item.style.display = "none"
-      })
+        item.style.display = "none";
+      });
     } else if (
       exampleInputnumberOfMember.value !== "1" &&
       singleRadio.checked
     ) {
-      var parentT = document.getElementById("parents") as HTMLElement
+      var parentT = document.getElementById("parents") as HTMLElement;
       parentT.style.display = "none";
       document.querySelectorAll(".singleParent").forEach((parent: any) => {
         if (parent.checked) {
-          parent.checked = false
+          parent.checked = false;
         }
-      })
+      });
       document.querySelectorAll(".motherDiv").forEach((item: any) => {
-        item.style.display = "block"
-      })
+        item.style.display = "block";
+      });
       document.querySelectorAll(".fatherDiv").forEach((item: any) => {
-        item.style.display = ""
-      })
+        item.style.display = "";
+      });
     } else if (
       exampleInputnumberOfMember.value === "1" &&
       marriedRadio.checked
     ) {
-      var parentT = document.getElementById("parents") as HTMLElement
+      var parentT = document.getElementById("parents") as HTMLElement;
       parentT.style.display = "none";
     } else {
-      var parentT = document.getElementById("parents") as HTMLElement
+      var parentT = document.getElementById("parents") as HTMLElement;
       parentT.style.display = "none";
       document.querySelectorAll(".motherDiv").forEach((item: any) => {
-        item.style.display = "block"
-      })
+        item.style.display = "block";
+      });
       document.querySelectorAll(".fatherDiv").forEach((item: any) => {
-        item.style.display = "block"
-      })
+        item.style.display = "block";
+      });
     }
     if (famInput2.checked) {
       document.querySelectorAll(".motherDiv").forEach((item: any) => {
-        item.style.display = "none"
-      })
+        item.style.display = "none";
+      });
       document.querySelectorAll(".fatherDiv").forEach((item: any) => {
-        item.style.display = ""
-      })
+        item.style.display = "";
+      });
     } else if (famInput3.checked) {
       document.querySelectorAll(".fatherDiv").forEach((item: any) => {
-        item.style.display = "none"
-      })
+        item.style.display = "none";
+      });
       document.querySelectorAll(".motherDiv").forEach((item: any) => {
-        item.style.display = ""
-      })
+        item.style.display = "";
+      });
     }
-  }
+  };
 
   //  To show child details
-  const ref: any = useRef(null)
-  const ref1: any = useRef(null)
+  const ref: any = useRef(null);
+  const ref1: any = useRef(null);
   const child1Click = (event: any) => {
     if (ref.current.checked) {
-      console.log(ref)
-      var children1 = document.getElementsByClassName("child1")[0] as any
-      children1.style = "display:block"
+      var children1 = document.getElementsByClassName("child1")[0] as any;
+      children1.style = "display:block";
     } else {
-      children1 = document.getElementsByClassName("child1")[0]
-      children1.style = "display:none"
-      console.log("✅ Checkbox is unchecked")
+      children1 = document.getElementsByClassName("child1")[0];
+      children1.style = "display:none";
     }
-  }
+  };
   const child2Click = (event: any) => {
     if (ref1.current.checked) {
-      var children2 = document.getElementsByClassName("child2")[0] as any
-      children2.style = "display:block"
+      var children2 = document.getElementsByClassName("child2")[0] as any;
+      children2.style = "display:block";
     } else {
-      children2 = document.getElementsByClassName("child2")[0]
-      children2.style = "display:none"
+      children2 = document.getElementsByClassName("child2")[0];
+      children2.style = "display:none";
     }
-  }
+  };
+
   // on click of child information
-  const ref2: any = useRef(null)
+  const ref2: any = useRef(null);
   const childInfoClick = (event: any) => {
-
     if (ref2.current.checked) {
-      var childCheckBox = document.getElementById("childCheckBox") as any
-      childCheckBox.style = "display:block"
+      var childCheckBox = document.getElementById("childCheckBox") as any;
+      childCheckBox.style = "display:block";
     } else {
-      var childCheckBox = document.getElementById("childCheckBox") as any
-      childCheckBox.style = "display:none"
+      var childCheckBox = document.getElementById("childCheckBox") as any;
+      childCheckBox.style = "display:none";
     }
-  }
-  // useState to show forms
-  const [showFormNo, setShowFormNo] = useState(1)
+  };
 
+  // useState to show forms
+  const [showFormNo, setShowFormNo] = useState(1);
   const [defaultValue, setDefaultValue] = useState({
     name: "",
     designation: "",
     maritalStatus: "",
-  })
+  });
+
   // useState to set Data
   const [employeeData1, setEmployeeData1] = useState({
     role: "",
     tempPassword: "",
     empId: "",
-  })
+  });
+
   const [employeeData2, setEmployeeData2] = useState({
     numberOfMember: "",
     parents: "",
@@ -191,301 +183,301 @@ const Superadmin = (location: any) => {
     DOB3: "",
     NameofMother: "",
     DOB4: "",
-  })
+  });
 
   // To validation for DOB
   function getAge(DOB: any) {
-    var today = new Date()
-    var birthDate = new Date(DOB)
-    var age = today.getFullYear() - birthDate.getFullYear()
-    var m = today.getMonth() - birthDate.getMonth()
+    var today = new Date();
+    var birthDate = new Date(DOB);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--
+      age--;
     }
-    return age
+    return age;
   }
+
   //1st form On change - Basic Information of Employee
   const handleFirstFormInput = async (e: any) => {
     // validations for 1st form
-    const { name, value, localName } = e.target
-    console.log(name, value)
-
+    const { name, value, localName } = e.target;
     if (name === "empId") {
       // to set password field
-      employeeData1.tempPassword = value
+      employeeData1.tempPassword = value;
       // to set name and designation
-      const data = await getSingleEmp(value)
-      console.log(data)
+      const data = await getSingleEmp(value);
       let nameOfEmployee =
         data.basic.name.firstName +
         " " +
         data.basic.name.middleName +
         " " +
-        data.basic.name.lastName
-      let designation = data.basic.designation
-      let maritalStatus = data.basic.maritalStatus
-      setDefaultValue({ name: nameOfEmployee, designation, maritalStatus })
+        data.basic.name.lastName;
+      let designation = data.basic.designation;
+      let maritalStatus = data.basic.maritalStatus;
+      setDefaultValue({ name: nameOfEmployee, designation, maritalStatus });
     }
 
-    const inputRef = document.querySelector(`${localName}[name = ${name}]`) as any
-    const errorRef = inputRef.closest(".mb-3").lastChild as HTMLInputElement
+    const inputRef = document.querySelector(
+      `${localName}[name = ${name}]`
+    ) as any;
+    const errorRef = inputRef.closest(".mb-3").lastChild as HTMLInputElement;
     if (name === "empId") {
       if (value.length > 0 && value[0].toUpperCase() !== "U") {
-        setCheckError(true)
-        console.log(value)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "EmpId first letter must be 'U' ")
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "EmpId first letter must be 'U' ");
       } else if (value.length > 1 && value[1].toUpperCase() !== "I") {
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "EmpId second letter must be 'I' ")
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "EmpId second letter must be 'I' ");
       } else if (value.length > 2 && value[2].toUpperCase() !== "S") {
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "EmpId third letter must be 'S'")
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "EmpId third letter must be 'S'");
       } else if (value.length > 3 && value[3].toUpperCase() !== "P") {
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "EmpId fourth letter must be 'P'")
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "EmpId fourth letter must be 'P'");
       } else if (value.length > 4 && value[4].toUpperCase() !== "L") {
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "EmpId fifth letter must be 'L'")
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "EmpId fifth letter must be 'L'");
       } else if (
         (value.length > 5 && value.length < 9) ||
         (value.length > 5 && value.length > 9)
       ) {
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "EmpId must contain  5 letter and 4 digits"
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "EmpId must contain  5 letter and 4 digits";
       } else if (value.length === 9 && isNaN(value.slice(5)) === true) {
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "After 5 letter enter 4 number"
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "After 5 letter enter 4 number";
       } else {
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else {
-      setCheckError(false)
-      inputRef.classList.remove("inputError")
-      inputRef.classList.add("inputSuccess")
-      errorRef.classList.remove("errorRef")
+      setCheckError(false);
+      inputRef.classList.remove("inputError");
+      inputRef.classList.add("inputSuccess");
+      errorRef.classList.remove("errorRef");
     }
-    setEmployeeData1({ ...employeeData1, [name]: value })
-  }
+    setEmployeeData1({ ...employeeData1, [name]: value });
+  };
 
   //2nd form On change - Employee Position
   const handleSecondFormInput = (e: any) => {
     // validations for 2nd form
-    const { name, value } = e.target
-    console.log(name, value)
-
-    const relationship = employeeData2.relationship
-    const inputRef = document.querySelector(`[name = ${name}]`) as any
-    const errorRef = inputRef.closest(".mb-3").lastChild as HTMLInputElement
+    const { name, value } = e.target;
+    const relationship = employeeData2.relationship;
+    const inputRef = document.querySelector(`[name = ${name}]`) as any;
+    const errorRef = inputRef.closest(".mb-3").lastChild as HTMLInputElement;
 
     if (name === "NameofSpouse" && value.length > 0) {
       if (!employeeData2.numberOfMember) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter number of family member first"
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter number of family member first";
       } else if (regAlphaSpace.test(value) === false) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter only alphabets."
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter only alphabets.";
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else if (name === "NameofFather" && value.length > 0) {
       if (!employeeData2.numberOfMember) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter number of family member first"
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter number of family member first";
       } else if (regAlphaSpace.test(value) === false) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter only alphabets."
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter only alphabets.";
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else if (name === "NameofMother" && value.length > 0) {
       if (regAlphaSpace.test(value) === false) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter only alphabets."
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter only alphabets.";
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else if (name === "child1" && value.length > 0) {
       if (regAlphaSpace.test(value) === false) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter only alphabets."
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter only alphabets.";
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else if (name === "child2" && value.length > 0) {
       if (regAlphaSpace.test(value) === false) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter only alphabets."
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter only alphabets.";
       } else {
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else {
-      setCheckError(false)
-      inputRef.classList.remove("inputError")
-      inputRef.classList.add("inputSuccess")
-      errorRef.classList.remove("errorRef")
+      setCheckError(false);
+      inputRef.classList.remove("inputError");
+      inputRef.classList.add("inputSuccess");
+      errorRef.classList.remove("errorRef");
     }
     if (name === "DOB" && relationship === "Husband") {
-      const age: any = getAge(value)
+      const age: any = getAge(value);
       if (age < 21) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "Age must be greater than 21 years ")
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "Age must be greater than 21 years ");
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else if (name === "DOB" && relationship === "Wife") {
-      const age: any = getAge(value)
+      const age: any = getAge(value);
       if (age < 18) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "Age must be greater than 18 years ")
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "Age must be greater than 18 years ");
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else if (name === "DOB3") {
-      const age: any = getAge(value)
+      const age: any = getAge(value);
       if (age < 42) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "Please enter correct age.")
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "Please enter correct age.");
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     } else if (name === "DOB4") {
-      const age: any = getAge(value)
+      const age: any = getAge(value);
       if (age < 42) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        return (errorRef.innerHTML = "Please enter correct age.")
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        return (errorRef.innerHTML = "Please enter correct age.");
       } else {
-        setCheckError(false)
-        inputRef.classList.remove("inputError")
-        inputRef.classList.add("inputSuccess")
-        errorRef.classList.remove("errorRef")
+        setCheckError(false);
+        inputRef.classList.remove("inputError");
+        inputRef.classList.add("inputSuccess");
+        errorRef.classList.remove("errorRef");
       }
     }
     if (name === "DOB1") {
       if (!employeeData2.child1) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter name of child 1 first"
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter name of child 1 first";
       }
     }
     if (name === "DOB2") {
       if (!employeeData2.child1) {
-        setCheckError(true)
-        inputRef.classList.add("inputError")
-        inputRef.classList.remove("inputSuccess")
-        errorRef.classList.add("errorRef")
-        errorRef.innerHTML = "Please enter name of child 2 first"
+        setCheckError(true);
+        inputRef.classList.add("inputError");
+        inputRef.classList.remove("inputSuccess");
+        errorRef.classList.add("errorRef");
+        errorRef.innerHTML = "Please enter name of child 2 first";
       }
     }
 
-    setEmployeeData2({ ...employeeData2, [name]: value })
-  }
+    setEmployeeData2({ ...employeeData2, [name]: value });
+  };
 
   // on first form submit
   const handleFirstForm = (e: any) => {
-    e.preventDefault()
-    console.log(employeeData1)
-    var form1ErrorMsg = document.getElementById("form1ErrorMsg") as HTMLInputElement
+    e.preventDefault();
+    var form1ErrorMsg = document.getElementById(
+      "form1ErrorMsg"
+    ) as HTMLInputElement;
     if (
       !employeeData1.empId ||
       !employeeData1.role ||
       !employeeData1.tempPassword
     ) {
-      form1ErrorMsg.style.color = "red"
-      return (form1ErrorMsg.innerHTML = "Please fill the form first")
+      form1ErrorMsg.style.color = "red";
+      return (form1ErrorMsg.innerHTML = "Please fill the form first");
     } else if (employeeData1.empId !== employeeData1.tempPassword) {
-      form1ErrorMsg.style.color = "red"
-      return (form1ErrorMsg.innerHTML = "You have entered wrong password")
+      form1ErrorMsg.style.color = "red";
+      return (form1ErrorMsg.innerHTML = "You have entered wrong password");
     } else if (!checkError) {
-      form1ErrorMsg.style.display = "none"
-      setShowFormNo(2)
+      form1ErrorMsg.style.display = "none";
+      setShowFormNo(2);
     }
-  }
+  };
 
   // on second form submit
   const handleSecondForm = async (e: any) => {
-    e.preventDefault()
-    console.log(employeeData2)
-
-    var form2ErrorMsg = document.getElementById("form2ErrorMsg") as HTMLInputElement
+    e.preventDefault();
+    var form2ErrorMsg = document.getElementById(
+      "form2ErrorMsg"
+    ) as HTMLInputElement;
     if (!employeeData2.numberOfMember) {
-      form2ErrorMsg.style.color = "red"
-      return (form2ErrorMsg.innerHTML = "Please fill the form first")
+      form2ErrorMsg.style.color = "red";
+      return (form2ErrorMsg.innerHTML = "Please fill the form first");
     }
+
+    // validation for status single
     if (
       defaultValue.maritalStatus === "SINGLE" &&
       (!employeeData2.NameofFather ||
@@ -493,8 +485,8 @@ const Superadmin = (location: any) => {
         !employeeData2.NameofMother ||
         !employeeData2.DOB4)
     ) {
-      form2ErrorMsg.style.color = "red"
-      return (form2ErrorMsg.innerHTML = "Please fill the form first")
+      form2ErrorMsg.style.color = "red";
+      return (form2ErrorMsg.innerHTML = "Please fill the form first");
     }
 
     // validation for status married
@@ -504,9 +496,9 @@ const Superadmin = (location: any) => {
         !employeeData2.relationship ||
         !employeeData2.DOB)
     ) {
-      form2ErrorMsg.style.color = "red"
+      form2ErrorMsg.style.color = "red";
 
-      return (form2ErrorMsg.innerHTML = "Please fill the form first")
+      return (form2ErrorMsg.innerHTML = "Please fill the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
       ref.current.checked &&
@@ -514,9 +506,8 @@ const Superadmin = (location: any) => {
         !employeeData2.child1Gender ||
         !employeeData2.DOB1)
     ) {
-      console.log("checked")
-      form2ErrorMsg.style.color = "red"
-      return (form2ErrorMsg.innerHTML = "Please fill the form first")
+      form2ErrorMsg.style.color = "red";
+      return (form2ErrorMsg.innerHTML = "Please fill the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
       ref1.current.checked &&
@@ -524,37 +515,33 @@ const Superadmin = (location: any) => {
         !employeeData2.child2Gender ||
         !employeeData2.DOB2)
     ) {
-      console.log("checked")
-      form2ErrorMsg.style.color = "red"
-      return (form2ErrorMsg.innerHTML = "Please fill the form first")
+      form2ErrorMsg.style.color = "red";
+      return (form2ErrorMsg.innerHTML = "Please fill the form first");
     } else {
       const allUserData = {
         ...employeeData1,
         ...employeeData2,
-      }
+      };
 
       const { success, message, error, payrollUser } = await createUser(
         allUserData
-      )
+      );
       if (success === false) {
-        console.log(error)
-        return window.alert(error)
+        return window.alert(error);
       } else if (!checkError) {
-        toast.success(message)
-        // window.alert(message)
+        toast.success(message);
       }
-      // navigate("/app/superadmin")
     }
     setDefaultValue({
       name: "",
       designation: "",
       maritalStatus: "",
-    })
+    });
     setEmployeeData1({
       role: "",
       tempPassword: "",
       empId: "",
-    })
+    });
     setEmployeeData2({
       numberOfMember: "",
       parents: "",
@@ -571,10 +558,10 @@ const Superadmin = (location: any) => {
       DOB3: "",
       NameofMother: "",
       DOB4: "",
-    })
-    navigate("/superAdmin/addEmployee/")
-    setShowFormNo(1)
-  }
+    });
+    navigate("/superAdmin/addEmployee/");
+    setShowFormNo(1);
+  };
 
   return (
     <Layout>
@@ -587,13 +574,16 @@ const Superadmin = (location: any) => {
             <div className="superAdminFormContainer">
               <div className="row ownerColumn justify-content-center">
                 <div className="col-xl-9 col-lg-11 col-md-10">
+                  {/* First form */}
                   {showFormNo === 1 ? (
                     <div className="formDiv form-1">
-                      <h2 className="Detail" data-testid= "empAccount">Create Employee Account</h2>
+                      <h2 className="Detail" data-testid="empAccount">
+                        Create Employee Account
+                      </h2>
                       <hr></hr>
                       <div id="showErrorMsg" className="formErrorMsg"></div>
                       <form>
-                        { }
+                        {}
                         <div className="mb-3">
                           <label
                             htmlFor="exampleInputempID"
@@ -723,6 +713,7 @@ const Superadmin = (location: any) => {
                         <div className="container">
                           <div className="formButtonDiv row justify-content-center">
                             <div className="col-lg-3 col-sm-3 col-md-3">
+                              {/* For moving to 2nd form */}
                               <button
                                 type="submit"
                                 className="btn btn-primary nextBtn"
@@ -738,6 +729,7 @@ const Superadmin = (location: any) => {
                   ) : (
                     ""
                   )}
+                  {/* Second form */}
                   {showFormNo === 2 ? (
                     <div className="formDiv form-2">
                       <h2 className="Detail"> Family Information </h2>
@@ -761,7 +753,6 @@ const Superadmin = (location: any) => {
                                 onChange={handleSecondFormInput}
                               />
                             </div>
-
                             <div className="mb-3 famDiv col-sm">
                               <label
                                 htmlFor="exampleInputGender"
@@ -829,7 +820,7 @@ const Superadmin = (location: any) => {
                             </div>
                           </div>
                           {defaultValue &&
-                            defaultValue.maritalStatus === "MARRIED" ? (
+                          defaultValue.maritalStatus === "MARRIED" ? (
                             <div id="spouse">
                               <div className="row">
                                 <div className="col-md-4">
@@ -1182,6 +1173,7 @@ const Superadmin = (location: any) => {
                             ></div>
                             <div className="formButtonDiv row justify-content-center">
                               <div className="col-lg-3 col-sm-3 col-md-3">
+                                {/* For moving to 1st form */}
                                 <button
                                   className="btn btn-primary nextBtn "
                                   onClick={() => setShowFormNo(1)}
@@ -1190,6 +1182,7 @@ const Superadmin = (location: any) => {
                                 </button>
                               </div>
                               <div className="col-lg-3 col-sm-3  col-md-3">
+                                {/* To submit the form */}
                                 <button
                                   type="submit"
                                   className="btn btn-primary nextBtn"
@@ -1206,9 +1199,6 @@ const Superadmin = (location: any) => {
                   ) : (
                     ""
                   )}
-                  {/* </div>
-                  </div> */}
-                  {/* </section> */}
                 </div>
               </div>
             </div>
@@ -1216,6 +1206,6 @@ const Superadmin = (location: any) => {
         </div>
       </div>
     </Layout>
-  )
-}
-export default Superadmin
+  );
+};
+export default Superadmin;

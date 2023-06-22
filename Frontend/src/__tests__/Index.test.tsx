@@ -8,7 +8,6 @@ import Navbar from "../components/Navbar";
 import Layout from "../components/Layout";
 import { ToastContainer } from "react-toastify";
 import renderer from "react-test-renderer";
-// import Link from 'link-react';
 import Index from "../pages/index";
 import Login from "../components/Login";
 import HRProfile from "../pages/HR Management/hrProfile";
