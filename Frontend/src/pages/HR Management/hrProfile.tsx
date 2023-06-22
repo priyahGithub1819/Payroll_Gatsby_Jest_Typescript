@@ -1,19 +1,16 @@
-import React, { useEffect, useState, useContext } from "react"
-// import "bootstrap/dist/css/bootstrap.min.css"
-import { loadUser } from "../../services/apiFunction"
-import Layout from "../../components/Layout"
+import React, { useEffect, useState } from "react";
+import { loadUser } from "../../services/apiFunction";
+import Layout from "../../components/Layout";
 
 const Profile = () => {
-  const [user, setUser] = useState<any>({success:false})
-  // const getUser = async () => {
-  //   const data = await loadUser()
-  //   console.log("data")
-  //   console.log(data)
-  //   setUser(data)
-  // }
+  const [user, setUser] = useState<any>({ success: false });
+
   useEffect(() => {
-    loadUser().then((data)=>setUser(data)).catch(()=>alert("refresh the page"))
-  }, [])
+    loadUser()
+      .then((data) => setUser(data))
+      .catch(() => alert("refresh the page"));
+  }, []);
+
   return (
     <>
       {user.success ? (
@@ -22,12 +19,19 @@ const Profile = () => {
             <div className="row justify-content-center">
               <div className="hrAdminBtnDiv col-lg-10 ">
                 <a
-                  href="/app/hrdashboard" role="button" data-testid="hrdashboardBtn"
+                  href="/app/hrdashboard"
+                  role="button"
+                  data-testid="hrdashboardBtn"
                   className="btn btn-outline-secondary hrAdminBtn mr-3"
                 >
                   My Dashboard
                 </a>
-                <a href="#access" data-testid="allAccessBtn" role="button" className="btn btn-outline-secondary hrAdminBtn" >
+                <a
+                  href="#access"
+                  data-testid="allAccessBtn"
+                  role="button"
+                  className="btn btn-outline-secondary hrAdminBtn"
+                >
                   View All Access
                 </a>
               </div>
@@ -56,7 +60,9 @@ const Profile = () => {
             </div>
 
             <div className="row justify-content-around" id="access">
-              <div className="col-lg-11 col-md-9"><h2 className="text-center bulkText">Hr Access</h2></div>
+              <div className="col-lg-11 col-md-9">
+                <h2 className="text-center bulkText">Hr Access</h2>
+              </div>
               <div className="col-lg-3 col-md-9 card accessDiv">
                 <h3 className="text-center">View Access</h3>
                 <hr />
@@ -112,6 +118,6 @@ const Profile = () => {
         ""
       )}
     </>
-  )
-}
-export default Profile
+  );
+};
+export default Profile;
