@@ -3,9 +3,7 @@ const catchAysncError = require("../middleware/catchAsyncError");
 const notificationMsg = require("../model/notificationMsgModel");
 
 exports.createNotificationMsg = catchAysncError(async (req, res, next) => {
-  const {
-    message,
-  } = req.body;
+  const { message } = req.body;
 
   const notificationMsg = await notificationMsg.create(req.body);
   res.status(200).json({

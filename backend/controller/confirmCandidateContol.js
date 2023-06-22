@@ -4,12 +4,7 @@ const confirmCandidate = require("../model/confirmCandidateModel");
 
 //create new employee
 exports.createconfirmCandidate = catchAysncError(async (req, res, next) => {
-  const {
-    name,
-    empId,
-    confirmationDate,
-    designation,
-  } = req.body;
+  const { name, empId, confirmationDate, designation } = req.body;
 
   const confirmcandidate = await confirmCandidate.create(req.body);
 

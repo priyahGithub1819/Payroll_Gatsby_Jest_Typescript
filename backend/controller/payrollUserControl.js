@@ -55,27 +55,6 @@ const ERPRequiredField = {
   selectCount: 1,
 };
 
-//without weekend
-// function getBusinessDateCount(startDate, endDate) {
-//   var elapsed, daysBeforeFirstSaturday, daysAfterLastSunday;
-//   var ifThen = function (a, b, c) {
-//     return a == b ? c : a;
-//   };
-
-//   elapsed = endDate - startDate;
-//   elapsed /= 86400000;
-
-//   daysBeforeFirstSaturday = (7 - startDate.getDay()) % 7;
-//   daysAfterLastSunday = endDate.getDay();
-
-//   elapsed -= daysBeforeFirstSaturday + daysAfterLastSunday;
-//   elapsed = (elapsed / 7) * 5;
-//   elapsed +=
-//     ifThen(daysBeforeFirstSaturday - 1, -1, 0) +
-//     ifThen(daysAfterLastSunday, 6, 5);
-
-//   return Math.ceil(elapsed);
-// }
 function getBusinessDateCount(startDate, endDate) {
   let count = 0;
   let currentDate = new Date(startDate.getTime());
@@ -85,10 +64,8 @@ function getBusinessDateCount(startDate, endDate) {
 
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
       // Count the day if it's not a weekend day
-
       count++;
     }
-
     currentDate.setDate(currentDate.getDate() + 1);
   }
   return count;
@@ -96,52 +73,12 @@ function getBusinessDateCount(startDate, endDate) {
 
 //create new employee (not in use)
 exports.createPayrollUser = catchAysncError(async (req, res, next) => {
-  // const {
-  //   name,
-  //   empId,
-  //   email,
-  //   dob,
-  //   contactNo,
-  //   gender,
-  //   joiningDate,
-  //   probationPeriod,
-  //   confirmationDate,
-  //   designation,
-  //   location,
-  //   department,
-  //   role,
-  //   numberOfMember,
-  //   NameofSpouse,
-  //   relationship,
-  //   DOB,
-  //   child1,
-  //   DOB1,
-  //   child2,
-  //   DOB2,
-  //   NameofFather,
-  //   DOB3,
-  //   NameofMother,
-  //   DOB4,
-  //   pan,
-  //   pf,
-  //   tempPassword,
-  //   paymentType,
-  //   bankName,
-  //   bankBranch,
-  //   ifscCode,
-  //   accountNumber,
-  //   ctc,
-  // } = req.body;
-
-  // if()
-  // console.log("inside")
-
+  
   const payrollUser = await PayrollUser.updateOne(
     { empId: req.body.empId },
     req.body
   );
-  // console.log(req.body)
-
+  
   res.status(200).json({
     success: true,
     message: "Employee added to payroll successfully",
@@ -212,16 +149,6 @@ exports.createManyPayrollUser = catchAysncError(async (req, res, next) => {
 
   res.status(200).json({ success: true, notUpdated });
 
-  // } catch (error) {
-  //   if (error.code === 11000) {
-  //     const err = { ...error };
-  //     let errMessageArray = err.writeErrors[0].err.errmsg.split("key: ");
-  //     let strErrMessage = errMessageArray[1];
-  //     let empErrorKey = strErrMessage.split(': "')[0].split("{ ")[1];
-  //     let empErrorValue = strErrMessage.split(': "')[1].split(`" }`)[0];
-  //     let mainErrorMessage = `Employee with ${empErrorKey} = ${empErrorValue} already exists`;
-  //     return res.status(200).json({ success: false, error: mainErrorMessage });
-  //   }
 });
 
 // get All employee (superAdmin)
@@ -244,25 +171,12 @@ exports.getAllPayrollUser = catchAysncError(async (req, res, next) => {
     },
     { tempPassword: 0, password: 0 }
   ).sort({ emp_Id: 1 });
-  // console.log(payrollEmployee)
+  
   const erpEmployee = await ERPUser.find(
     { email: { $exists: cond } },
     ERPRequiredField
   ).sort({ emp_Id: 1 });
-  // console.log(erpEmployee)
-  // payrollEmployee = payrollEmployee.map((emp) => {
-  //   let foundEmployee = erpEmployee.filter(
-  //     (erpEmp) => erpEmp.employeeId === emp.empId
-  //   )[0];
-  //   // remove id of erp system
-  //   console.log(foundEmployee)
-  //   // foundEmployee[0].employeeId = undefined;
-
-  //   // create array of employee data
-  //   employeeData.push({ basic: foundEmployee, payrollData: emp });
-  //   // console.log(employeeData);
-  // });
-
+  
   let payrollUser = new Map();
 
   for (let i = 0; i < payrollEmployee.length; i++) {
@@ -278,28 +192,6 @@ exports.getAllPayrollUser = catchAysncError(async (req, res, next) => {
     }
   });
 
-  // payrollEmployee.forEach((payEmp) => {
-  //   for (let i = 0; i < erpEmployee.length; i++) {
-  //     if (payEmp.empId === erpEmployee[i].employeeId) {
-  //       erpEmployee[i].employeeId = undefined;
-  //       employeeData.push({ basic: erpEmployee[i], payrollData: payEmp });
-  //     }
-  //   }
-  // });
-
-  // // join the collections
-  // const employee = await PayrollUser.aggregate([
-  //   {
-  //     $lookup: {
-  //       from: `ERP.employee`,
-  //       localField: "empId",
-  //       foreignField: "employeeId",
-  //       as: "orders",
-  //     },
-  //   },
-  // ]);
-  // console.log(employeeData);
-  // console.log("will send")
   res.status(200).json({ success: true, employeeData });
 });
 
@@ -317,10 +209,7 @@ exports.singleEmployee = async (req, res) => {
 // edit payroll data from here
 exports.editEmployeePayroll = catchAysncError(async (req, res) => {
   const data = req.body;
-  // console.log(req.params.id)
-
   const id = req.params.id;
-  // console.log(data,id)
   if (!data) {
     return next(new ErrorHandler("No PayrollData was sent", 400));
   } else if (!id) {
@@ -337,14 +226,13 @@ exports.editEmployeePayroll = catchAysncError(async (req, res) => {
 //edit ERP data from here
 exports.editEmployeeERP = catchAysncError(async (req, res) => {
   const data = req.body;
-  // console.log(req.params.id)
   const id = req.params.id;
   if (!data) {
     return next(new ErrorHandler("No PayrollData was sent", 400));
   } else if (!id) {
     return next(new ErrorHandler("id was not sent", 400));
   }
-  // console.log(id,data);
+
   const acknowledge = await ERPUser.updateOne({ employeeId: id }, data);
 
   res.status(200).json({
@@ -356,24 +244,21 @@ exports.editEmployeeERP = catchAysncError(async (req, res) => {
 
 //user login
 exports.loginUser = catchAysncError(async (req, res, next) => {
-  // console.log("here")
   const { username: empId, password } = req.body;
 
   if (!empId || !password) {
     return next(new ErrorHandler("Please enter empId & password", 200));
   }
   const all = await PayrollUser.find();
-  // console.log(all)
   const payrollUser = await PayrollUser.findOne({ empId }).select(
     "+password +tempPassword"
   );
-  // console.log(payrollUser)
-
+  
   const erpUser = await ERPUser.findOne(
     { employeeId: empId },
     { employmentStatus: 1, _id: 0 }
   );
-  // console.log(erpUser)
+
   if (!payrollUser) {
     return next(new ErrorHandler("PayrollUser not found", 200));
   }
@@ -463,7 +348,6 @@ exports.loadUser = catchAysncError(async (req, res, next) => {
 
 // To get data for Hr admin
 exports.adminData = catchAysncError(async (req, res, next) => {
-  // const payrollUser = await PayrollUser.find();
   let employeeData = [];
   let payrollEmployee = await PayrollUser.find().sort({ emp_Id: 1 });
   const erpEmployee = await ERPUser.find(
@@ -483,14 +367,6 @@ exports.adminData = catchAysncError(async (req, res, next) => {
 
   res.status(200).json(employeeData);
 });
-
-// // get data for admin
-// exports.adminData = catchAysncError(async (req, res, next) => {
-//   const payrollUser = await PayrollUser.find();
-//   res.status(200).json(payrollUser);
-// });
-
-// user Data
 
 exports.userData = catchAysncError(async (req, res, next) => {
   // variable declear
@@ -513,7 +389,6 @@ exports.userData = catchAysncError(async (req, res, next) => {
   // attendance database
 
   const user = await User.findOne(
-    // { email: "priyah@uvxcel.com" },
     { email: erpEmployee.email },
 
     {
@@ -532,13 +407,6 @@ exports.userData = catchAysncError(async (req, res, next) => {
   // holliday calender
 
   const holiday = await HolidayList.find({}, { holidayData: 1, _id: 0 });
-
-  // console.log(holiday[0].holidayData["2022"]["April"]);
-
-  // console.log(leaves);
-  // console.log(user);
-  // if all attendance detail want
-
   if (req.query.month && isNaN(req.query.month) && req.query.month === "all") {
     monthArray.push(req.query.month);
   }
@@ -588,13 +456,10 @@ exports.userData = catchAysncError(async (req, res, next) => {
   // all month data of employee
 
   if (monthArray.length === 1 && monthArray[0] === "all") {
-    // console.log("all");
   }
 
   // specific month data of employee
   else {
-    // for (m of monthArray) {
-
     for (let m = 0; m < monthArray.length; m++) {
       const attendanceMonth = months[monthArray[m].getMonth()];
       const attendanceYear = monthArray[m].getFullYear();
@@ -657,8 +522,7 @@ exports.userData = catchAysncError(async (req, res, next) => {
       }
 
       // holiday update here
-      // console.log(attendanceYear);
-      // console.log(holiday[0].holidayData[`${attendanceYear}`]);
+      
       finalData[key].holiday = holiday[0].holidayData[`${attendanceYear}`]
         ? holiday[0].holidayData[`${attendanceYear}`][attendanceMonth].length
         : 0;
@@ -735,8 +599,6 @@ exports.userData = catchAysncError(async (req, res, next) => {
         }
       }
     }
-
-    // console.log(finalData);
   }
 
   res.status(200).json({ success: true, finalData });

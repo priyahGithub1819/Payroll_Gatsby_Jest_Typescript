@@ -7,15 +7,11 @@ const {
   singleCtc,
   editCtc,
 } = require("../controller/ctcController");
-const {
-  isAdmin,
-  isAuthenticated,
-  isNewEmployee,
-} = require("../middleware/isAuthenticated");
-const {createdBy,updatedBy} = require("../middleware/CreatedandUpdated")
+const { isAdmin, isAuthenticated } = require("../middleware/isAuthenticated");
+const { createdBy, updatedBy } = require("../middleware/CreatedandUpdated");
 
 //Creating route for CTC
-router.route("/payroll/ctc/create").post(isAuthenticated,createdBy,createCTC);
+router.route("/payroll/ctc/create").post(isAuthenticated, createdBy, createCTC);
 router.route("/payroll/user/ctc").get(isAuthenticated, getMyCTC);
 router
   .route("/payroll/user/all/ctc")
@@ -27,4 +23,6 @@ router
   .route("/single-ctc/:id")
   .get(isAuthenticated, isAdmin("owner"), singleCtc);
 
-router.route("/edit-ctc/:id").put(isAuthenticated, isAdmin("owner"),updatedBy, editCtc);
+router
+  .route("/edit-ctc/:id")
+  .put(isAuthenticated, isAdmin("owner"), updatedBy, editCtc);
