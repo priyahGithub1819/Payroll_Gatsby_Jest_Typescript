@@ -38,6 +38,7 @@ const SideBar = () => {
             <div className="toggleOwnerDiv">
               <p
                 className="ownerText"
+                data-testid ="ownerSidebar"
                 style={{ display: isOpen ? "none" : "block" }}
               >
                 {user
@@ -69,9 +70,9 @@ const SideBar = () => {
                       </div>
                       <div className="logoText">
                         <Link
-                          to="/app/owner"
+                          to="/app/owner/"
                           role="myDashboardRole"
-                          data-testid="myDB"
+                          data-testid="dashboard"
                           className="nav-link fw-bold"
                           style={{ display: isOpen ? "none" : "block" }}
                           data-toggle="tab"
@@ -98,10 +99,11 @@ const SideBar = () => {
                     </div>
                     <div className="logoText">
                       <Link
-                        to="/Owner/addCTC"
+                        to="/Owner/addCTC" 
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="addCTC"
                       >
                         {" "}
                         Upload CTC
@@ -128,6 +130,7 @@ const SideBar = () => {
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="updateCTC"
                       >
                         {" "}
                         Update CTC
@@ -154,6 +157,7 @@ const SideBar = () => {
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="uploadPayrollDoc"
                       >
                         {" "}
                         Upload & View Payroll Documents
@@ -183,6 +187,7 @@ const SideBar = () => {
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="listOfEmp"
                       >
                         {" "}
                         List of all Employees
@@ -193,7 +198,7 @@ const SideBar = () => {
                 <li className="navbar-item">
                   <div className="ownerSidebarIcons">
                     <div className="image">
-                      <Link to="/Owner/confirmEmp">
+                      <Link to="/Owner/confirmEmp/">
                         <i>
                           <img
                             src="/search.png"
@@ -205,7 +210,8 @@ const SideBar = () => {
                     </div>
                     <div className="logoText">
                       <Link
-                        to="/Owner/confirmEmp"
+                        to="/Owner/confirmEmp/"
+                        data-testid="confirmEmp"
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
@@ -219,7 +225,7 @@ const SideBar = () => {
                 <li className="navbar-item ">
                   <div className="ownerSidebarIcons">
                     <div className="image">
-                      <Link to="/Owner/empConfirm">
+                      <Link to="/Owner/empConfirm" >
                         <i>
                           <img
                             src="/empConfirm.png"
@@ -232,6 +238,7 @@ const SideBar = () => {
                     <div className="logoText">
                       <Link
                         to="/Owner/empConfirm"
+                        data-testid="empConfirm"
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
@@ -258,6 +265,7 @@ const SideBar = () => {
                     <div className="logoText">
                       <Link
                         to="/Owner/empRecordUpdate"
+                        data-testid="empRecordUpdate"
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
@@ -287,6 +295,7 @@ const SideBar = () => {
                     <div className="logoText">
                       <Link
                         to="/Owner/candiSelection"
+                        data-testid="candiSelection"
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
@@ -315,6 +324,7 @@ const SideBar = () => {
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="viewSelectedCandi"
                       >
                         Selected Candidates
                       </Link>
@@ -340,6 +350,7 @@ const SideBar = () => {
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="viewHoldCandi"
                       >
                         On Hold Candidates
                       </Link>
@@ -365,6 +376,7 @@ const SideBar = () => {
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="viewRejectedCandi"
                       >
                         Rejected Candidates
                       </Link>
@@ -386,10 +398,11 @@ const SideBar = () => {
                     </div>
                     <div className="logoText">
                       <Link
-                        to="/Owner/viewOnboardCandi"
+                        to="/Owner/viewOnboardCandi/"
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"
+                        data-testid="viewOnboardCandi"
                       >
                         Onboard Candidates
                       </Link>
