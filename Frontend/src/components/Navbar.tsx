@@ -1,25 +1,25 @@
 import React, { useState, useContext, useEffect } from "react";
 import { navigate } from "gatsby";
-import Layout, { UserData } from "./Layout"
-import { logoutUser } from "../services/apiFunction"
+import Layout, { UserData } from "./Layout";
+import { logoutUser } from "../services/apiFunction";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, RouteComponentProps, } from "@reach/router"
-
+import { Link, RouteComponentProps } from "@reach/router";
 
 interface INavbarLinks {
-  href: string,
-  text: string
+  href: string;
+  text: string;
 }
+
 interface IAllRoleLinks {
-  owner: INavbarLinks[]
-  superAdmin: INavbarLinks[]
-  hrAdmin: INavbarLinks[]
-  accountEmployee: INavbarLinks[]
-  technicalEmployee: INavbarLinks[]
-  marketingEmployee: INavbarLinks[]
+  owner: INavbarLinks[];
+  superAdmin: INavbarLinks[];
+  hrAdmin: INavbarLinks[];
+  accountEmployee: INavbarLinks[];
+  technicalEmployee: INavbarLinks[];
+  marketingEmployee: INavbarLinks[];
 }
 
 const allRoleLinks: any = {
@@ -32,14 +32,14 @@ const allRoleLinks: any = {
     { href: "/marketing", text: "Marketing & New Leads |" },
     { href: "/Owner/myprofile", text: "My Profile |" },
   ],
-    superAdmin: [
-      { href: "/", text: "Home |" },
-      { href: "/account", text: "Accounting |" },
-      { href: "/superAdminPayroll", text: "Payroll |" },
-      { href: "/ecommerce", text: "Ecommerce |" },
-      { href: "/projects", text: "Projects |" },
-      { href: "/marketing", text: "Marketing & New Leads |" },
-      { href: "/superAdmin/superAdminProfile/", text: "My Profile |" },
+  superAdmin: [
+    { href: "/", text: "Home |" },
+    { href: "/account", text: "Accounting |" },
+    { href: "/superAdminPayroll", text: "Payroll |" },
+    { href: "/ecommerce", text: "Ecommerce |" },
+    { href: "/projects", text: "Projects |" },
+    { href: "/marketing", text: "Marketing & New Leads |" },
+    { href: "/superAdmin/superAdminProfile/", text: "My Profile |" },
   ],
   hrAdmin: [
     { href: "/", text: "Home |" },
@@ -63,7 +63,7 @@ const allRoleLinks: any = {
     { href: "/marketing", text: "Marketing & New Leads |" },
     { href: "/app/profile1", text: "My Profile |" },
   ],
-}
+};
 
 const allRole: string[] = [
   "owner",
@@ -72,48 +72,47 @@ const allRole: string[] = [
   "technicalEmployee",
   "accountEmployee",
   "marketingEmployee",
-]
+];
 
 const Navbar = (props: RouteComponentProps) => {
-  function handleKeyDown(e: React.KeyboardEvent<HTMLSpanElement>) { if (e.keyCode === 13) { logout(); } }
-  const { user: data } = useContext(UserData)
-  const [user, setUser] = useState<any>({})
-  const [userRole, setUserRole] = useState<any>("")
-
-  const logout = async () => {
-    const { success, message, error } = await logoutUser()
-    if (success === false) {
-      window.alert(error)
-    } else {
-      window.alert(message)
-      toast.success(message)
-      setUser({ success: false })
-      navigate("/")
+  function handleKeyDown(e: React.KeyboardEvent<HTMLSpanElement>) {
+    if (e.keyCode === 13) {
+      logout();
     }
   }
+  const { user: data } = useContext(UserData);
+  const [user, setUser] = useState<any>({});
+  const [userRole, setUserRole] = useState<any>("");
+
+  const logout = async () => {
+    const { success, message, error } = await logoutUser();
+    if (success === false) {
+      window.alert(error);
+    } else {
+      window.alert(message);
+      toast.success(message);
+      setUser({ success: false });
+      navigate("/");
+    }
+  };
   useEffect(() => {
     if (data?.employee) {
-      setUser(data)
-      setUserRole(user.employee?.payrollData.role)
+      setUser(data);
+      setUserRole(user.employee?.payrollData.role);
     }
-    // if (data === undefined) {
-    //   callUser();
-    // }
-  }, [data, userRole])
+  }, [data, userRole]);
 
   return (
     <>
       <nav className="navbar navbar-expand-lg fixed-top gatsbyNav">
         <div className="container-fluid">
           <ToastContainer autoClose={false} className="toastContainer" />
-          {/* {console.log("bug3")} */}
           <img
             src="/logo1.png"
             alt="logo"
             className="img-fluid ps-3 logo"
             style={{ width: "12%" }}
           />
-
           <button
             className="navbar-toggler"
             type="button"
@@ -127,34 +126,43 @@ const Navbar = (props: RouteComponentProps) => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-              {userRole && allRole.indexOf(userRole ) !== -1 ? (
-                // let userRole:any=allRole[allRole.indexOf(user.employee.payrollData.role)]
-                // allRoleLinks[`${ userRole }`].map((link: any) => {
-                allRoleLinks[userRole as keyof IAllRoleLinks].map((link: any) => {
-                  return (
-                    <li key={link.href} className="nav-item">
-                      <a className="nav-link" href={link.href}>
-                        {link.text}
-                      </a>
-                    </li>
-                  )
-                })
+              {userRole && allRole.indexOf(userRole) !== -1 ? (
+                allRoleLinks[userRole as keyof IAllRoleLinks].map(
+                  (link: any) => {
+                    return (
+                      <li key={link.href} className="nav-item">
+                        <a className="nav-link" href={link.href}>
+                          {link.text}
+                        </a>
+                      </li>
+                    );
+                  }
+                )
               ) : (
-
                 <>
-
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="/" role='homeLink' data-testid="homeBtn">
+                    <a
+                      className="nav-link"
+                      aria-current="page"
+                      href="/"
+                      role="homeLink"
+                      data-testid="homeBtn"
+                    >
                       Home |
                     </a>
                   </li>
                   <li className="nav-item">
-                    <Link to="/app/login/" className="nav-link" data-testid="loginBtn" role="loginRole">
+                    <Link
+                      to="/app/login/"
+                      className="nav-link"
+                      data-testid="loginBtn"
+                      role="loginRole"
+                    >
                       <Button
                         as="input"
                         type="submit"
                         className="loginBtn "
-                        onClick={()=>navigate("/app/login/")}
+                        onClick={() => navigate("/app/login/")}
                         value="LOG IN"
                       />
                     </Link>
@@ -162,10 +170,13 @@ const Navbar = (props: RouteComponentProps) => {
                 </>
               )}
               {user && user.success === true ? (
-
                 <div className="nav-item">
                   <li>
-                    <span onClick={logout} onKeyDown={handleKeyDown} className="nav-link">
+                    <span
+                      onClick={logout}
+                      onKeyDown={handleKeyDown}
+                      className="nav-link"
+                    >
                       Logout
                     </span>
                   </li>

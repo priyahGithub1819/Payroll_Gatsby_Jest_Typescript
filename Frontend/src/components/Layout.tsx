@@ -1,9 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
-import { navigate, Link } from "gatsby";
-import { Button } from "react-bootstrap";
 import { loadUser } from "../services/apiFunction";
 import NavBar from "./Navbar";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface PageProps {
@@ -107,7 +104,6 @@ const Layout: React.FC<PageProps> = ({ children }) => {
     return year;
   }
 
-  
   useEffect(() => {
     callUser()
   }, []);

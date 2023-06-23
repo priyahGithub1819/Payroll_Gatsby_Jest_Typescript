@@ -1,30 +1,31 @@
-import React, { useEffect, useContext, useState } from "react"
-import { Link } from "gatsby"
-import { UserData } from "./Layout"
+import React, { useEffect, useContext, useState } from "react";
+import { Link } from "gatsby";
+import { UserData } from "./Layout";
 
 const SideBar = () => {
-  const { user } = useContext(UserData)
-  const [isOpen, setIsOpen] = useState(false)
-  const toggle = () => setIsOpen(!isOpen)
+  const { user } = useContext(UserData);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    let attr = document.querySelectorAll(".navbar-item a")
-    attr.forEach((item:any) => {
+    let attr = document.querySelectorAll(".navbar-item a");
+    attr.forEach((item: any) => {
       if (item.getAttribute("aria-current") === "page") {
-        item.closest(".navbar-item").classList.add("tab")
+        item.closest(".navbar-item").classList.add("tab");
       }
-    })
-    window.addEventListener("resize", checkWidth)
-  }, [])
+    });
+    window.addEventListener("resize", checkWidth);
+  }, []);
 
   const checkWidth = () => {
-    let width = document.body.clientWidth
+    let width = document.body.clientWidth;
     if (width < 992) {
-      setIsOpen(true)
+      setIsOpen(true);
     } else {
-      setIsOpen(false)
+      setIsOpen(false);
     }
-  }
+  };
+
   return (
     <div
       id="sidebar"
@@ -38,7 +39,9 @@ const SideBar = () => {
               className="text-center fs-6"
               style={{ display: isOpen ? "none" : "block" }}
             >
-              {user ? `${user.employee?.basic.name.firstName} ${user.employee?.basic.name.lastName}` : " "}
+              {user
+                ? `${user.employee?.basic.name.firstName} ${user.employee?.basic.name.lastName}`
+                : " "}
             </p>
             <img
               src="/humanSymbol.png"
@@ -48,7 +51,6 @@ const SideBar = () => {
               onClick={toggle}
             />
           </div>
-
           <hr />
           <li className="navbar-item">
             <div className="sidebarIcons">
@@ -132,6 +134,6 @@ const SideBar = () => {
         </ul>
       </div>
     </div>
-  )
-}
-export default SideBar
+  );
+};
+export default SideBar;

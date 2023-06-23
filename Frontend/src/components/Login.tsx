@@ -1,12 +1,8 @@
 
 import React, { useState, useContext, useEffect } from "react"
-import Layout from "./Layout";
 import { UserData } from "./Layout"
 import { navigate } from "gatsby"
 import { getLogin } from "../services/apiFunction";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.min.js";
-import { PageProps } from "gatsby";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify"
 import { Link, RouteComponentProps } from "@reach/router"
@@ -40,30 +36,16 @@ const Login = (props: RouteComponentProps) => {
     const { name, value } = event.target
     setUserData({ ...userData, [name]: value })
   }
-// const [error, setError] = useState("")
-// const [showUser, setShowUser] = useState(false)
 
   // on submit button function
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("click!!!!!");
-    //setShowUser(false)
     event.preventDefault();
     if (!userData.username || !userData.password) {
-      // return window.alert("Please fill the login detail first")
       return toast.error("Please fill the login detail first")
-
     } else {
       const { success, role, error, message } = await getLogin(userData)
       if (success === false) {
-       // setError("Invalid Employee ID or Password")
         toast.error("Invalid Employee ID or Password");
-        console.log("Invalid Employee ID or Password");
-        
-        let myContainer = document.getElementById('errorMsg') as HTMLElement;
-        myContainer.innerHTML = "Invalid Employee ID or Password";
-
-        //document.getElementById('errorMsg').value = 'hello '
- 
       } else if (success === true && message) {
         navigate("/createPassword")
       } else if (success === true && !message) {
@@ -72,7 +54,6 @@ const Login = (props: RouteComponentProps) => {
         } else if (role === "hrAdmin") {
           navigate("/app/hrdashboard")
         } else if (role === "owner") {
-          console.log("here")
           navigate("/app/owner")
         } else {
           navigate("/app/profile1")
@@ -95,7 +76,6 @@ const Login = (props: RouteComponentProps) => {
     }
   }, [user])
   return (
-
     <div className="container login-wrapper margin">
       <div className="row justify-content-center">
         <div className="col-xl-5 col-lg-7 col-md-9">
@@ -140,7 +120,6 @@ const Login = (props: RouteComponentProps) => {
                 </div>
               </div>
               <div className="col-11">
-              <div id="errorMsg" data-testid="errorMsg" style={{color:"red"}}></div>
                 <div className="form-group form-check mb-4">
                   <input
                     onChange={showPasswordFunction}
@@ -151,8 +130,7 @@ const Login = (props: RouteComponentProps) => {
                   />
                   <label role="checkbox" aria-checked="true" className="form-check-label">
                     Show Password
-                  </label>
-                  
+                  </label>                  
                 </div>
               </div>
             </div>
@@ -165,6 +143,5 @@ const Login = (props: RouteComponentProps) => {
     </div>
   )
 };
-
 
 export default Login;

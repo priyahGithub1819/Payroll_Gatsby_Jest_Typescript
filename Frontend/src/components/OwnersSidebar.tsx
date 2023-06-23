@@ -1,32 +1,30 @@
-import React, { useContext, useEffect, useState } from "react"
-import { Link } from "gatsby"
-import { UserData } from "./Layout"
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "gatsby";
+import { UserData } from "./Layout";
 
 const SideBar = () => {
-  const { user } = useContext(UserData)
-  const [isOpen, setIsOpen] = useState(false)
-  const toggle = () => setIsOpen(!isOpen)
+  const { user } = useContext(UserData);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    let attr = document.querySelectorAll(".navbar-item a") 
-    // console.log(attr)
-
-    attr.forEach((item:any) => {
+    let attr = document.querySelectorAll(".navbar-item a");
+    attr.forEach((item: any) => {
       if (item.getAttribute("aria-current") === "page") {
-        item.closest(".navbar-item").classList.add("tab")
+        item.closest(".navbar-item").classList.add("tab");
       }
-    })
-    window.addEventListener("resize", checkWidth)
-  }, [])
+    });
+    window.addEventListener("resize", checkWidth);
+  }, []);
 
   const checkWidth = () => {
-    let width = document.body.clientWidth
+    let width = document.body.clientWidth;
     if (width < 992) {
-      setIsOpen(true)
+      setIsOpen(true);
     } else {
-      setIsOpen(false)
+      setIsOpen(false);
     }
-  }
+  };
 
   return (
     <>
@@ -38,9 +36,13 @@ const SideBar = () => {
         <div id="sidebar-wrapper" className="min-vh-100 ownerSidebar-wrapper">
           <ul className="list-unstyled components" id="myTab">
             <div className="toggleOwnerDiv">
-              <p className="ownerText"
-                style={{ display: isOpen ? "none" : "block" }}>
-                {user ? `${user.employee.basic.name.firstName} ${user.employee.basic.name.lastName}` : " "}
+              <p
+                className="ownerText"
+                style={{ display: isOpen ? "none" : "block" }}
+              >
+                {user
+                  ? `${user.employee.basic.name.firstName} ${user.employee.basic.name.lastName}`
+                  : " "}
               </p>
               <img
                 src="/humanSymbol.png"
@@ -52,22 +54,23 @@ const SideBar = () => {
               />
             </div>
             <hr />
-            <div className="sideScrollbar" style={{ width: isOpen ? "50px" : "300px" }}>
+            <div
+              className="sideScrollbar"
+              style={{ width: isOpen ? "50px" : "300px" }}
+            >
               <div className="split1">
                 <div className="sidebarContent">
                   <li className="navbar-item ">
                     <div className="ownerSidebarIcons">
                       <div className="image">
                         <Link to="/app/owner">
-                        {/* <i><img src="/uploadCTC.png" alt="UploadImg" className="icon" style={{ width: "40px" }} /></i> */}
-                        <i className="bi bi-speedometer2 oSidebarIcon"></i>
-
+                          <i className="bi bi-speedometer2 oSidebarIcon"></i>
                         </Link>
                       </div>
                       <div className="logoText">
                         <Link
                           to="/app/owner"
-                          role="myDashboardRole"  
+                          role="myDashboardRole"
                           data-testid="myDB"
                           className="nav-link fw-bold"
                           style={{ display: isOpen ? "none" : "block" }}
@@ -84,7 +87,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/addCTC">
-                        <i><img src="/uploadCTC.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/uploadCTC.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -104,7 +113,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/updateCTC">
-                      <i><img src="/updatedCTC.png" alt="UploadImg" className="icon oSidebarIcon" /></i>
+                        <i>
+                          <img
+                            src="/updatedCTC.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -124,7 +139,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/uploadPayrollDoc">
-                      <i><img src="/viewDocument.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/viewDocument.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -147,7 +168,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/listOfEmp">
-                      <i><img src="/empList.png" alt="AddEmpImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/empList.png"
+                            alt="AddEmpImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -167,7 +194,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/confirmEmp">
-                      <i><img src="/search.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/search.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -187,7 +220,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/empConfirm">
-                      <i><img src="/empConfirm.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/empConfirm.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -207,7 +246,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/empRecordUpdate">
-                      <i><img src="/growth.png" alt="UploadImg" className="icon oSidebarIcon" /></i>
+                        <i>
+                          <img
+                            src="/growth.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -230,7 +275,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/candiSelection">
-                      <i><img src="/empRecruit.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/empRecruit.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -249,7 +300,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/viewSelectedCandi">
-                      <i><img src="/select.png" alt="UploadImg" className="icon oSidebarIcon" /></i>
+                        <i>
+                          <img
+                            src="/select.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -268,7 +325,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/viewHoldCandi">
-                      <i><img src="/hold.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/hold.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -287,7 +350,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/viewRejectedCandi">
-                      <i><img src="/rejected.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/rejected.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -306,7 +375,13 @@ const SideBar = () => {
                   <div className="ownerSidebarIcons">
                     <div className="image">
                       <Link to="/Owner/viewOnboardCandi">
-                      <i><img src="/onboarding.png" alt="UploadImg" className="icon oSidebarIcon"/></i>
+                        <i>
+                          <img
+                            src="/onboarding.png"
+                            alt="UploadImg"
+                            className="icon oSidebarIcon"
+                          />
+                        </i>
                       </Link>
                     </div>
                     <div className="logoText">
@@ -327,6 +402,6 @@ const SideBar = () => {
         </div>
       </div>
     </>
-  )
-}
-export default SideBar
+  );
+};
+export default SideBar;
