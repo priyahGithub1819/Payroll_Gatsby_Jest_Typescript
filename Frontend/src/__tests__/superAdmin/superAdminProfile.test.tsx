@@ -2,18 +2,20 @@ import React from "react";
 import SuperAdminProfile from "../../pages/superAdmin/superAdminProfile";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {act,screen,cleanup} from "@testing-library/react"
-import { render,multiRender} from "../../test_Util/custom_render_function";
-import userEvent from "@testing-library/user-event"
-import "@testing-library/jest-dom/extend-expect"
+import { act, screen, cleanup } from "@testing-library/react";
+import { render, multiRender } from "../../test_Util/custom_render_function";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom/extend-expect";
 
 const server = setupServer();
-
 // defining all route which I have to check
 const routes = [
-  {path:"/app/superadmin",component:()=><h1>My Dashbord is rendering now</h1>},
-  {path:"/superAdmin/superAdminProfile/",component:SuperAdminProfile},
-]
+  {
+    path: "/app/superadmin",
+    component: () => <h1>My Dashbord is rendering now</h1>,
+  },
+  { path: "/superAdmin/superAdminProfile/", component: SuperAdminProfile },
+];
 
 const user = {
   success: true,
@@ -78,69 +80,67 @@ const user = {
   },
 };
 
-const loadUser = ({ userData=user } = {}) => {
- return server.use(
+const loadUser = ({ userData = user } = {}) => {
+  return server.use(
     rest.get("/api/v2/me", (req, res, ctx) => {
       return res(ctx.json(userData));
     })
   );
 };
 
-
 describe("Testing candidate selection page", () => {
   beforeAll(() => server.listen());
   afterEach(() => {
     server.resetHandlers();
- 
-});
+  });
   afterAll(() => server.close());
 
-
   it("WHEN super admin profile component is mounted THEN render user information", async () => {
-    loadUser()
-    const {queryByText,debug} = await act(()=> render(<SuperAdminProfile />, {
-      route: "/superAdmin/superAdminProfile/",
-    })
+    loadUser();
+    const { queryByText, debug } = await act(() =>
+      render(<SuperAdminProfile />, {
+        route: "/superAdmin/superAdminProfile/",
+      })
     );
-    expect(queryByText("Super Admin Profile")).toBeInTheDocument()
+    expect(queryByText("Super Admin Profile")).toBeInTheDocument();
   });
 
-
-  it("WHEN click on my Dashboard button Then render dashboard page",async ()=>{
+  it("WHEN click on my Dashboard button Then render dashboard page", async () => {
     // useEffect is calling data in initial state
-    loadUser()
+    loadUser();
     // using mulirender because we have to check routing
     // we are using act because its using useState and some time this throwing error
-    await act(()=> multiRender(routes, {
-      path: "/superAdmin/superAdminProfile/",
-    })
+    await act(() =>
+      multiRender(routes, {
+        path: "/superAdmin/superAdminProfile/",
+      })
     );
 
     // checking is component is rendering our not
-    expect(screen.queryByText("Super Admin Profile")).toBeInTheDocument()
- 
+    expect(screen.queryByText("Super Admin Profile")).toBeInTheDocument();
+
     // taking reference of dashboard button
-  const myDashboardBtn = screen.getByTestId("myDashboard")
-  // performing click event
-  userEvent.click(myDashboardBtn)
+    const myDashboardBtn = screen.getByTestId("myDashboard");
+    // performing click event
+    userEvent.click(myDashboardBtn);
 
-  // in below I am again rendering because of that I have to clean the privious render code 
-  // thats why I am using cleanup() function. It will clear the privious code before second render 
+    // in below I am again rendering because of that I have to clean the privious render code
+    // thats why I am using cleanup() function. It will clear the privious code before second render
 
-  cleanup()
+    cleanup();
 
-  // in below line we are again using mutiRendring because we have to render another component 
-  // we have to again render the new component we couse click evet is working but render function not rendering second component 
-  // I am not sure but its happening because of typescript. 
-  // but above I have taken referance of my DashBoard button with That I can access the button attribute and I am using href attribute to check ourting is working or not   
-  // I am using screen we cocause I am using multiple reder function which I am using more then 1 time
-  multiRender(routes, {
-    path:`${myDashboardBtn.getAttribute("href")}`,
+    // in below line we are again using mutiRendring because we have to render another component
+    // we have to again render the new component we couse click evet is working but render function not rendering second component
+    // I am not sure but its happening because of typescript.
+    // but above I have taken referance of my DashBoard button with That I can access the button attribute and I am using href attribute to check ourting is working or not
+    // I am using screen we cocause I am using multiple reder function which I am using more then 1 time
+    multiRender(routes, {
+      path: `${myDashboardBtn.getAttribute("href")}`,
+    });
+    screen.debug();
+    // checking is second component is rendering our not
+    expect(
+      screen.getByText("My Dashbord is rendering now")
+    ).toBeInTheDocument();
   });
-  screen.debug()
-// checking is second component is rendering our not
-  expect(screen.getByText("My Dashbord is rendering now")).toBeInTheDocument()
-
-  })
-
 });

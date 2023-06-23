@@ -1,56 +1,55 @@
-import axios from "axios"
-import Layout from "../../components/Layout"
-import React, { useState, useEffect } from "react"
-import SideBar from "../../components/OwnersSidebar"
-import { toast } from "react-toastify"
+import axios from "axios";
+import Layout from "../../components/Layout";
+import React, { useState, useEffect } from "react";
+import SideBar from "../../components/OwnersSidebar";
+import { toast } from "react-toastify";
 
 const UploadDocument = () => {
-  const [uploadFile, setUploadFile] = useState<any>()
-  const onFileChange = (e:any) => {
-    setUploadFile(e.target.files[0])
-  }
+  const [uploadFile, setUploadFile] = useState<any>();
+  const onFileChange = (e: any) => {
+    setUploadFile(e.target.files[0]);
+  };
 
   const onFileUpload = async () => {
     if (uploadFile) {
-      const formData = new FormData()
-      formData.append("myFile", uploadFile)
-      const data = await axios.post("api/v2/document/upload", formData)
-      toast.success("File uploaded successfully")
+      const formData = new FormData();
+      formData.append("myFile", uploadFile);
+      const data = await axios.post("api/v2/document/upload", formData);
+      toast.success("File uploaded successfully");
     }
-  }
+  };
   // On clear button click
   const onClearBtnClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-    window.location.reload()
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.location.reload();
+  };
 
-  const [docs, setDocs] = useState([])
+  const [docs, setDocs] = useState([]);
   const getAllDocuments = async () => {
-    const { data } = await axios.get("/api/v2/document/all")
+    const { data } = await axios.get("/api/v2/document/all");
     if (data.success === false) {
-      window.alert(data.error)
+      window.alert(data.error);
     } else if (data.success === true) {
-      setDocs(data.docs)
+      setDocs(data.docs);
     }
-  }
+  };
 
   useEffect(() => {
-    getAllDocuments()
-  }, [])
+    getAllDocuments();
+  }, []);
 
-  useEffect(() => {
-  }, [docs])
+  useEffect(() => {}, [docs]);
 
   const seeDocBtnClick = () => {
-   var docTable = document.getElementById("documentTable") as HTMLElement
-   docTable.style.display = "block"
-    getAllDocuments()
-  }
+    var docTable = document.getElementById("documentTable") as HTMLElement;
+    docTable.style.display = "block";
+    getAllDocuments();
+  };
   const closeBtnClick = () => {
-    var docTable = document.getElementById("documentTable") as HTMLElement
-    docTable.style.display = "none"
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+    var docTable = document.getElementById("documentTable") as HTMLElement;
+    docTable.style.display = "none";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <Layout>
       <div className="OwnerContainer wrapper">
@@ -136,7 +135,7 @@ const UploadDocument = () => {
                     </thead>
                     <tbody>
                       {docs &&
-                        docs.map((docs:any, Index:number) => {
+                        docs.map((docs: any, Index: number) => {
                           return (
                             <tr key={Index}>
                               <td>{Index + 1}</td>
@@ -153,7 +152,7 @@ const UploadDocument = () => {
                                 </button>
                               </td>
                             </tr>
-                          )
+                          );
                         })}
                     </tbody>
                   </table>
@@ -164,7 +163,7 @@ const UploadDocument = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default UploadDocument
+export default UploadDocument;

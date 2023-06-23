@@ -1,72 +1,73 @@
-import React, { useEffect } from "react"
-import Layout from "../../components/Layout"
-import "bootstrap/dist/css/bootstrap.min.css"
-import { useState } from "react"
-import { getOwnerData } from "../../services/apiFunction"
-import { editCandiStatus } from "../../services/apiFunction"
-import SideBar from "../../components/OwnersSidebar"
-import { Link } from "gatsby"
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import React, { useEffect } from "react";
+import Layout from "../../components/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import { getOwnerData } from "../../services/apiFunction";
+import { editCandiStatus } from "../../services/apiFunction";
+import SideBar from "../../components/OwnersSidebar";
+import { Link } from "gatsby";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const rejectedReasonInitialValue = {
   rejectedMessage: "",
   id: "",
   candidateName: "",
-}
+};
 function App() {
-  const [candirecords, setCandirecords] = useState<any>([])
-  const [rejectBoxShow, setRejectBoxShow] = useState<any>(false)
-  const [rejectReason, setRejectReason] = useState(rejectedReasonInitialValue)
+  const [candirecords, setCandirecords] = useState<any>([]);
+  const [rejectBoxShow, setRejectBoxShow] = useState<any>(false);
+  const [rejectReason, setRejectReason] = useState(rejectedReasonInitialValue);
 
   // To get All candidates with Pending Status
   const getAllCandidates = async () => {
-    let pendingCandi:any = []
-    let data = await getOwnerData()
-    data.candiInfo.map((d:any) => {
+    let pendingCandi: any = [];
+    let data = await getOwnerData();
+    data.candiInfo.map((d: any) => {
       if (d.candiStatus === "Pending") {
-        pendingCandi.push(d)
+        pendingCandi.push(d);
       }
-    })
-    setCandirecords(pendingCandi)
-  }
+    });
+    setCandirecords(pendingCandi);
+  };
 
   useEffect(() => {
-    getAllCandidates()
-  }, [])
+    getAllCandidates();
+  }, []);
 
   //To Reject the candidate
   const saveRejectCandi = async () => {
     if (rejectReason.rejectedMessage) {
-      
       toast.success(
-        "Candidate " + rejectReason.candidateName + " is rejected successfully")
+        "Candidate " + rejectReason.candidateName + " is rejected successfully"
+      );
+      // )
       await editCandiStatus(rejectReason.id, {
         candiStatus: "Rejected",
         rejectedMessage: rejectReason.rejectedMessage,
-      })
-      setRejectBoxShow(false)
-      setRejectReason(rejectedReasonInitialValue)
-      await getAllCandidates()
+      });
+      setRejectBoxShow(false);
+      setRejectReason(rejectedReasonInitialValue);
+      await getAllCandidates();
     } else {
-      toast.success("Please select any reason to reject the candidate.")
+      toast.success("Please select any reason to reject the candidate.");
     }
-  }
+  };
 
   //To Select/Aprrove the candidate
-  const saveApproveCandi = async (id:any, candidateName:any) => {  
-    await editCandiStatus(id, { candiStatus: "Selected" })
-    toast.success("Candidate " + id + " is selected successfully")
-    await getAllCandidates()
-  }
+  const saveApproveCandi = async (id: any, candidateName: any) => {
+    await editCandiStatus(id, { candiStatus: "Selected" });
+    toast.success("Candidate " + id + " is selected successfully");
+    await getAllCandidates();
+  };
 
   //To Hold the candidate
-  const saveHoldCandi = async (id:any, candidateName:any) => {
-    editCandiStatus(id, { candiStatus: "Hold" })
-    getAllCandidates()
-    toast.success("Candidate " + id + " is on hold")
-    getAllCandidates()
-  }
+  const saveHoldCandi = async (id: any, candidateName: any) => {
+    editCandiStatus(id, { candiStatus: "Hold" });
+    getAllCandidates();
+    toast.success("Candidate " + id + " is on hold");
+    getAllCandidates();
+  };
 
   return (
     <Layout>
@@ -103,7 +104,7 @@ function App() {
                     </thead>
                     <tbody>
                       {candirecords &&
-                        candirecords.map((candirecord:any, Index:any) => {
+                        candirecords.map((candirecord: any, Index: any) => {
                           if (candirecord.candiStatus == "Pending") {
                             return (
                               <tr key={Index}>
@@ -121,7 +122,7 @@ function App() {
                                     <button
                                       className="btn btn-success"
                                       data-testid="selectBtn"
-                                      onClick={e =>
+                                      onClick={(e) =>
                                         saveApproveCandi(
                                           candirecord.candidateId,
                                           candirecord.candidateName
@@ -133,7 +134,7 @@ function App() {
                                     <button
                                       className="btn btn-info"
                                       data-testid="holdBtn"
-                                      onClick={e =>
+                                      onClick={(e) =>
                                         saveHoldCandi(
                                           candirecord.candidateId,
                                           candirecord.candidateName
@@ -146,13 +147,13 @@ function App() {
                                       className="btn btn-danger"
                                       data-testid="rejectBtn"
                                       onClick={() => {
-                                        setRejectBoxShow(true)
+                                        setRejectBoxShow(true);
                                         setRejectReason({
                                           ...rejectReason,
                                           id: candirecord.candidateId,
                                           candidateName:
                                             candirecord.candidateName,
-                                        })
+                                        });
                                       }}
                                     >
                                       Reject
@@ -160,14 +161,17 @@ function App() {
                                   </div>
                                 </td>
                               </tr>
-                            )
+                            );
                           }
                         })}
                     </tbody>
                   </table>
                 </div>
                 {rejectBoxShow ? (
-                  <div data-testid="reject-msg-modal" className="modal RejectReasonModal ">
+                  <div
+                    data-testid="reject-msg-modal"
+                    className="modal RejectReasonModal "
+                  >
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
@@ -183,8 +187,8 @@ function App() {
                             data-bs-dismiss="modal"
                             aria-label="Close"
                             onClick={() => {
-                              setRejectBoxShow(false)
-                              setRejectReason(rejectedReasonInitialValue)
+                              setRejectBoxShow(false);
+                              setRejectReason(rejectedReasonInitialValue);
                             }}
                           ></button>
                         </div>
@@ -203,7 +207,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Lack of Technical knowledge"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -218,7 +222,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Lack of Communication Skills"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -232,7 +236,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Lack of grasping power"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -246,7 +250,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Not accepted offer letter"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -261,7 +265,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Delay in joining"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -278,7 +282,7 @@ function App() {
                               id="message-text"
                               data-testid="rejectReason"
                               name="rejectedMessage"
-                              onChange={e =>
+                              onChange={(e) =>
                                 setRejectReason({
                                   ...rejectReason,
                                   rejectedMessage: e.target.value,
@@ -293,10 +297,10 @@ function App() {
                             type="button"
                             className="btn btn-secondary"
                             data-bs-dismiss="modal"
-                            data-testid = "closeRejectModal"
+                            data-testid="closeRejectModal"
                             onClick={() => {
-                              setRejectBoxShow(false)
-                              setRejectReason(rejectedReasonInitialValue)
+                              setRejectBoxShow(false);
+                              setRejectReason(rejectedReasonInitialValue);
                             }}
                           >
                             Close
@@ -305,7 +309,7 @@ function App() {
                             type="button"
                             className="btn btn-primary"
                             data-testid="finalRejectButton"
-                            onClick={e => saveRejectCandi()}
+                            onClick={(e) => saveRejectCandi()}
                           >
                             Reject
                           </button>
@@ -322,7 +326,7 @@ function App() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default App
+export default App;
