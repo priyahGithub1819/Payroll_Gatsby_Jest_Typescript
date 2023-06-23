@@ -9,7 +9,6 @@ import {
 } from "@reach/router";
 import Layout from "../components/Layout";
 
-
 const render = (ui: any, { route = "/" } = {}) => {
   const history = createHistory(createMemorySource(route));
   window.history.pushState({}, "", route);
@@ -35,7 +34,5 @@ const multiRender = (routes: { path: string, component: React.ComponentType<Rout
     </Layout>
   );
 };
-
-
 
 export { render,multiRender };
