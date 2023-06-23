@@ -185,11 +185,36 @@ describe("updateCTC.test.tsx", () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
   it("should render component", async () => {
+
     customeServerCall();
+    getCustomUserCtc({ ctcDetails: ctcData });
+    server.use(
+      rest.get(
+        "/api/v2/single-ctc/6438106147885c4332e8f732",
+        (req, res, ctx) => {
+          return res(
+            ctx.json({
+              updatedby: {},
+              createdby: {},
+              _id: "6438106147885c4332e8f732",
+              Emp_Id: "UISPL0004",
+              CTC: 900000,
+              __v: 0,
+              Name: {
+                firstName: "Prapti",
+                middleName: "Anil",
+                lastName: "Gomekar",
+              },
+            })
+          );
+        }
+      )
+    );
+
     const { getByText, debug, findByText } = render(<UpdateCTC />, {
       route: "/Owner/updateCTC/",
     });
-    await findByText("UISPL0006");
+    await findByText("UISPL0004");
   });
 
   it("should Edit on clicking of edit button", async () => {
@@ -240,111 +265,4 @@ describe("updateCTC.test.tsx", () => {
     // userEvent.type(selectRef, "500000");
     console.log(selectRef.value);
   });
-
-  // it.only("When user click on edit button save button should display and after edit save button should not display", async () => {
-  //   customeServerCall();
-  //   server.use(
-  //     rest.get("/api/v2/me", (req, res, ctx) => {
-  //       return res(
-  //         ctx.json({
-  //           success: true,
-  //           employee: {
-  //             basic: {
-  //               name: {
-  //                 firstName: "Priya",
-  //                 middleName: "Prajyot",
-  //                 lastName: "Hatipkar",
-  //               },
-  //               mobile: {
-  //                 countryCode: "+91",
-  //                 number: 9860288765,
-  //               },
-  //               employeeId: "UISPL0005",
-  //               gender: "Female",
-  //               dateOfJoining:
-  //                 "Tue Jan 03 2023 05:30:00 GMT+0530 (India Standard Time)",
-  //               maritalStatus: "MARRIED",
-  //               probationPeriod: 3,
-  //               confirmationDate: "2023-04-03T00:00:00.000Z",
-  //               dateOfBirth: "1989-10-17T00:00:00.000Z",
-  //               employmentStatus: "active",
-  //               employmentType: "FTE",
-  //               designation: "MARKETING MANAGER",
-  //               department: "MARKETING",
-  //               workMode: "WFH",
-  //               workLocation: "Pune",
-  //               selfDeclaration: {
-  //                 idProofs: {
-  //                   bloodGroup: "B-Negative",
-  //                   aadhaarCard: {
-  //                     aadhaarNumber: 673465324222,
-  //                     verifyStatus: "Pending",
-  //                     uploadedAt: "2023-04-13T13:30:58.377Z",
-  //                   },
-  //                   panCard: {
-  //                     panCardNumber: "AYRPP0904W",
-  //                     verifyStatus: "Pending",
-  //                     uploadedAt: "2023-04-13T13:30:58.377Z",
-  //                   },
-  //                   passport: {
-  //                     verifyStatus: "Pending",
-  //                     uploadedAt: "2023-04-13T13:30:58.377Z",
-  //                   },
-  //                 },
-  //                 academics: [],
-  //                 previousCompany: [],
-  //               },
-  //               email: "priyah@uvxcel.com",
-  //               selectCount: 0,
-  //             },
-  //             payrollData: {
-  //               updatedby: {
-  //                 empId: "UISPL0005",
-  //                 date: "2023-05-03T06:13:56.518Z",
-  //               },
-  //               createdby: {
-  //                 empId: "UISPL0001",
-  //                 date: "2023-04-13T13:39:52.924Z",
-  //               },
-  //               _id: "6438043c1ed10be60f9d953c",
-  //               empId: "UISPL0005",
-  //               __v: 0,
-  //               DOB: "1984-12-22",
-  //               DOB1: "2019-08-19",
-  //               NameofSpouse: "Prajyot Hatipkar",
-  //               child1: "Pravee Hatipkar",
-  //               child1Gender: "Female",
-  //               numberOfMember: 2,
-  //               relationship: "Husband",
-  //               role: "owner",
-  //               password:
-  //                 "$2a$10$pMVWSSG7LJcyLh5nwOGQvOv5HwfTLQ06mFX/g25JDvn2yZmnFVSQG",
-  //               empStatus: "Confirmed",
-  //             },
-  //           },
-  //         })
-  //       );
-  //     })
-  //   );
-  //   server.use(
-  //     rest.get("/api/v2/payroll/user/all/ctc", (req, res, ctx) => {
-  //       return res(ctx.json(ctcData));
-  //     })
-  //   );
-
-  //   const { debug, findByText, queryAllByTestId, getAllByTestId, container } =
-  //     render(<UpdateCTC />, {
-  //       route: "/Owner/updateCTC",
-  //     });
-  //   await findByText("UISPL0004");
-  //   const editBtns = container.querySelectorAll("#editBtn");
-  //   expect(editBtns.length).toBeGreaterThanOrEqual(1);
-  //   await waitFor(() => userEvent.click(editBtns[0]));
-
-  //   expect(getAllByTestId("saveBtn")[0]).not.toHaveStyle("display: none");
-
-  //   //expect(saveBtns.length).toBeGreaterThanOrEqual(1)
-  //   //await waitFor(()=> userEvent.click(saveBtns[0]))
-  //   // debug()
-  // });
 });

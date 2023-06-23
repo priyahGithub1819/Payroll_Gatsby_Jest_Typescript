@@ -133,7 +133,7 @@ function AddCTC() {
                     <h1 className="text-center mb-4">
                       Employee CTC Information Table
                     </h1>
-                    <table className="table table-striped table-bordered table-sm">
+                    <table className="table table-striped table-bordered table-sm"  data-testid="table-info-heading">
                       <thead>
                         <tr>
                           {tableRows.map((rows, index) => {

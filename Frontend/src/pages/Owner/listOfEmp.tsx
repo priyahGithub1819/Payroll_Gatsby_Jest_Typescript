@@ -1,20 +1,20 @@
-import React, { useEffect } from "react"
-import Layout from "../../components/Layout"
-import "bootstrap/dist/css/bootstrap.min.css"
-import { useState } from "react"
-import { allUserData } from "../../services/apiFunction"
-import SideBar from "../../components/OwnersSidebar"
+import React, { useEffect } from "react";
+import Layout from "../../components/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import { allUserData } from "../../services/apiFunction";
+import SideBar from "../../components/OwnersSidebar";
 
 function App() {
-  const [records, setRecords] = useState<any>([])
- const getAllEmployees = async () => {
-   let data = await allUserData()
-      setRecords(data.employeeData)
-  }
+  const [records, setRecords] = useState<any>([]);
+  const getAllEmployees = async () => {
+    let data = await allUserData();
+    setRecords(data.employeeData);
+  };
 
   useEffect(() => {
-    getAllEmployees()
-  }, [])
+    getAllEmployees();
+  }, []);
 
   return (
     <Layout>
@@ -39,7 +39,7 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {records.map((record:any, Index:number) => {
+                      {records.map((record: any, Index: number) => {
                         return (
                           <tr key={Index}>
                             <td>{Index + 1}</td>
@@ -50,7 +50,7 @@ function App() {
                             </td>
                             <td>{record.payrollData.empId}</td>
                           </tr>
-                        )
+                        );
                       })}
                     </tbody>
                   </table>
@@ -61,6 +61,6 @@ function App() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
-export default App
+export default App;

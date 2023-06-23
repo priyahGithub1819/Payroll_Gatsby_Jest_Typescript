@@ -1,67 +1,69 @@
-import React, { useEffect } from "react"
-import Layout from "../../components/Layout"
-import "bootstrap/dist/css/bootstrap.min.css"
-import { useState } from "react"
-import { getOwnerData } from "../../services/apiFunction"
-import { editCandiStatus } from "../../services/apiFunction"
-import SideBar from "../../components/OwnersSidebar"
-import { Link } from "gatsby"
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import React, { useEffect } from "react";
+import Layout from "../../components/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import { getOwnerData } from "../../services/apiFunction";
+import { editCandiStatus } from "../../services/apiFunction";
+import SideBar from "../../components/OwnersSidebar";
+import { Link } from "gatsby";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const rejectedReasonInitialValue = {
   rejectedMessage: "",
   id: "",
   candidateName: "",
-}
+};
 function App() {
-  const [candirecords, setCandirecords] = useState<any>([])
-  const [rejectBoxShow, setRejectBoxShow] = useState<any>(false)
-  const [rejectReason, setRejectReason] = useState(rejectedReasonInitialValue)
+  const [candirecords, setCandirecords] = useState<any>([]);
+  const [rejectBoxShow, setRejectBoxShow] = useState<any>(false);
+  const [rejectReason, setRejectReason] = useState(rejectedReasonInitialValue);
 
   //To get all candidates
   const getAllCandidates = async () => {
-    let selectedCandi:any = []
-    let data = await getOwnerData()
+    let selectedCandi: any = [];
+    let data = await getOwnerData();
 
     if (data.success === true) {
-      setCandirecords(data.candiInfo)
+      setCandirecords(data.candiInfo);
     }
 
-    data.candiInfo.map((d:any) => {
+    data.candiInfo.map((d: any) => {
       if (d.candiStatus === "Selected") {
-        selectedCandi.push(d)
+        selectedCandi.push(d);
       }
-    })
-    setCandirecords(selectedCandi)
-  }
+    });
+    setCandirecords(selectedCandi);
+  };
 
   useEffect(() => {
-    getAllCandidates()
-  }, [])
+    getAllCandidates();
+  }, []);
 
   //To reject the candidate
   const saveRejectCandi = async () => {
     if (rejectReason.rejectedMessage) {
-      toast.success("Candidate " + rejectReason.candidateName + " is rejected successfully");
+      toast.success(
+        "Candidate " + rejectReason.candidateName + " is rejected successfully"
+      );
       await editCandiStatus(rejectReason.id, {
         candiStatus: "Rejected",
         rejectedMessage: rejectReason.rejectedMessage,
-      })
-      setRejectBoxShow(false)
-      setRejectReason(rejectedReasonInitialValue)
-      getAllCandidates()
+      });
+      setRejectBoxShow(false);
+      setRejectReason(rejectedReasonInitialValue);
+      getAllCandidates();
     } else {
       toast.success("Please select any reason to reject the candidate.");
     }
-  }
+  };
 
   //To Onboard the candidate
-  const saveOnboardCandi = async (id:any, candidateName:any) => {
+  const saveOnboardCandi = async (id: any, candidateName: any) => {
     toast.success("Candidate " + id + " will be Onboard soon");
-    editCandiStatus(id, { candiStatus: "Onboard" })
-    getAllCandidates()
-  }
+    editCandiStatus(id, { candiStatus: "Onboard" });
+    getAllCandidates();
+  };
 
   //To display data on Webpage
   return (
@@ -95,7 +97,7 @@ function App() {
                     </thead>
                     <tbody>
                       {candirecords &&
-                        candirecords.map((candirecord:any, Index:number) => {
+                        candirecords.map((candirecord: any, Index: number) => {
                           if (candirecord.candiStatus === "Selected") {
                             return (
                               <tr key={Index}>
@@ -112,8 +114,8 @@ function App() {
                                   <div className="col-4 offset-8 d-flex justify-content-end">
                                     <button
                                       className="btn btn-success"
-                                      data-testid = "onboardBtn"
-                                      onClick={e =>
+                                      data-testid="onboardBtn"
+                                      onClick={(e) =>
                                         saveOnboardCandi(
                                           candirecord.candidateId,
                                           candirecord.candidateName
@@ -124,15 +126,15 @@ function App() {
                                     </button>
                                     <button
                                       className="btn btn-danger"
-                                      data-testid = "rejectBtn"
+                                      data-testid="rejectBtn"
                                       onClick={() => {
-                                        setRejectBoxShow(true)
+                                        setRejectBoxShow(true);
                                         setRejectReason({
                                           ...rejectReason,
                                           id: candirecord.candidateId,
                                           candidateName:
                                             candirecord.candidateName,
-                                        })
+                                        });
                                       }}
                                     >
                                       Reject
@@ -140,14 +142,17 @@ function App() {
                                   </div>
                                 </td>
                               </tr>
-                            )
+                            );
                           }
                         })}
                     </tbody>
                   </table>
                 </div>
                 {rejectBoxShow ? (
-                  <div data-testid="reject-msg-modal" className="modal RejectReasonModal ">
+                  <div
+                    data-testid="reject-msg-modal"
+                    className="modal RejectReasonModal "
+                  >
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
@@ -163,8 +168,8 @@ function App() {
                             data-bs-dismiss="modal"
                             aria-label="Close"
                             onClick={() => {
-                              setRejectBoxShow(false)
-                              setRejectReason(rejectedReasonInitialValue)
+                              setRejectBoxShow(false);
+                              setRejectReason(rejectedReasonInitialValue);
                             }}
                           ></button>
                         </div>
@@ -183,7 +188,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Lack of Technical knowledge"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -198,7 +203,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Lack of Communication Skills"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -212,7 +217,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Lack of grasping power"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -226,7 +231,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Not accepted offer letter"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -241,7 +246,7 @@ function App() {
                                   type="radio"
                                   name="rejectedMessage"
                                   value="Delay in joining"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setRejectReason({
                                       ...rejectReason,
                                       rejectedMessage: e.target.value,
@@ -257,8 +262,8 @@ function App() {
                               className="form-control"
                               id="message-text"
                               name="rejectedMessage"
-                              data-testid = "rejectReason"
-                              onChange={e =>
+                              data-testid="rejectReason"
+                              onChange={(e) =>
                                 setRejectReason({
                                   ...rejectReason,
                                   rejectedMessage: e.target.value,
@@ -271,21 +276,21 @@ function App() {
                         <div className="modal-footer">
                           <button
                             type="button"
-                            data-testid = "closeRejectModal"
+                            data-testid="closeRejectModal"
                             className="btn btn-secondary"
                             data-bs-dismiss="modal"
                             onClick={() => {
-                              setRejectBoxShow(false)
-                              setRejectReason(rejectedReasonInitialValue)
+                              setRejectBoxShow(false);
+                              setRejectReason(rejectedReasonInitialValue);
                             }}
                           >
                             Close
                           </button>
                           <button
                             type="button"
-                            data-testid = "finalRejectButton"
+                            data-testid="finalRejectButton"
                             className="btn btn-primary"
-                            onClick={e => saveRejectCandi()}
+                            onClick={(e) => saveRejectCandi()}
                           >
                             Reject
                           </button>
@@ -302,6 +307,6 @@ function App() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
-export default App
+export default App;

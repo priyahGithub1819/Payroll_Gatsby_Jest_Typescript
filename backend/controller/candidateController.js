@@ -29,16 +29,24 @@ exports.ownerData = catchAysncError(async (req, res, next) => {
 });
 
 exports.editCandiData = async (req, res) => {
-  const candiInfo = await candidateInfo.updateOne({ candidateId: req.params.id }, req.body);
+  const candiInfo = await candidateInfo.updateOne(
+    { candidateId: req.params.id },
+    req.body
+  );
   res.status(200).json({ success: true });
 };
 
 exports.singleCandi = async (req, res) => {
-  const singleCandi = await candidateInfo.findOne({ candidateId: req.params.id });
+  const singleCandi = await candidateInfo.findOne({
+    candidateId: req.params.id,
+  });
   res.status(200).json(singleCandi);
 };
 
 exports.editRejectCandi = async (req, res) => {
-  const candiInfo = await candidateInfo.updateOne({ candidateId: req.params.id }, req.body);
+  const candiInfo = await candidateInfo.updateOne(
+    { candidateId: req.params.id },
+    req.body
+  );
   res.status(200).json({ success: true });
 };

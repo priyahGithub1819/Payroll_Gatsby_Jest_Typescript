@@ -5,13 +5,11 @@ import {
   createMemorySource,
   LocationProvider,
 } from "@reach/router";
-// import { Router } from "@reach/router";
 import SuperaAdmin from "../../pages/superAdmin/SuperAdmin";
 import Superadmin from "../../pages/superAdmin/addEmployee";
 import App from "../../pages/superAdmin/viewAllEmployee";
 import Layout from "../../components/Layout";
 import userEvent from "@testing-library/user-event";
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect'; 
 
 //Rendeting the component

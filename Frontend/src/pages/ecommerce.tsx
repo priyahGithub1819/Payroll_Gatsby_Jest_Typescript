@@ -1,16 +1,16 @@
-import React from "react"
-import Layout from "../components/Layout"
+import React from "react";
+import Layout from "../components/Layout";
 
 export default function ecommerce() {
   return (
     <Layout>
       <div className="container-fluid margin account-wrapper">
-          <h1>Ecommerce</h1>
-          <img
-            className="img-responsive w-50"
-            src="/Ecom.png"
-            alt="site banner"
-          />
+        <h1>Ecommerce</h1>
+        <img
+          className="img-responsive w-50"
+          src="/Ecom.png"
+          alt="site banner"
+        />
         <div className="row">
           <div className="col-12 text-center">
             <p>1. eCommerce Product Development and Integration</p>
@@ -25,5 +25,5 @@ export default function ecommerce() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
