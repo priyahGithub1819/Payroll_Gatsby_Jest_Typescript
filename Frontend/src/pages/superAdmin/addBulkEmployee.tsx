@@ -132,6 +132,7 @@ function AddBulkEmployee() {
                       className="form-control my-3 inputFont"
                       onChange={changeHandler}
                       accept=".csv"
+                      data-testid ="csvFile"
                     />
                     <h6 className="text-muted">
                       Hint : Upload bulk employee information CSV file here.
@@ -156,7 +157,7 @@ function AddBulkEmployee() {
                     <h1 className="text-center mb-4" id="table-info-heading">
                       Employee Information Table
                     </h1>
-                    <table className="table table-striped table-bordered table-sm">
+                    <table className="table table-striped table-bordered table-sm" data-testid="table-info-heading">
                       <thead>
                         <tr>
                           {tableRows.map((rows: any, index: number) => {
