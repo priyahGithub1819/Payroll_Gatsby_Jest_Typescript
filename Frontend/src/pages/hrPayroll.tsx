@@ -29,7 +29,7 @@ export default function hrpayroll() {
         </div>
         <div className="update text-center">
           <Link
-            to="/app/hrdashboard"
+            to="/app/hrDashBoard"
             className="btn btn-outline-secondary dashboardBtn"
           >
             Go To Dashboard

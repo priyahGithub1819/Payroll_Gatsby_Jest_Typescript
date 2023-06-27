@@ -106,7 +106,7 @@ function ShortlistedCandidate() {
       <div className="container candiBulkContainer">
         <div className="row justify-content-center">
           <div className="col-lg-12">
-            <Link to="/app/hrdashboard" data-testid="arrowLink">
+            <Link to="/app/hrDashBoard" data-testid="arrowLink">
               <i className="bi bi-arrow-left-circle-fill"></i>
             </Link>
           </div>

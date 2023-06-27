@@ -1,8 +1,8 @@
 import React from "react";
 import Layout from "../components/Layout";
 import PrivateRoute from "../components/PrivateRout";
-import Profile from "./HR Management/HrDashboard";
-import Profile1 from "./Profile1";
+import Profile from "./HR Management/hrDashBoard";
+import employeeProfile from "./employeeProfile";
 import Login from "../components/Login";
 import SuperAdmin from "./superAdmin/SuperAdmin";
 import Owner from "./Owner/Owner";
@@ -20,7 +20,7 @@ const App = () => {
         <Router>
           <PrivateRoute
             isValidRole={["hrAdmin"]}
-            path="/app/hrdashboard"
+            path="/app/hrDashBoard"
             component={Profile}
           />
           <PrivateRoute
@@ -39,8 +39,8 @@ const App = () => {
               "accountEmployee",
               "marketingEmployee",
             ]}
-            path="/app/profile1"
-            component={Profile1}
+            path="/app/employeeProfile"
+            component={employeeProfile}
           />
           <PrivateRoute
             isValidRole={["owner"]}

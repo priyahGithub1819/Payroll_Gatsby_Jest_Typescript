@@ -10,7 +10,7 @@ import "@testing-library/jest-dom";
 import { render } from "../test_Util/custom_render_function";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import Profile from "../pages/Profile1";
+import Profile from "../pages/employeeProfile";
 import { getByTestId, waitFor,screen } from "@testing-library/dom";
 import "@testing-library/jest-dom/extend-expect";
 import Modal from "react"
@@ -343,7 +343,7 @@ describe("empConfirm.test.tsx", () => {
 
     // redering component here
     const { debug, findByText, queryAllByTestId } = render(<Profile />, {
-      route: "/app/profile1",
+      route: "/app/employeeProfile",
     });
     //checking that text is present or not
     await findByText("UISPL0004");
@@ -359,7 +359,7 @@ describe("empConfirm.test.tsx", () => {
 
     // redering component here
     const { debug, findByText, queryAllByTestId,getByLabelText,getAllByTestId,container,queryByText } = render(<Profile />, {
-      route: "/app/profile1",
+      route: "/app/employeeProfile",
     });
     //checking that text is present or not
     await findByText("Prapti Anil Gomekar");
@@ -390,7 +390,7 @@ describe("empConfirm.test.tsx", () => {
 
     // redering component here
     const { debug, findByText, queryAllByTestId,getByLabelText,getAllByTestId,container,queryByText } = render(<Profile />, {
-      route: "/app/profile1",
+      route: "/app/employeeProfile",
     });
     //checking that text is present or not
     await findByText("Prapti Anil Gomekar");

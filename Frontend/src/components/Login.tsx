@@ -52,11 +52,11 @@ const Login = (props: RouteComponentProps) => {
         if (role === "superAdmin") {
           navigate("/app/superadmin")
         } else if (role === "hrAdmin") {
-          navigate("/app/hrdashboard")
+          navigate("/app/hrDashBoard")
         } else if (role === "owner") {
           navigate("/app/owner")
         } else {
-          navigate("/app/profile1")
+          navigate("/app/employeeProfile")
         }
       }
     }
@@ -70,7 +70,7 @@ const Login = (props: RouteComponentProps) => {
         } else if (user.role === "superAdmin") {
           navigate("/app/superadmin")
         } else if (user.role === "user") {
-          navigate("/app/profile1")
+          navigate("/app/employeeProfile")
         }
       }
     }

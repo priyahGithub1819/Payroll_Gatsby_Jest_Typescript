@@ -90,8 +90,8 @@ describe("PF management dashboard page test case", () => {
 
     const link = getByTestId("arrowLink");
     userEvent.click(link);
-    window.history.pushState({}, "", "/app/hrdashboard");
-    expect(window.location.pathname).toBe("/app/hrdashboard");
+    window.history.pushState({}, "", "/app/hrDashBoard");
+    expect(window.location.pathname).toBe("/app/hrDashBoard");
   });
   
 });

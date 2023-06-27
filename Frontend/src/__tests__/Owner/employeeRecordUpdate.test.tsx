@@ -3,7 +3,7 @@ import { render } from "../../test_Util/custom_render_function";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import userEvent from "@testing-library/user-event";
-import UpdateEmp from "../../pages/Owner//empRecordUpdate";
+import UpdateEmp from "../../pages/Owner/empRecordUpdate";
 import { getByTestId, waitFor } from "@testing-library/dom";
 import "@testing-library/jest-dom/extend-expect";
 

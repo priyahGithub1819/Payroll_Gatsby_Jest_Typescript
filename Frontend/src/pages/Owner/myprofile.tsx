@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { loadUser } from "../../services/apiFunction";
-import Ownerprofilebar from "../Owner/ownerProfilebar";
+import Ownerprofilebar from "./ownerProfilebar";
 
 const Myprofile = () => {
   const [user, setUser] = useState({});

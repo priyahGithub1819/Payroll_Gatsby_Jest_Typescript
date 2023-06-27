@@ -677,12 +677,12 @@ h4.card-title {
   padding: 10px;
 }
 
-.hrDashboard {
+.hrDashBoard {
   min-height: 67.2vh;
   max-width: 90% !important;
 }
 
-.hrDashboardH2 {
+.hrDashBoardH2 {
   background-color: #00adad;
   width: 88%;
   text-align: center;
@@ -691,15 +691,15 @@ h4.card-title {
   border-radius: 40px;
 }
 
-.hrDashboardDiv {
+.hrDashBoardDiv {
   background-color: #ffceb9 !important;
 }
 
-.hrDashboardDiv h3 {
+.hrDashBoardDiv h3 {
   font-size: 18px !important;
 }
 
-.hrDashboardDiv:hover {
+.hrDashBoardDiv:hover {
   background-color: #ffb696 !important;
   transform: translate(0, 0.375em);
   transition: 0.3s ease-in-out;
@@ -1971,7 +1971,7 @@ button.nextBtn:active::after {
     min-height: 77.5vh;
   }
 
-  .hrDashboard {
+  .hrDashBoard {
     min-height: 70.7vh;
   }
 

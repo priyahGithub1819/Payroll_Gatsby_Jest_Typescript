@@ -100,7 +100,7 @@ describe("Upload final candidate list test case", () => {
     const { getByTestId } = render(<ShortlistedCandidate />);
     const link = getByTestId("arrowLink");
     userEvent.click(link);
-    window.history.pushState({}, "", "/app/hrdashboard");
-    expect(window.location.pathname).toBe("/app/hrdashboard");
+    window.history.pushState({}, "", "/app/hrDashBoard");
+    expect(window.location.pathname).toBe("/app/hrDashBoard");
   });
 });

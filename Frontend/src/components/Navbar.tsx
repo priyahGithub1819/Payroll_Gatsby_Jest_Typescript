@@ -51,17 +51,17 @@ const allRoleLinks: any = {
   accountEmployee: [
     { href: "/", text: "Home |" },
     { href: "/account", text: "Accounting |" },
-    { href: "/app/profile1", text: "My Profile |" },
+    { href: "/app/employeeProfile", text: "My Profile |" },
   ],
   technicalEmployee: [
     { href: "/", text: "Home |" },
     { href: "/projects", text: "Projects |" },
-    { href: "/app/profile1", text: "My Profile |" },
+    { href: "/app/employeeProfile", text: "My Profile |" },
   ],
   marketingEmployee: [
     { href: "/", text: "Home |" },
     { href: "/marketing", text: "Marketing & New Leads |" },
-    { href: "/app/profile1", text: "My Profile |" },
+    { href: "/app/employeeProfile", text: "My Profile |" },
   ],
 };
 

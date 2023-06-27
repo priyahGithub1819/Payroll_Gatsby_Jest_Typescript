@@ -24,7 +24,7 @@ export default function EmployeeList() {
       <div className="container-fluid HrEmployeeContainer margin">
         <div className="row justify-content-center">
           <div className="col-lg-10">
-            <Link to="/app/hrdashboard">
+            <Link to="/app/hrDashBoard">
               <i
                 className="bi bi-arrow-left-circle-fill"
                 data-testid="leftArrow"

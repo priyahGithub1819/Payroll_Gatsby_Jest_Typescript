@@ -1,5 +1,5 @@
 import React from "react";
-import HRDashboard from "../../pages/HR Management/HrDashboard";
+import hrDashBoard from "../../pages/HR Management/hrDashBoard";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { act, screen, cleanup } from "@testing-library/react";
@@ -10,7 +10,7 @@ import "@testing-library/jest-dom/extend-expect";
 const server = setupServer();
 
 const routes = [
-  { path: "/app/hrdashboard/", component: HRDashboard },
+  { path: "/app/hrDashBoard/", component: hrDashBoard },
   {
     path: "/HR%20Management/employee/",
     component: () => <h1>view employee list page render now</h1>,
@@ -111,7 +111,7 @@ describe("Testing candidate selection page", () => {
     loadUser();
     const { queryByText, debug, findByText } = await act(() =>
       multiRender(routes, {
-        path: "/app/hrdashboard/",
+        path: "/app/hrDashBoard/",
       })
     );
     expect(queryByText("Hr Admin Dashboard")).toBeInTheDocument();
@@ -121,7 +121,7 @@ describe("Testing candidate selection page", () => {
     loadUser();
     await act(() =>
       multiRender(routes, {
-        path: "/app/hrdashboard/",
+        path: "/app/hrDashBoard/",
       })
     );
     expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();
@@ -144,7 +144,7 @@ describe("Testing candidate selection page", () => {
     loadUser();
     await act(() =>
       multiRender(routes, {
-        path: "/app/hrdashboard/",
+        path: "/app/hrDashBoard/",
       })
     );
     expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();
@@ -167,7 +167,7 @@ describe("Testing candidate selection page", () => {
     loadUser();
     await act(() =>
       multiRender(routes, {
-        path: "/app/hrdashboard/",
+        path: "/app/hrDashBoard/",
       })
     );
     expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();
@@ -190,7 +190,7 @@ describe("Testing candidate selection page", () => {
     loadUser();
     await act(() =>
       multiRender(routes, {
-        path: "/app/hrdashboard/",
+        path: "/app/hrDashBoard/",
       })
     );
     expect(screen.queryByText("Hr Admin Dashboard")).toBeInTheDocument();

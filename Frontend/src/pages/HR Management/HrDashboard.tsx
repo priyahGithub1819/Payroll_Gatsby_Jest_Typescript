@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "gatsby";
 
-const HrDashboard = () => {
+const hrDashBoard = () => {
   return (
     <>
       <section className="mt-5" style={{ minHeight: "65vh" }}>
-        <div className="container hrDashboard">
-          <h2 className="text-center hrDashboardH2" data-testid="hrHeading">
+        <div className="container hrDashBoard">
+          <h2 className="text-center hrDashBoardH2" data-testid="hrHeading">
             Hr Admin Dashboard
           </h2>
           <div className="row justify-content-center mt-5" id="access">
             <div
-              className="col-lg-2 card  p-3 m-3 hrDashboardDiv"
+              className="col-lg-2 card  p-3 m-3 hrDashBoardDiv"
               role="HrCard"
             >
               <h3 className="text-center">View Employees List</h3>
@@ -28,7 +28,7 @@ const HrDashboard = () => {
               </Link>
             </div>
             <div
-              className=" col-lg-2 card p-3 m-3 hrDashboardDiv"
+              className=" col-lg-2 card p-3 m-3 hrDashBoardDiv"
               role="HrCard"
             >
               <h3 className="text-center">
@@ -47,7 +47,7 @@ const HrDashboard = () => {
               </Link>
             </div>
             <div
-              className=" col-lg-2 card p-3 m-3 hrDashboardDiv"
+              className=" col-lg-2 card p-3 m-3 hrDashBoardDiv"
               role="HrCard"
             >
               <h3 className="text-center">Upload Candidates List</h3>
@@ -64,7 +64,7 @@ const HrDashboard = () => {
               </Link>
             </div>
             <div
-              className=" col-lg-2 card p-3 m-3 hrDashboardDiv"
+              className=" col-lg-2 card p-3 m-3 hrDashBoardDiv"
               role="HrCard"
             >
               <h3 className="text-center">PF management</h3>
@@ -83,4 +83,4 @@ const HrDashboard = () => {
   );
 };
 
-export default HrDashboard;
+export default hrDashBoard;

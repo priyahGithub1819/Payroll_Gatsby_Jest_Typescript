@@ -19,9 +19,9 @@ const Profile = () => {
             <div className="row justify-content-center">
               <div className="hrAdminBtnDiv col-lg-10 ">
                 <a
-                  href="/app/hrdashboard"
+                  href="/app/hrDashBoard"
                   role="button"
-                  data-testid="hrdashboardBtn"
+                  data-testid="hrDashBoardBtn"
                   className="btn btn-outline-secondary hrAdminBtn mr-3"
                 >
                   My Dashboard

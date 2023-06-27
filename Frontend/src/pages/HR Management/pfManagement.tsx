@@ -7,7 +7,7 @@ export default function pf() {
     <Layout>
       <div className="container pfManagementContainer">
         <div className="row justify-content-center">
-          <Link to="/app/hrdashboard" data-testid="arrowLink">
+          <Link to="/app/hrDashBoard" data-testid="arrowLink">
             <i
               className="bi bi-arrow-left-circle-fill"
               data-testid="leftArrow"

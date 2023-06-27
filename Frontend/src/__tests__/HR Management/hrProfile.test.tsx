@@ -17,7 +17,7 @@ const routes = [
     component: HRProfile,
   },
   {
-    path: "/app/hrdashboard",
+    path: "/app/hrDashBoard",
     component: () => <h1>Hr dashboard render now</h1>,
   },
 ];
@@ -124,7 +124,7 @@ describe("Testing candidate selection page", () => {
     expect(screen.queryByText("Hr Admin Profile")).toBeInTheDocument();
     await screen.findByText("Employee ID : UISPL0005");
 
-    const myDashboardBtn = screen.getByTestId("hrdashboardBtn");
+    const myDashboardBtn = screen.getByTestId("hrDashBoardBtn");
     userEvent.click(myDashboardBtn);
 
     cleanup();
