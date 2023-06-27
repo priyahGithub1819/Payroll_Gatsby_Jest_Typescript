@@ -17,9 +17,11 @@ const App = () => {
 
     let l = await allUserData();
     const payrollUser = l.employeeData;
+    // console.log(data)
 
     let k = await getAllPfEmpData();
     const empPaymentData = k.empInfo;
+    console.log(empPaymentData);
 
     let pfUser = new Map();
 
@@ -27,7 +29,10 @@ const App = () => {
       pfUser.set(empPaymentData[i].empId, i);
     }
 
+    // console.log(user)
+
     for (let i = 0; i < payrollUser.length; i++) {
+      // console.log(user.get(empPaymentData[i].empId))
       if (pfUser.has(payrollUser[i].payrollData.empId)) {
         combinedData.push({
           ...payrollUser[i],
@@ -38,6 +43,7 @@ const App = () => {
         combinedData.push({ ...payrollUser[i] });
       }
     }
+    console.log(combinedData);
 
     setRecords(combinedData);
   };
@@ -134,6 +140,9 @@ const App = () => {
     mName: string,
     mDOB: any
   ) => {
+    console.log(status);
+    console.log(sDOB);
+    console.log(c1DOB);
     setModalIsOpen(true);
     setTimeout(() => {
       var input = document.getElementById("common-modal") as HTMLInputElement;
@@ -356,6 +365,7 @@ const App = () => {
           <div className="col-lg-9">
             <div className="row ownerColumn justify-content-center">
               <div className="margin col-xl-11 col-lg-10 col-md-10 col-sm-6 wrapper">
+                {/* <div className="col-lg-11"> */}
                 <h2 className="text-center tableHeading">
                   View All Employee Details
                 </h2>
@@ -365,6 +375,7 @@ const App = () => {
                     Export to Excel
                   </button>
                 </h5>
+                {/* </div> */}
                 <div className="AllEmpListTable">
                   <table className="table table-bordered css-serial">
                     <thead>
@@ -469,7 +480,7 @@ const App = () => {
                               </td>
                               <td>
                                 <button
-                                  id="modalbtn5"
+                                  data-testid="modalbtn5"
                                   onClick={() =>
                                     onButtonClick4(
                                       record.empPaymentData.paymentType,
@@ -493,19 +504,20 @@ const App = () => {
           </div>
         </div>
         {/* modal */}
-        <Modal isOpen={modalIsOpen} test-dataid="myModal">
+        <Modal isOpen={modalIsOpen} data-testid="myModal">
           <h1 className="heading text-center pt-4" id="heading"></h1>
           <div style={{ overflowX: "scroll", width: "100%" }}>
             <div className="familyInformation" id="common-modal"></div>
           </div>
           <div>
-            <button className="modalbtn" onClick={() => setModalIsOpen(false)}>
+            <button className="modalbtn" data-testid= "closeBtn"onClick={() => setModalIsOpen(false)}>
               Close
             </button>
           </div>
         </Modal>
       </div>
     </Layout>
+    // </div>
   );
 };
 export default App;

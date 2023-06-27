@@ -7,8 +7,6 @@ import {
 } from "@reach/router";
 import SuperaAdmin from "../../pages/superAdmin/SuperAdmin";
 import Superadmin from "../../pages/superAdmin/addEmployee";
-import App from "../../pages/superAdmin/viewAllEmployee";
-import Layout from "../../components/Layout";
 import userEvent from "@testing-library/user-event";
 import '@testing-library/jest-dom/extend-expect'; 
 
@@ -20,7 +18,7 @@ const render = (ui: any, { route = "/app/superadmin" } = {}) => {
 };
 
 describe("SuperAdmin's dashboard", () => {
-  it.only("should navigate to a Add employee to the payroll on button click", () => {
+  it("should navigate to a Add employee to the payroll on button click", () => {
     window.history.pushState({}, "", "/app/superadmin");
     //Rendering the component
     const { debug, getByText, getByTestId } = render(<SuperaAdmin />);
@@ -30,10 +28,9 @@ describe("SuperAdmin's dashboard", () => {
     //Checking that path is change or not
     const myPath = window.location.pathname;
     expect(myPath).toBe("/superAdmin/addEmployee/");
-    // debug()
   });
-  it.only('should render the correct content on the Add Employee page', () => {
-    
+
+  it('should render the correct content on the Add Employee page', () => {
       // Render the component inside a Router with a specific route
       render(<Superadmin />, { route: '/superAdmin/addEmployee/' });
     
@@ -51,7 +48,6 @@ describe("SuperAdmin's dashboard", () => {
     window.history.pushState({}, "", "/superAdmin/viewAllEmployee/");
     //Checking that path is change or not
     expect(window.location.pathname).toBe("/superAdmin/viewAllEmployee/");
-    // debug()
   });
 
   it("should navigate to a Upload Bulk Employee on button click", () => {
@@ -63,6 +59,5 @@ describe("SuperAdmin's dashboard", () => {
     window.history.pushState({}, "", "/superAdmin/addBulkEmployee/");
     //Checking that path is change or not
     expect(window.location.pathname).toBe("/superAdmin/addBulkEmployee/");
-    // debug()
   });
 });
