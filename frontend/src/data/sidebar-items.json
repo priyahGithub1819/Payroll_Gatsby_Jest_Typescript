@@ -1,0 +1,14 @@
+[
+    {
+        "label": "Introduction",
+        "link": "/introduction"
+    },
+    {
+        "label": "Style",
+        "link": "/style"
+    },
+    {
+        "label": "Accessibility",
+        "link": "/accessibility"
+    }
+]

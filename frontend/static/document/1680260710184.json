@@ -1,0 +1,476 @@
+[{
+  "_id": {
+    "$oid": "63c944c51c8b4eaa0278661b"
+  },
+  "employeeId": "UISPL0001",
+  "name": {
+    "firstName": "Sagar",
+    "middleName": "Changdev ",
+    "lastName": "Tilekar"
+  },
+  "personalEmail": "sagar@gmail.com",
+  "mobile": {
+    "countryCode": "+91",
+    "number": {
+      "$numberLong": "8855853940"
+    }
+  },
+  "gender": "Male",
+  "dateOfJoining": {
+    "$date": {
+      "$numberLong": "1645747200000"
+    }
+  },
+  "maritalStatus": "MARRIED",
+  "probationPeriod": 3,
+  "confirmationDate": {
+    "$date": {
+      "$numberLong": "1653417000000"
+    }
+  },
+  "dateOfBirth": {
+    "$date": {
+      "$numberLong": "806198400000"
+    }
+  },
+  "employmentStatus": "active",
+  "employmentType": "FTE",
+  "designation": "ALL",
+  "department": "ALL",
+  "primarySkills": [
+    "HTML",
+    "HTML5",
+    "CSS",
+    "JAVASCRIPT",
+    "REACTJS"
+  ],
+  "role": [
+    "SUPERADMIN",
+    "ADMIN",
+    "USER"
+  ],
+  "access": [
+    "READ",
+    "CREATE",
+    "MODIFY",
+    "DELETE"
+  ],
+  "address": {
+    "currentAddress": {
+      "area": "Khamgaon",
+      "street": "Flat no2",
+      "landmark": "Daund",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": 412214
+    },
+    "permanentAddress": {
+      "area": "Khamgaon",
+      "street": "Flat no2",
+      "landmark": "Daund",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": 412214
+    }
+  },
+  "emergencyContactPersons": {
+    "person1": {
+      "name": "Sachin Yadav",
+      "contactno": {
+        "countryCode": "+91",
+        "number": {
+          "$numberLong": "9844553653"
+        }
+      },
+      "relation": "Brother"
+    },
+    "person2": {
+      "name": "Shubham Parab",
+      "contactno": {
+        "countryCode": "+60",
+        "number": {
+          "$numberLong": "7667666565"
+        }
+      },
+      "relation": "Friend"
+    }
+  },
+  "sameAddress": true,
+  "lastUpdatedBy": {
+    "employeeId": "UISPL0002",
+    "email": "ankitm@uvxcel.com",
+    "name": {
+      "firstName": "Ankit",
+      "middleName": "",
+      "lastName": "Mishra"
+    },
+    "timeStamp": {
+      "$date": {
+        "$numberLong": "1674134562982"
+      }
+    }
+  },
+  "createdDetails": {
+    "createdBy": {
+      "employeeId": "UISPL0002",
+      "email": "ankitm@uvxcel.com",
+      "name": {
+        "firstName": "Ankit",
+        "middleName": "",
+        "lastName": "Mishra"
+      },
+      "timeStamp": {
+        "$date": {
+          "$numberLong": "1674133858037"
+        }
+      }
+    },
+    "approvedBy": {
+      "employeeId": "UISPL0002",
+      "email": "ankitm@uvxcel.com",
+      "name": {
+        "firstName": "Ankit",
+        "middleName": "",
+        "lastName": "Mishra"
+      },
+      "timeStamp": {
+        "$date": {
+          "$numberLong": "1674134562982"
+        }
+      }
+    }
+  },
+  "__v": 0,
+  "project": [],
+  "email": "sagart@uvxcel.com",
+  "password": "$2a$10$17.JbRusY9.7gp1o2svR/.mbSTpNMKLxDfns9RpMU0zN/oWb3ljNy",
+  "assets": [
+    {
+      "assetId": "UA0002",
+      "assetName": "HP i-3",
+      "assetType": "LAPTOP",
+      "assetDescription": "testing",
+      "dateOfAllocation": "2023-02-24",
+      "assetSerialNumber": "MAJSHJAHSH",
+      "_id": {
+        "$oid": "63f86f2e6f8b7de5726dc433"
+      }
+    },
+    {
+      "assetId": "UA0004",
+      "assetName": "Lollipop",
+      "assetType": "MOUSE",
+      "assetDescription": "abcd",
+      "dateOfAllocation": "2023-02-27",
+      "assetSerialNumber": "Lolly1234",
+      "_id": {
+        "$oid": "63f8991271694f045ef35912"
+      }
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "63d7b77ba819242ecea2d9fb"
+  },
+  "employeeId": "I0002",
+  "name": {
+    "firstName": "Ashutosh ",
+    "middleName": "Nandkumar",
+    "lastName": "Akkole"
+  },
+  "personalEmail": "ashu@gmail.com",
+  "mobile": {
+    "countryCode": "+91",
+    "number": {
+      "$numberLong": "8998988998"
+    }
+  },
+  "gender": "Male",
+  "dateOfJoining": {
+    "$date": {
+      "$numberLong": "1673827200000"
+    }
+  },
+  "maritalStatus": "SINGLE",
+  "probationPeriod": 6,
+  "confirmationDate": {
+    "$date": {
+      "$numberLong": "1689445800000"
+    }
+  },
+  "dateOfBirth": {
+    "$date": {
+      "$numberLong": "997488000000"
+    }
+  },
+  "employmentStatus": "active",
+  "employmentType": "INTERN",
+  "designation": "IT MANAGER",
+  "department": "IT",
+  "primarySkills": [
+    "REACTJS",
+    "NODEJS",
+    "MONGODB",
+    "HTML"
+  ],
+  "role": [
+    "USER"
+  ],
+  "access": [
+    "READ"
+  ],
+  "address": {
+    "currentAddress": {
+      "area": "flat no 302",
+      "street": "Ichalkaranji",
+      "landmark": "inchalkarnji",
+      "city": "kolhapur",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": 123321
+    },
+    "permanentAddress": {
+      "area": "flat no 302",
+      "street": "Ichalkaranji",
+      "landmark": "inchalkarnji",
+      "city": "kolhapur",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": 123321
+    }
+  },
+  "emergencyContactPersons": {
+    "person1": {
+      "name": "sagar tilekar",
+      "contactno": {
+        "countryCode": "+91",
+        "number": {
+          "$numberLong": "2345668665"
+        }
+      },
+      "relation": "Brother"
+    },
+    "person2": {
+      "name": "Sachin Yadav",
+      "contactno": {
+        "countryCode": "+91",
+        "number": {
+          "$numberLong": "2345668665"
+        }
+      },
+      "relation": "Friend"
+    }
+  },
+  "sameAddress": true,
+  "lastUpdatedBy": {
+    "employeeId": "UISPL0001",
+    "email": "sagart@uvxcel.com",
+    "name": {
+      "firstName": "Sagar",
+      "middleName": "Changdev ",
+      "lastName": "Tilekar"
+    },
+    "timeStamp": {
+      "$date": {
+        "$numberLong": "1675081719774"
+      }
+    }
+  },
+  "createdDetails": {
+    "createdBy": {
+      "employeeId": "UISPL0001",
+      "email": "sagart@uvxcel.com",
+      "name": {
+        "firstName": "Sagar",
+        "middleName": "Changdev ",
+        "lastName": "Tilekar"
+      },
+      "timeStamp": {
+        "$date": {
+          "$numberLong": "1675081595670"
+        }
+      }
+    },
+    "approvedBy": {
+      "employeeId": "UISPL0001",
+      "email": "sagart@uvxcel.com",
+      "name": {
+        "firstName": "Sagar",
+        "middleName": "Changdev ",
+        "lastName": "Tilekar"
+      },
+      "timeStamp": {
+        "$date": {
+          "$numberLong": "1675081719774"
+        }
+      }
+    }
+  },
+  "__v": 0,
+  "project": [],
+  "email": "ashutosha@uvxcel.com",
+  "password": "$2a$10$OjYIEu/uAWIstRR3rkqLl.cXfkGuP31.u0fFwmm4nnbA7MVyW67HO"
+},{
+  "_id": {
+    "$oid": "63f59f442a8daac35403feda"
+  },
+  "employeeId": "UISPL0002",
+  "name": {
+    "firstName": "Sachin",
+    "middleName": "",
+    "lastName": "Yadav"
+  },
+  "personalEmail": "sachin001@gmail.com",
+  "mobile": {
+    "countryCode": "+91",
+    "number": {
+      "$numberLong": "9966787676"
+    }
+  },
+  "gender": "Male",
+  "dateOfJoining": {
+    "$date": {
+      "$numberLong": "1675209600000"
+    }
+  },
+  "maritalStatus": "SINGLE",
+  "probationPeriod": 3,
+  "confirmationDate": {
+    "$date": {
+      "$numberLong": "1682879400000"
+    }
+  },
+  "dateOfBirth": {
+    "$date": {
+      "$numberLong": "897609600000"
+    }
+  },
+  "employmentStatus": "active",
+  "employmentType": "FTE",
+  "designation": "IT MANAGER",
+  "department": "IT",
+  "primarySkills": [
+    "REACTJS",
+    "NODEJS",
+    "MONGODB",
+    "HTML5",
+    "HTML",
+    "CSS",
+    "JAVASCRIPT",
+    "POSTMAN"
+  ],
+  "role": [
+    "ADMIN",
+    "USER"
+  ],
+  "access": [
+    "READ",
+    "CREATE"
+  ],
+  "address": {
+    "currentAddress": {
+      "area": "yavat",
+      "street": "Flat no2",
+      "landmark": "Nagar",
+      "city": "Amravati",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": 102020
+    },
+    "permanentAddress": {
+      "area": "yavat",
+      "street": "Flat no2",
+      "landmark": "Nagar",
+      "city": "Amravati",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": 102020
+    }
+  },
+  "emergencyContactPersons": {
+    "person1": {
+      "name": "Sagar Tilekar",
+      "contactno": {
+        "countryCode": "+91",
+        "number": {
+          "$numberLong": "8856556789"
+        }
+      },
+      "relation": "Brother"
+    },
+    "person2": {
+      "name": "Shubham Parab",
+      "contactno": {
+        "countryCode": "+91",
+        "number": {
+          "$numberLong": "8856556788"
+        }
+      },
+      "relation": "Friend"
+    }
+  },
+  "sameAddress": true,
+  "lastUpdatedBy": {
+    "employeeId": "UISPL0001",
+    "email": "sagart@uvxcel.com",
+    "name": {
+      "firstName": "Sagar",
+      "middleName": "Changdev ",
+      "lastName": "Tilekar"
+    },
+    "timeStamp": {
+      "$date": {
+        "$numberLong": "1677060267158"
+      }
+    }
+  },
+  "createdDetails": {
+    "createdBy": {
+      "employeeId": "UISPL0001",
+      "email": "sagart@uvxcel.com",
+      "name": {
+        "firstName": "Sagar",
+        "middleName": "Changdev ",
+        "lastName": "Tilekar"
+      },
+      "timeStamp": {
+        "$date": {
+          "$numberLong": "1677041476029"
+        }
+      }
+    },
+    "approvedBy": {
+      "employeeId": "UISPL0001",
+      "email": "sagart@uvxcel.com",
+      "name": {
+        "firstName": "Sagar",
+        "middleName": "Changdev ",
+        "lastName": "Tilekar"
+      },
+      "timeStamp": {
+        "$date": {
+          "$numberLong": "1677060267158"
+        }
+      }
+    }
+  },
+  "__v": 0,
+  "project": [],
+  "email": "sachiny@uvxcel.com",
+  "assets": [
+    {
+      "assetId": "UA0007",
+      "assetName": "Dell01",
+      "assetType": "LAPTOP",
+      "assetDescription": "RAM: 16GB\nHDD: 1TB\nGeneration: 12th ",
+      "dateOfAllocation": "2023-02-28",
+      "assetSerialNumber": "DE11OPLT",
+      "_id": {
+        "$oid": "63f8a7bf20a4632e1779dbcc"
+      }
+    }
+  ],
+  "tempPassword": "12345678"
+}]
