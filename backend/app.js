@@ -4,14 +4,14 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoDBConnect = require("connect-mongodb-session")(session);
-const payrollUser = require("./routers/payrollUserRouting");
-const ctcUpload = require("./routers/ctcRoute");
-const candiUpload = require("./routers/candidateRoute");
+const payrollUser = require("./routers/payroll-user-routing");
+const ctcUpload = require("./routers/ctc-route");
+const candiUpload = require("./routers/candidate-route");
 const dotenv = require("dotenv");
 const errormiddleware = require("./middleware/error");
 dotenv.config({ path: "backend/config/config.env" });
-const uploadDocument = require("./routers/uploadDocRouter");
-const uploadEmpPf = require("./routers/pfEmpRoute")
+const uploadDocument = require("./routers/upload-doc-router");
+const uploadEmpPf = require("./routers/pf-emp-route")
 
 const store = new mongoDBConnect({
   uri: process.env.MONGO,

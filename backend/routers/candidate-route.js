@@ -1,0 +1,41 @@
+const express = require("express");
+const router = express.Router();
+const {
+  createCandiInfo,
+  ownerData,
+  editCandiData,
+  singleCandi,
+  editRejectCandi,
+} = require("../controller/candidate-controller");
+const {
+  isAdmin,
+  isAuthenticated,
+  isNewEmployee,
+} = require("../middleware/is-authenticated");
+
+//Creating route for HR admin to upload candidate's Info
+router
+  .route("/payroll/candidate/all")
+  .post(isAuthenticated, isAdmin("hrAdmin"), createCandiInfo);
+
+//To Display candidate list to Owner
+router
+  .route("/owner/data")
+  .get(isAuthenticated, isAdmin("hrAdmin", "owner"), ownerData);
+
+//To edit status of Candidate
+router
+  .route("/edit-candi/:id")
+  .put(isAuthenticated, isAdmin("hrAdmin", "owner"), editCandiData);
+
+// To edit single candidate
+router
+  .route("/single-candi/:id")
+  .get(isAuthenticated, isAdmin("hrAdmin", "owner"), singleCandi);
+
+//To edit rejected candidate
+router
+  .route("/edit-rejectcandi/:id")
+  .put(isAuthenticated, isAdmin("hrAdmin", "owner"), editRejectCandi);
+
+module.exports = router;
