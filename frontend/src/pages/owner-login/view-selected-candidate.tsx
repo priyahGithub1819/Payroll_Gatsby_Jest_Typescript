@@ -1,50 +1,66 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
-import { getOwnerData } from "../../services/api-function";
-import { editCandiStatus } from "../../services/api-function";
+import { getOwnerData, editCandiStatus } from "../../services/api-function";
 import Sidebar from "../../components/Owners-sidebar";
-import { Link } from "gatsby";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const rejectedReasonInitialValue = {
+interface CandidateRecord {
+  candidateId: string;
+  candidateName: string;
+  eduQual: string;
+  primarySkill: string;
+  secondarySkill: string;
+  noticePeriod: string;
+  currentCTC: string;
+  expectedCTC: string;
+  candiStatus: string;
+}
+
+interface RejectedReason {
+  rejectedMessage: string;
+  id: string;
+  candidateName: string;
+}
+
+const rejectedReasonInitialValue: RejectedReason = {
   rejectedMessage: "",
   id: "",
   candidateName: "",
 };
-function App() {
-  const [candirecords, setCandirecords] = useState<any>([]);
-  const [rejectBoxShow, setRejectBoxShow] = useState<any>(false);
-  const [rejectReason, setRejectReason] = useState(rejectedReasonInitialValue);
 
-  //To get all candidates
+function App() {
+  const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
+  const [rejectBoxShow, setRejectBoxShow] = useState<boolean>(false);
+  const [rejectReason, setRejectReason] = useState<RejectedReason>(
+    rejectedReasonInitialValue
+  );
+
   const getAllCandidates = async () => {
-    let selectedCandi: any = [];
-    let data = await getOwnerData();
+    const selectedCandidates: CandidateRecord[] = [];
+    const data = await getOwnerData();
 
     if (data.success === true) {
       setCandirecords(data.candiInfo);
     }
 
-    data.candiInfo.map((d: any) => {
+    data.candiInfo.forEach((d: CandidateRecord) => {
       if (d.candiStatus === "Selected") {
-        selectedCandi.push(d);
+        selectedCandidates.push(d);
       }
     });
-    setCandirecords(selectedCandi);
+    setCandirecords(selectedCandidates);
   };
 
   useEffect(() => {
     getAllCandidates();
   }, []);
 
-  //To reject the candidate
   const saveRejectCandi = async () => {
     if (rejectReason.rejectedMessage) {
       toast.success(
-        "Candidate " + rejectReason.candidateName + " is rejected successfully"
+        `Candidate ${rejectReason.candidateName} is rejected successfully`
       );
       await editCandiStatus(rejectReason.id, {
         candiStatus: "Rejected",
@@ -58,14 +74,12 @@ function App() {
     }
   };
 
-  //To Onboard the candidate
-  const saveOnboardCandi = async (id: any, candidateName: any) => {
-    toast.success("Candidate " + id + " will be Onboard soon");
+  const saveOnboardCandi = async (id: string, candidateName: string) => {
+    toast.success(`Candidate ${id} will be onboarded soon`);
     editCandiStatus(id, { candiStatus: "Onboard" });
     getAllCandidates();
   };
 
-  //To display data on Webpage
   return (
     <Layout>
       <div className="OwnerContainer">
@@ -96,70 +110,62 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {candirecords &&
-                        candirecords.map((candirecord: any, Index: number) => {
-                          if (candirecord.candiStatus === "Selected") {
-                            return (
-                              <tr key={Index}>
-                                <td>{Index + 1}</td>
-                                <td>{candirecord.candidateId}</td>
-                                <td>{candirecord.candidateName}</td>
-                                <td>{candirecord.eduQual}</td>
-                                <td>{candirecord.primarySkill}</td>
-                                <td>{candirecord.secondarySkill}</td>
-                                <td>{candirecord.noticePeriod}</td>
-                                <td>{candirecord.currentCTC}</td>
-                                <td>{candirecord.expectedCTC}</td>
-                                <td>
-                                  <div className="col-4 offset-8 d-flex justify-content-end">
-                                    <button
-                                      className="btn btn-success"
-                                      data-testid="onboardBtn"
-                                      onClick={(e) =>
-                                        saveOnboardCandi(
-                                          candirecord.candidateId,
-                                          candirecord.candidateName
-                                        )
-                                      }
-                                    >
-                                      Onboard
-                                    </button>
-                                    <button
-                                      className="btn btn-danger"
-                                      data-testid="rejectBtn"
-                                      onClick={() => {
-                                        setRejectBoxShow(true);
-                                        setRejectReason({
-                                          ...rejectReason,
-                                          id: candirecord.candidateId,
-                                          candidateName:
-                                            candirecord.candidateName,
-                                        });
-                                      }}
-                                    >
-                                      Reject
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          }
-                        })}
+                      {candirecords.map((candirecord: CandidateRecord, index: number) => {
+                        if (candirecord.candiStatus === "Selected") {
+                          return (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{candirecord.candidateId}</td>
+                              <td>{candirecord.candidateName}</td>
+                              <td>{candirecord.eduQual}</td>
+                              <td>{candirecord.primarySkill}</td>
+                              <td>{candirecord.secondarySkill}</td>
+                              <td>{candirecord.noticePeriod}</td>
+                              <td>{candirecord.currentCTC}</td>
+                              <td>{candirecord.expectedCTC}</td>
+                              <td>
+                                <div className="col-4 offset-8 d-flex justify-content-end">
+                                  <button
+                                    className="btn btn-success"
+                                    data-testid="onboardBtn"
+                                    onClick={(e) =>
+                                      saveOnboardCandi(
+                                        candirecord.candidateId,
+                                        candirecord.candidateName
+                                      )
+                                    }
+                                  >
+                                    Onboard
+                                  </button>
+                                  <button
+                                    className="btn btn-danger"
+                                    data-testid="rejectBtn"
+                                    onClick={() => {
+                                      setRejectBoxShow(true);
+                                      setRejectReason({
+                                        ...rejectReason,
+                                        id: candirecord.candidateId,
+                                        candidateName: candirecord.candidateName,
+                                      });
+                                    }}
+                                  >
+                                    Reject
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      })}
                     </tbody>
                   </table>
                 </div>
-                {rejectBoxShow ? (
-                  <div
-                    data-testid="reject-msg-modal"
-                    className="modal RejectReasonModal "
-                  >
+                {rejectBoxShow && (
+                  <div data-testid="reject-msg-modal" className="modal RejectReasonModal ">
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
-                          <h1
-                            className="modal-title fs-5"
-                            id="exampleModalLabel"
-                          >
+                          <h1 className="modal-title fs-5" id="exampleModalLabel">
                             Select reason to reject the candidate{" "}
                           </h1>
                           <button
@@ -176,10 +182,7 @@ function App() {
                         <div className="modal-body">
                           <div className="mb-3">
                             <div className="myRejectClass">
-                              <label
-                                htmlFor="message-text"
-                                className="col-form-label"
-                              >
+                              <label htmlFor="message-text" className="col-form-label">
                                 Reasons:
                               </label>
                               <br></br>
@@ -298,8 +301,6 @@ function App() {
                       </div>
                     </div>
                   </div>
-                ) : (
-                  ""
                 )}
               </div>
             </div>
@@ -309,4 +310,5 @@ function App() {
     </Layout>
   );
 }
+
 export default App;

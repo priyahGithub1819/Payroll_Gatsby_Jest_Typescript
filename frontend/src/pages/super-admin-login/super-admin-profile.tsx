@@ -4,23 +4,79 @@ import { loadUser } from "../../services/api-function";
 import Layout from "../../components/Layout";
 import { Link } from "@reach/router";
 
+interface EmployeeData {
+employee:{
+  basic: {
+    confirmationDate: string;
+    dateOfBirth: string;
+    dateOfJoining: string;
+    department: string;
+    designation: string;
+    email: string;
+    employeeId: string;
+    employmentStatus: string;
+    employmentType: string;
+    gender: string;
+    maritalStatus: string;
+    countryCode: string;
+    number: number;
+    probationPeriod: number;
+    selectCount: number;
+    workLocation: string;
+    workMode: string;
+    mobile: {
+      countryCode: string;
+      number: number;
+    };
+    name: {
+      firstName: string;
+      lastName: string;
+      middleName: string;
+    };
+  };
+  payrollData: {
+    NameofSpouse: string;
+    relationship: string;
+    DOB: string;
+    child1: string;
+    child1Gender: string;
+    DOB1: string;
+    child2: string;
+    child2Gender: string;
+    DOB2: string;
+    DOB3: string;
+    DOB4: string;
+    NameofFather: string;
+    NameofMother: string;
+    empId: string;
+    empStatus: string;
+    numberOfMember: number;
+    password: string;
+    role: string;
+  };
+}
+success: boolean;
+}
+
 const Profile = () => {
-  const [user, setUser] = useState<any>({ success: false });
+  const [user, setUser] = useState<EmployeeData | undefined>();
+  console.log(user);
+  
   useEffect(() => {
     loadUser()
-      .then((data: any) => setUser(data))
+      .then((data: EmployeeData) => setUser(data))
       .catch(() => alert("refresh the page"));
   }, []);
   return (
     <>
-      {user.success ? (
+      {user && user.success ? (
         <Layout>
           <div className="container superAdminProfileContainer">
             <div className="row justify-content-center mt-5 ">
               <div className="col-lg-10 superAdminBtnDiv">
                 <Link
                   data-testid="myDashboard"
-                  to="/app/super-admin-dashboard"
+                  to="/app/super-admin-dashboard/"
                   className="btn btn-outline-secondary superAdminBtn mr-3"
                 >
                   My Dashboard

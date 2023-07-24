@@ -3,19 +3,21 @@ import Layout from "../../components/Layout";
 import { loadUser } from "../../services/api-function";
 import Ownerprofilebar from "./owner-profilebar";
 
-const Myprofile = () => {
+const Myprofile: React.FC = () => {
   const [user, setUser] = useState({});
+
   const getUser = async () => {
     const data = await loadUser();
     setUser(data);
   };
+
   useEffect(() => {
     getUser();
   }, []);
 
   return (
     <>
-      {user ? (
+      {user && (
         <Layout>
           <Ownerprofilebar />
           <div className="content">
@@ -58,10 +60,9 @@ const Myprofile = () => {
             </div>
           </div>
         </Layout>
-      ) : (
-        ""
       )}
     </>
   );
 };
+
 export default Myprofile;

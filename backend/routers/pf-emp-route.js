@@ -23,7 +23,7 @@ router
   .route("/pfEmp/data")
   .get(
     isAuthenticated,
-    isAdmin("hrAdmin", "super-admin-login", "technicalEmployee"),
+    isAdmin("hrAdmin", "superAdmin", "technicalEmployee"),
     getAllPfEmp
   );
 
@@ -33,7 +33,7 @@ router
   .route("/single-pfemp/:id")
   .get(
     isAuthenticated,
-    isAdmin("hrAdmin", "super-admin-login", "technicalEmployee"),
+    isAdmin("hrAdmin", "superAdmin", "technicalEmployee"),
     singlePfEmployee
   );
 

@@ -7,20 +7,33 @@ import Sidebar from "../../components/Owners-sidebar";
 import Modal from "react-modal";
 import { Link } from "gatsby";
 
+interface CandidateRecord {
+  candidateId: string;
+  candidateName: string;
+  eduQual: string;
+  primarySkill: string;
+  secondarySkill: string;
+  noticePeriod: string;
+  currentCTC: string;
+  expectedCTC: string;
+  candiStatus: string;
+  rejectedMessage: string;
+}
+
 function App() {
-  const [candirecords, setCandirecords] = useState<any>([]);
+  const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  //To get all Candidate data
+  // To get all Candidate data
   const getAllCandidates = async () => {
-    let rejectCandi: any = [];
+    let rejectCandi: CandidateRecord[] = [];
     let data = await getOwnerData();
 
     if (data.success === true) {
       setCandirecords(data.candiInfo);
     }
 
-    data.candiInfo.map((d: any) => {
+    data.candiInfo.map((d: CandidateRecord) => {
       if (d.candiStatus === "Rejected") {
         rejectCandi.push(d);
       }
@@ -28,7 +41,7 @@ function App() {
     setCandirecords(rejectCandi);
   };
 
-  const onButtonClick = (rejectedMessage: any) => {
+  const onButtonClick = (rejectedMessage: string) => {
     setModalIsOpen(true);
     setTimeout(() => {
       var commonModal = document.getElementById("common-modal") as HTMLElement;
@@ -68,13 +81,13 @@ function App() {
                         <th className="heading">Notice Period</th>
                         <th className="heading">Current CTC</th>
                         <th className="heading">Expected CTC</th>
-                        <th className="heading">Reson of Rejection</th>
+                        <th className="heading">Reason of Rejection</th>
                       </tr>
                     </thead>
                     <tbody>
                       {candirecords &&
-                        candirecords.map((candirecord: any, Index: number) => {
-                          if (candirecord.candiStatus == "Rejected") {
+                        candirecords.map((candirecord: CandidateRecord, Index: number) => {
+                          if (candirecord.candiStatus === "Rejected") {
                             return (
                               <tr key={Index}>
                                 <td>{Index + 1}</td>
@@ -87,7 +100,6 @@ function App() {
                                 <td>{candirecord.currentCTC}</td>
                                 <td>{candirecord.expectedCTC}</td>
                                 <td>
-                                  {" "}
                                   <button
                                     id="modalbtn"
                                     data-testid="seeDetailsBtn"
@@ -95,7 +107,7 @@ function App() {
                                       onButtonClick(candirecord.rejectedMessage)
                                     }
                                   >
-                                    See details{" "}
+                                    See details
                                   </button>
                                 </td>
                               </tr>
@@ -106,7 +118,6 @@ function App() {
                   </table>
                 </div>
                 <Modal ariaHideApp={false} isOpen={modalIsOpen}>
-                  {/* <Modal isOpen={modalIsOpen}> */}
                   <h1
                     data-testid="reject-Message-Model"
                     className="RejectMheading text-center pt-4"
@@ -135,4 +146,5 @@ function App() {
     </Layout>
   );
 }
+
 export default App;

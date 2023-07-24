@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import Layout from "../components/Layout";
 import Table from "react-bootstrap/Table";
 import Modal from "react-modal";
@@ -33,29 +33,118 @@ type ILeaves = {
   cl: number;
 };
 
-interface CalculateSalary extends ILeaves {
-  ctc: number;
-  month: string | number;
-  year: number;
-  present: number;
-  "privilege leave": ILeaves;
-  "sick leave": ILeaves;
-  totalBusinessDay: number;
-  "casual leave": ILeaves;
+interface SalaryValue {
+  EmployerContribution: number;
+  basicSalary: number;
+  conveyanceAllowances: number;
+  grossSalary: number;
+  houseAllowance: number;
+  leaveDeduction: number;
+  month: string;
+  pf: number;
+  pt: number;
+  roundupNetSalary: string;
+  sa: number;
+  specialAllowances: number;
+  totalPresentDays: number;
+  totalpaidLeaves: number;
+  unpaidLeaves: number;
+  year: string;
+}
+
+interface PreviousAttendance {
+  "casual leave": number;
   holiday: number;
+  month: string;
+  present: number;
+  "privilege leave": number;
+  "sick leave": number;
+  totalBusinessDay: number;
+  year: string;
+}
+
+interface CalculateSalary extends PreviousAttendance {
+  ctc: number;
+}
+
+interface EmployeeData {
+  basic: {
+    confirmationDate: string;
+    dateOfBirth: string;
+    dateOfJoining: string;
+    department: string;
+    designation: string;
+    email: string;
+    employeeId: string;
+    employmentStatus: string;
+    employmentType: string;
+    gender: string;
+    maritalStatus: string;
+    countryCode: string;
+    number: number;
+    probationPeriod: number;
+    selectCount: number;
+    workLocation: string;
+    workMode: string;
+    mobile: {
+      countryCode: string;
+      number: number;
+    };
+    name: {
+      firstName: string;
+      lastName: string;
+      middleName: string;
+    };
+  };
+  payrollData: {
+    NameofSpouse: string;
+    relationship: string;
+    DOB: string;
+    child1: string;
+    child1Gender: string;
+    DOB1: string;
+    child2: string;
+    child2Gender: string;
+    DOB2: string;
+    DOB3: string;
+    DOB4: string;
+    NameofFather: string;
+    NameofMother: string;
+    empId: string;
+    empStatus: string;
+    numberOfMember: number;
+    password: string;
+    role: string;
+  };
+  pfEmpData: {
+    aadharNumber: number;
+    accountNumber: number;
+    address: string;
+    bankName: string;
+    dateofRegistration: string;
+    empDob: string;
+    empId: string;
+    ifscCode: string;
+    name: string;
+    panNumber: string;
+    pfUanNumber: number;
+  };
 }
 
 const Profile = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal1IsOpen, setModal1IsOpen] = useState(false);
-  const [selectedAttendanceYear, setSelectedAttendanceYear] = useState<any>(
+  const [selectedAttendanceYear, setSelectedAttendanceYear] = useState<number>(
     new Date().getFullYear()
   );
+
   const [monthShow, setMonthShow] = useState(months);
-  const [selectedMonthsalaryData, setSelectedMonthsalaryData] = useState<any>(
-    []
-  );
-  const [validYear, setValidYear] = useState<any>([]);
+  const [selectedMonthsalaryData, setSelectedMonthsalaryData] = useState<
+    SalaryValue[]
+  >([]);
+
+  type MyType = number;
+  const [validYear, setValidYear] = useState<MyType[]>([]);
 
   // Download PDF functionality
   async function generatePDF() {
@@ -71,7 +160,7 @@ const Profile = () => {
   }
 
   //Function for show the previous month salary
-  async function showSalary(e: any) {
+  async function showSalary(e: ChangeEvent<HTMLSelectElement>) {
     if (e.target.value) {
       const d = await getUserData(
         Number(e.target.value),
@@ -81,7 +170,7 @@ const Profile = () => {
       if (d.success === true) {
         setSelectedMonthsalaryData([]);
         const monthListArray = Object.keys(d.finalData);
-        let fData: any = [];
+        let fData: SalaryValue[] = [];
         monthListArray.map((month, i) => {
           fData.push(
             calculateSalaryDetail({
@@ -164,10 +253,14 @@ const Profile = () => {
     }
   };
 
-  const [records, setRecords] = useState<any>();
+  const [records, setRecords] = useState<EmployeeData>();
+  console.log(records);
+
   const [ctc, setCtc] = useState();
-  const [previousMonthAttendance, setPreviousMonthAttendance] = useState<any>();
-  const [previousMonthsalaryData, setPreviousMonthsalaryData] = useState<any>();
+  const [previousMonthAttendance, setPreviousMonthAttendance] =
+    useState<PreviousAttendance>();
+  const [previousMonthsalaryData, setPreviousMonthsalaryData] =
+    useState<SalaryValue>();
 
   //Function to findout the number of days in month
   function getDaysInMonth(year: number, month: number) {
@@ -185,10 +278,10 @@ const Profile = () => {
     totalBusinessDay,
     "casual leave": cl,
     holiday,
-  }: CalculateSalary) => {
+  }: CalculateSalary): SalaryValue => {
     const getmonth = String(month);
     const daysOfPreviousMonth = getDaysInMonth(
-      year,
+      Number(year),
       months.indexOf(getmonth) + 1
     );
     let totalCtc = Number(ctc);
@@ -231,13 +324,13 @@ const Profile = () => {
       pt,
       EmployerContribution,
       sa,
-      month,
-      year,
+      month: String(month),
+      year: String(year),
     };
   };
 
   // Fetching the data from database
-  const getEmployeeData = async (monthData: any) => {
+  const getEmployeeData = async (monthData: MonthValue) => {
     // for data of logged in employee
     let l = await loadUser();
     const data = l.employee;
@@ -246,7 +339,7 @@ const Profile = () => {
 
     // for Particular employee CTC
     let CTC = await getMyCTC();
-    
+
     // for attendance of an employee
     let presentData = await getUserData(monthData.month, monthData.year);
 
@@ -281,7 +374,7 @@ const Profile = () => {
 
   useEffect(() => {
     const d = new Date();
-    const oldMonth = new Date(d.getFullYear(), d.getMonth() - 1);
+    const oldMonth: Date = new Date(d.getFullYear(), d.getMonth() - 1);
     let monthData: MonthValue = {
       month: oldMonth.getMonth(),
       year: oldMonth.getFullYear(),
@@ -291,6 +384,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (records && records.basic.dateOfJoining) {
+      console.log(records);
       let cYear = new Date().getFullYear();
       let setYear = [];
       while (cYear >= new Date(records.basic.dateOfJoining).getFullYear()) {
@@ -300,23 +394,25 @@ const Profile = () => {
       setValidYear(setYear);
 
       if (selectedAttendanceYear) {
+        console.log(records.basic.dateOfJoining);
+        
         if (
           Number(selectedAttendanceYear) ===
-            new Date(records.joiningDate).getFullYear() &&
+            new Date(records.basic.dateOfJoining).getFullYear() &&
           Number(selectedAttendanceYear) === new Date().getFullYear()
         ) {
           setMonthShow(
             months.slice(
-              new Date(records.joiningDate).getMonth(),
+              new Date(records.basic.dateOfJoining).getMonth(),
               new Date().getMonth()
             )
           );
         } else if (
           Number(selectedAttendanceYear) ===
-            new Date(records.joiningDate).getFullYear() &&
+            new Date(records.basic.dateOfJoining).getFullYear() &&
           Number(selectedAttendanceYear) !== new Date().getFullYear()
         ) {
-          setMonthShow(months.slice(new Date(records.joiningDate).getMonth()));
+          setMonthShow(months.slice(new Date(records.basic.dateOfJoining).getMonth()));
         } else if (Number(selectedAttendanceYear) < new Date().getFullYear()) {
           setMonthShow(months);
         } else if (
@@ -326,9 +422,10 @@ const Profile = () => {
         }
       }
     }
-    if (ctc) {
+    if (ctc && previousMonthAttendance) {
+      console.log(ctc);
       setPreviousMonthsalaryData(
-        calculateSalaryDetail({ ctc, ...previousMonthAttendance })
+        calculateSalaryDetail({ ctc: ctc, ...previousMonthAttendance })
       );
     }
   }, [previousMonthAttendance, selectedAttendanceYear, ctc, records]);
@@ -339,17 +436,17 @@ const Profile = () => {
     status: string,
     Nspouse: string,
     relationship: string,
-    sDOB: any,
+    sDOB: string,
     c1Name: string,
     c1Gender: string,
-    c1DOB: any,
+    c1DOB: string,
     c2Name: string,
     c2Gender: string,
-    c2DOB: any,
+    c2DOB: string,
     fName: string,
-    fDOB: any,
+    fDOB: string,
     mName: string,
-    mDOB: any
+    mDOB: string
   ) => {
     setModalIsOpen(true);
     setTimeout(() => {
@@ -790,13 +887,15 @@ ${
                     style={
                       ctc == undefined ? { color: "#AAAAAA" } : { color: "" }
                     }
-                    onChange={(e) => setSelectedAttendanceYear(e.target.value)}
+                    onChange={(e) =>
+                      setSelectedAttendanceYear(Number(e.target.value))
+                    }
                   >
                     <option hidden value="">
                       {" "}
                       Select year
                     </option>
-                    {validYear.map((y: any) => (
+                    {validYear.map((y: number) => (
                       <option key={y} value={y}>
                         {y}
                       </option>
@@ -821,7 +920,7 @@ ${
                     </option>
                     {monthShow.map((m, index) => {
                       return (
-                        <option key={m} value={index}>
+                        <option key={m} value={months.indexOf(m)}>
                           {m}
                         </option>
                       );
@@ -890,68 +989,72 @@ ${
                 </tbody>
               </table>
               {selectedMonthsalaryData &&
-                selectedMonthsalaryData.map((salaryData: any, i: number) => {
-                  return (
-                    <table
-                      key={i}
-                      className="salaryTable table-responsive"
-                      style={{ border: 1 }}
-                    >
-                      <tbody>
-                        <tr style={{ border: "1px solid black" }}>
-                          <th>Earnings</th>
-                          <th>Amount</th>
-                          <th>Deductions</th>
-                          <th>Amount</th>
-                        </tr>
-                        <tr>
-                          <td>Basic Salary</td>
-                          <td style={{ borderRight: "1px solid black" }}>
-                            {salaryData.basicSalary.toFixed(2)}
-                          </td>
-                          <td>PF</td>
-                          <td>{salaryData.pf}</td>
-                        </tr>
-                        <tr>
-                          <td>House Rent Allowance</td>
-                          <td style={{ borderRight: "1px solid black" }}>
-                            {salaryData.houseAllowance.toFixed(2)}
-                          </td>
-                          <td>PT</td>
-                          <td>{salaryData.pt}</td>
-                        </tr>
-                        <tr>
-                          <td>Conveynance Allowances</td>
-                          <td style={{ borderRight: "1px solid black" }}>
-                            {salaryData.conveyanceAllowances}
-                          </td>
-                          <td>Leaves ({salaryData.unpaidLeaves})</td>
-                          <td>{salaryData.leaveDeduction.toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                          <td>Special Allowances</td>
-                          <td style={{ borderRight: "1px solid black" }}>
-                            {salaryData.sa.toFixed(2)}
-                          </td>
-                          <td>Employer Contribution</td>
-                          <td>{salaryData.EmployerContribution.toFixed(2)}</td>
-                        </tr>
-                        <tr className="font-weight-bold">
-                          <td>Gross Salary</td>
-                          <td style={{ borderRight: "1px solid black" }}>
-                            {salaryData.grossSalary.toFixed(2)}
-                          </td>
-                        </tr>
-                        <tr style={{ border: "1px solid black" }}>
-                          <th> </th>
-                          <th>NET PAY</th>
-                          <th>{salaryData.roundupNetSalary}</th>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  );
-                })}
+                selectedMonthsalaryData.map(
+                  (salaryData: SalaryValue, i: number) => {
+                    return (
+                      <table
+                        key={i}
+                        className="salaryTable table-responsive"
+                        style={{ border: 1 }}
+                      >
+                        <tbody>
+                          <tr style={{ border: "1px solid black" }}>
+                            <th>Earnings</th>
+                            <th>Amount</th>
+                            <th>Deductions</th>
+                            <th>Amount</th>
+                          </tr>
+                          <tr>
+                            <td>Basic Salary</td>
+                            <td style={{ borderRight: "1px solid black" }}>
+                              {salaryData.basicSalary.toFixed(2)}
+                            </td>
+                            <td>PF</td>
+                            <td>{salaryData.pf}</td>
+                          </tr>
+                          <tr>
+                            <td>House Rent Allowance</td>
+                            <td style={{ borderRight: "1px solid black" }}>
+                              {salaryData.houseAllowance.toFixed(2)}
+                            </td>
+                            <td>PT</td>
+                            <td>{salaryData.pt}</td>
+                          </tr>
+                          <tr>
+                            <td>Conveynance Allowances</td>
+                            <td style={{ borderRight: "1px solid black" }}>
+                              {salaryData.conveyanceAllowances}
+                            </td>
+                            <td>Leaves ({salaryData.unpaidLeaves})</td>
+                            <td>{salaryData.leaveDeduction.toFixed(2)}</td>
+                          </tr>
+                          <tr>
+                            <td>Special Allowances</td>
+                            <td style={{ borderRight: "1px solid black" }}>
+                              {salaryData.sa.toFixed(2)}
+                            </td>
+                            <td>Employer Contribution</td>
+                            <td>
+                              {salaryData.EmployerContribution.toFixed(2)}
+                            </td>
+                          </tr>
+                          <tr className="font-weight-bold">
+                            <td>Gross Salary</td>
+                            <td style={{ borderRight: "1px solid black" }}>
+                              {salaryData.grossSalary.toFixed(2)}
+                            </td>
+                          </tr>
+                          <tr style={{ border: "1px solid black" }}>
+                            <th> </th>
+                            <th>NET PAY</th>
+                            <th>{salaryData.roundupNetSalary}</th>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    );
+                  }
+                )}
             </div>
           </div>
           <div id="DownloadBtn">

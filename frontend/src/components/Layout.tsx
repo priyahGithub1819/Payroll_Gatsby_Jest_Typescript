@@ -7,13 +7,107 @@ interface PageProps {
   children: React.ReactNode;
 }
 
+interface EmployeeData {
+  employee?: {
+    basic: {
+      confirmationDate: string;
+      dateOfBirth: string;
+      dateOfJoining: string;
+      department: string;
+      designation: string;
+      email: string;
+      employeeId: string;
+      employmentStatus: string;
+      employmentType: string;
+      gender: string;
+      maritalStatus: string;
+      countryCode: string;
+      number: number;
+      probationPeriod: number;
+      selectCount: number;
+      workLocation: string;
+      workMode: string;
+      mobile: {
+        countryCode: string;
+        number: number;
+      };
+      name: {
+        firstName: string;
+        lastName: string;
+        middleName: string;
+      };
+      selfDeclaration: {
+        academics: {
+          course: string;
+          fileName: string;
+          instituteUniversity: string;
+          passingYear: string;
+          percentageCGPA: number;
+          stream: string;
+          uploadedAt: string;
+          verifyStatus: string;
+        };
+        idProofs: {
+          bloodGroup: string;
+          aadhaarCard: {
+            aadhaarNumber: number;
+          };
+          panCard: {
+            panCardNumber: string;
+          };
+          passport: {
+            uploadedAt: string;
+            verifyStatus: string;
+          };
+        };
+        previousCompany: {};
+      };
+    };
+    payrollData: {
+      NameofSpouse: string;
+      relationship: string;
+      DOB: string;
+      child1: string;
+      child1Gender: string;
+      DOB1: string;
+      child2: string;
+      child2Gender: string;
+      DOB2: string;
+      DOB3: string;
+      DOB4: string;
+      NameofFather: string;
+      NameofMother: string;
+      empId: string;
+      empStatus: string;
+      numberOfMember: number;
+      password: string;
+      role: string;
+      parents: string;
+    };
+    empPaymentData: {
+      aadharNumber: number;
+      accountNumber: number;
+      address: string;
+      bankName: string;
+      dateofRegistration: string;
+      empDob: string;
+      empId: string;
+      ifscCode: string;
+      name: string;
+      panNumber: string;
+      pfStatus: string;
+      pfUanNumber: string;
+      paymentType: string;
+    };
+  };
+}
+
 export const UserData = createContext<any>({});
 const Layout: React.FC<PageProps> = ({ children }) => {
   const [user, setUser] = useState();
   const [protectedUser, setProtectedUser] = useState();
 
   const callUser = async () => {
-
     const data = await loadUser();
     setUser(data);
   };
@@ -28,8 +122,9 @@ const Layout: React.FC<PageProps> = ({ children }) => {
   }
 
   useEffect(() => {
-    callUser()
+    callUser();
   }, []);
+  console.log(user);
 
   return (
     <>

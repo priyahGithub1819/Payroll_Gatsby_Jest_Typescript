@@ -6,31 +6,44 @@ import { getOwnerData } from "../../services/api-function";
 import Sidebar from "../../components/Owners-sidebar";
 import { Link } from "gatsby";
 
-function App() {
-  const [candirecords, setCandirecords] = useState<any>([]);
+interface CandidateRecord {
+  candiStatus: string;
+  candidateId: number;
+  candidateName: string;
+  eduQual: string;
+  primarySkill: string;
+  secondarySkill: string;
+  noticePeriod: string;
+  currentCTC: number;
+  expectedCTC: number;
+}
+
+const App: React.FC = () => {
+  const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
   const [rejectBoxShow, setRejectBoxShow] = useState(false);
 
-  //To get All candidates data
+  // To get All candidates data
   const getAllCandidates = async () => {
-    let onbordCandi: any = [];
+    let onbordCandi: CandidateRecord[] = [];
     let data = await getOwnerData();
 
     if (data.success === true) {
       setCandirecords(data.candiInfo);
     }
 
-    data.candiInfo.map((d: any) => {
+    data.candiInfo.forEach((d: CandidateRecord) => {
       if (d.candiStatus === "Onboard") {
         onbordCandi.push(d);
       }
     });
     setCandirecords(onbordCandi);
   };
+
   useEffect(() => {
     getAllCandidates();
   }, []);
 
-  //To display list of Candidates to be onboard
+  // To display list of Candidates to be onboard
   return (
     <Layout>
       <div className="OwnerContainer">
@@ -60,24 +73,24 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {candirecords &&
-                        candirecords.map((candirecord: any, Index: number) => {
-                          if (candirecord.candiStatus == "Onboard") {
-                            return (
-                              <tr key={Index}>
-                                <td>{Index + 1}</td>
-                                <td>{candirecord.candidateId}</td>
-                                <td>{candirecord.candidateName}</td>
-                                <td>{candirecord.eduQual}</td>
-                                <td>{candirecord.primarySkill}</td>
-                                <td>{candirecord.secondarySkill}</td>
-                                <td>{candirecord.noticePeriod}</td>
-                                <td>{candirecord.currentCTC}</td>
-                                <td>{candirecord.expectedCTC}</td>
-                              </tr>
-                            );
-                          }
-                        })}
+                      {candirecords.map((candirecord, index) => {
+                        if (candirecord.candiStatus === "Onboard") {
+                          return (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{candirecord.candidateId}</td>
+                              <td>{candirecord.candidateName}</td>
+                              <td>{candirecord.eduQual}</td>
+                              <td>{candirecord.primarySkill}</td>
+                              <td>{candirecord.secondarySkill}</td>
+                              <td>{candirecord.noticePeriod}</td>
+                              <td>{candirecord.currentCTC}</td>
+                              <td>{candirecord.expectedCTC}</td>
+                            </tr>
+                          );
+                        }
+                        return null;
+                      })}
                     </tbody>
                   </table>
                 </div>

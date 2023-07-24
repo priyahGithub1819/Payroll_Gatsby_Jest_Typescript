@@ -5,8 +5,24 @@ import { Link } from "gatsby";
 import { indianDate } from "../../services/utils";
 import { allUserData } from "../../services/api-function";
 
+interface Employee {
+  payrollData: {
+    empId: string;
+  };
+  basic: {
+    name: {
+      firstName: string;
+      middleName: string;
+      lastName: string;
+    };
+    dateOfJoining: string;
+    probationPeriod: number;
+    confirmationDate: string;
+  };
+}
+
 export default function EmployeeList() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<Employee[]>([]);
 
   // to get all records from db
   const getAllEmployees = async () => {
@@ -17,7 +33,7 @@ export default function EmployeeList() {
   //calling all records function
   useEffect(() => {
     getAllEmployees();
-  }, [getAllEmployees]);
+  }, []);
 
   return (
     <Layout>
@@ -52,23 +68,20 @@ export default function EmployeeList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {records &&
-                    records.map((record: any, Index: number) => {
-                      return (
-                        <tr key={Index}>
-                          <td>{Index + 1}</td>
-                          <td>{record.payrollData.empId}</td>
-                          <td>
-                            {record.basic.name.firstName}{" "}
-                            {record.basic.name.MiddleName}{" "}
-                            {record.basic.name.lastName}
-                          </td>
-                          <td>{indianDate(record.basic.dateOfJoining)}</td>
-                          <td>{record.basic.probationPeriod} Months</td>
-                          <td>{indianDate(record.basic.confirmationDate)}</td>
-                        </tr>
-                      );
-                    })}
+                  {records.map((record: Employee, Index: number) => (
+                    <tr key={Index}>
+                      <td>{Index + 1}</td>
+                      <td>{record.payrollData.empId}</td>
+                      <td>
+                        {record.basic.name.firstName}{" "}
+                        {record.basic.name.middleName}{" "}
+                        {record.basic.name.lastName}
+                      </td>
+                      <td>{indianDate(record.basic.dateOfJoining)}</td>
+                      <td>{record.basic.probationPeriod} Months</td>
+                      <td>{indianDate(record.basic.confirmationDate)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               {/* table end */}

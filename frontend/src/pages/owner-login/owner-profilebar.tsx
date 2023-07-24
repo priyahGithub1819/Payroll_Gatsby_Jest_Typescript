@@ -6,10 +6,8 @@ const Ownerprofilebar = () => {
   const { user } = useContext(UserData)
 
   useEffect(() => {
-    let attr = document.querySelectorAll(".navbar-item a")
-    console.log(attr)
-
-    attr.forEach(item => {
+    let attributes = document.querySelectorAll(".navbar-item a")
+    attributes.forEach(item => {
       if (item.getAttribute("aria-current") === "page") {
       }
     })

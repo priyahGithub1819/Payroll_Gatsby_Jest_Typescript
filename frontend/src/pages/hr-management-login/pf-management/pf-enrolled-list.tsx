@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "gatsby";
 import Layout from "../../../components/Layout";
 import { getAllPfEmpData } from "../../../services/api-function";
@@ -6,10 +6,35 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { indianDate, dateFormat } from "../../../services/utils";
 
+interface PfEmployee {
+  _id: number;
+  name: string;
+  empId: string;
+  empDob: string;
+  aadharNumber: string;
+  panNumber: string;
+  bankName: string;
+  ifscCode: string;
+  accountNumber: string;
+  address: string;
+  dateofRegistration: string;
+  pfUanNumber: string;
+  pfStatus: string;
+  lastWorkingDay: string;
+  createdby: {
+    date: string;
+    empId: string;
+  };
+  updatedby: {
+    date: string;
+    empId: string;
+  };
+}
+
 function PfEnrolledList() {
-  // useState
-  const [records, setRecords] = useState([]);
-  const [pfEmpToEdit, setPfEmpToEdit] = useState({
+  const [records, setRecords] = useState<PfEmployee[]>([]);
+  const [pfEmpToEdit, setPfEmpToEdit] = useState<PfEmployee>({
+    _id: 0,
     name: "",
     empId: "",
     empDob: "",
@@ -23,52 +48,78 @@ function PfEnrolledList() {
     pfUanNumber: "",
     pfStatus: "",
     lastWorkingDay: "",
+    createdby: {
+      date: "",
+      empId: "",
+    },
+    updatedby: {
+      date: "",
+      empId: "",
+    },
   });
 
-  const [lastWorkingDay, setLastWorkingDay] = useState<any>(false);
+  const [lastWorkingDay, setLastWorkingDay] = useState<boolean>(false);
 
-  // function to get all data from database
   const getAllPfEmpList = async () => {
-    let data = await getAllPfEmpData();
-    setRecords(data.empInfo);
+    try {
+      const data = await getAllPfEmpData();
+      setRecords(data.empInfo);
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
 
   useEffect(() => {
     getAllPfEmpList();
   }, []);
 
-  // onChange Function
-  const onValueChange = (e: any) => {
-    setPfEmpToEdit({ ...pfEmpToEdit, [e.target.name]: e.target.value });
+  const onValueChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setPfEmpToEdit({ ...pfEmpToEdit, [name]: value });
 
-    if (e.target.name === "pfStatus") {
-      if (e.target.value === "Exited") {
-        setLastWorkingDay(true);
+    if (name === "pfStatus" && value === "Exited") {
+      setLastWorkingDay(true);
+    }
+  };
+
+  const onEditBtnClick = async (
+    e: React.MouseEvent<HTMLElement>,
+    empId: number
+  ) => {
+    const target = e.target as HTMLElement;
+    const tableRow = target.closest("tr");
+    if (tableRow) {
+      const rowData = tableRow.querySelectorAll(".data");
+      rowData.forEach((input: any) => {
+        input.style.display = "block";
+        input.style.border = "1px solid black";
+      });
+
+      const saveBtn = tableRow.querySelector(".save-btn") as HTMLElement;
+      if (saveBtn) {
+        saveBtn.classList.add("saveBtnEnable");
+      }
+
+      rowData.forEach((element: any) => {
+        element.removeAttribute("readOnly");
+      });
+
+      try {
+        const currentEmp = await axios.get(`/api/v2/single-pfemp/${empId}`);
+        setPfEmpToEdit(currentEmp.data);
+      } catch (error) {
+        console.log("Error:", error);
       }
     }
   };
 
-  // on Edit button click
-  const onEditBtnClick = async (e: any, empId: number) => {
-    const tableRow = e.target.closest("tr");
-    const rowData = tableRow.querySelectorAll(".data");
-    tableRow.querySelectorAll(".data").forEach((input: any) => {
-      input.style = "appearance: block";
-      input.style.border = "1px solid black";
-    });
-
-    const saveBtn = tableRow.querySelector(".save-btn");
-    saveBtn.classList.add("saveBtnEnable");
-
-    rowData.forEach((element: any) => {
-      element.removeAttribute("readOnly");
-    });
-    const currentEmp = await axios.get(`/api/v2/single-pfemp/${empId}`);
-    setPfEmpToEdit(currentEmp.data);
-  };
-
-  // on save button click
-  const onSaveBtnClick = async (e: any, empId: number, name: string) => {
+  const onSaveBtnClick = async (
+    e: React.MouseEvent<HTMLElement>,
+    empId: number,
+    name: string
+  ) => {
     if (
       pfEmpToEdit.name === "" ||
       pfEmpToEdit.bankName === "" ||
@@ -77,82 +128,103 @@ function PfEnrolledList() {
       pfEmpToEdit.address === ""
     ) {
       toast.error("Field should not be empty.");
-      if (pfEmpToEdit.name === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".eName").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
+      const target = e.target as HTMLElement;
 
-      if (pfEmpToEdit.bankName === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".eBankName").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (pfEmpToEdit.ifscCode === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".eIfsc").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (pfEmpToEdit.accountNumber === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".eAccount").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
+      const tableRow = target.closest("tr");
+  
+      if (tableRow) {
+        if (pfEmpToEdit.name === "") {
+          tableRow.querySelectorAll(".eName").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+  
+        if (pfEmpToEdit.bankName === "") {
+          tableRow.querySelectorAll(".eBankName").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+  
+        if (pfEmpToEdit.ifscCode === "") {
+          tableRow.querySelectorAll(".eIfsc").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+  
+        if (pfEmpToEdit.accountNumber === "") {
+          tableRow.querySelectorAll(".eAccount").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
       }
     } else {
-      await axios.put(`/api/v2/edit-pfemp/${empId}`, pfEmpToEdit);
-      // e.target.style.display = "none"
-      const tableRow = e.target.closest("tr");
+      try {
+        await axios.put(`/api/v2/edit-pfemp/${empId}`, pfEmpToEdit);
+        console.log(e)
+        const target = e.target as HTMLElement;
 
-      const saveBtn = tableRow.querySelector(".save-btn");
-      saveBtn.classList.remove("saveBtnEnable");
-      saveBtn.classList.add("saveBtnDisable");
-
-      tableRow.querySelectorAll(".data").forEach((input: any) => {
-        input.style = "appearance: none";
-        input.style.border = "none";
-      });
-      // window.alert("Information of " + name + " is updated successfully.")
-      toast.success("Information of " + name + " is updated successfully.");
-      //document.getElementById("select").disabled = true
-      await getAllPfEmpList();
+        const tableRow = target.closest("tr");
+        if (tableRow) {
+          const saveBtn = tableRow.querySelector(".save-btn") as HTMLElement;
+          saveBtn.classList.remove("saveBtnEnable");
+          saveBtn.classList.add("saveBtnDisable");
+  
+          tableRow.querySelectorAll(".data").forEach((input: any) => {
+            input.style = "appearance: none";
+            input.style.border = "none";
+          });
+  
+          toast.success("Information of " + name + " is updated successfully.");
+  
+          await getAllPfEmpList();
+        }
+      } catch (error) {
+        console.log("Error:", error);
+      }
     }
   };
-
-  // modal save button-
+  
   const onSaveLastWorkingDay = () => {
     if (!pfEmpToEdit.lastWorkingDay) {
-      toast.error("Please select last working day of an employee.");
+      toast.error("Please select the last working day of the employee.");
     } else {
       setLastWorkingDay(false);
     }
   };
 
-  // code for checkboxes to hide and show table columns
-  function tableColumnHideShow(id: any) {
-    var checkboxValue = document.getElementById(id) as HTMLInputElement;
+  function tableColumnHideShow(id: string) {
+    const checkboxValue = document.getElementById(
+      id
+    ) as HTMLInputElement | null;
 
-    if (checkboxValue.checked) {
-      var allCol = document.getElementsByClassName(id) as any;
-      for (var i = 0; i < allCol.length; i++) {
-        allCol[i].style.display = "table-cell";
+    if (checkboxValue) {
+      if (checkboxValue.checked) {
+        const allCol = document.getElementsByClassName(
+          id
+        ) as HTMLCollectionOf<HTMLElement>;
+        for (let i = 0; i < allCol.length; i++) {
+          allCol[i].style.display = "table-cell";
+        }
+
+        const IdHead = document.getElementById(id + "_head") as HTMLElement;
+        IdHead.style.display = "table-cell";
+
+        const IdData = document.getElementById(id) as HTMLInputElement;
+        IdData.value = "hide";
+      } else {
+        const allCol = document.getElementsByClassName(
+          id
+        ) as HTMLCollectionOf<HTMLElement>;
+        for (let i = 0; i < allCol.length; i++) {
+          allCol[i].style.display = "none";
+        }
+
+        const IdHead = document.getElementById(id + "_head") as HTMLElement;
+        IdHead.style.display = "none";
+
+        const IdData = document.getElementById(id) as HTMLInputElement;
+        IdData.value = "show";
       }
-      var IdHead = document.getElementById(id + "_head") as HTMLElement;
-      IdHead.style.display = "table-cell";
-      var IdData = document.getElementById(id) as HTMLInputElement;
-      IdData.value = "hide";
-    } else {
-      var allCol = document.getElementsByClassName(id) as any;
-      for (var i = 0; i < allCol.length; i++) {
-        allCol[i].style.display = "none";
-      }
-      var IdHead = document.getElementById(id + "_head") as HTMLElement;
-      IdHead.style.display = "none";
-      var IdData = document.getElementById(id) as HTMLInputElement;
-      IdData.value = "show";
     }
   }
 
@@ -161,7 +233,10 @@ function PfEnrolledList() {
       <div className="container-fluid pfEnrolledListContainer">
         <div className="row justify-content-center">
           <div className="col-lg-11">
-            <Link to="/hr-management-login/pf-dashboard/" data-testid="arrowLink">
+            <Link
+              to="/hr-management-login/pf-dashboard/"
+              data-testid="arrowLink"
+            >
               <i
                 className="bi bi-arrow-left-circle-fill"
                 data-testid="leftArrow"
@@ -171,6 +246,7 @@ function PfEnrolledList() {
             <h2 className="text-center" data-testid="heading">
               List of Active PF Employees
             </h2>
+
             <div className="row justify-content-center">
               <div className="col-lg-2">
                 <input
@@ -180,11 +256,12 @@ function PfEnrolledList() {
                   role="checkBox"
                   data-testid="dobOfEmp"
                   onChange={(event) => tableColumnHideShow("dobOfEmp")}
-                />{" "}
+                />
                 <label htmlFor="dobOfEmp" className="form-label">
                   DOB of Employee
                 </label>
               </div>
+
               <div className="col-lg-2">
                 <input
                   type="checkbox"
@@ -194,11 +271,12 @@ function PfEnrolledList() {
                   role="checkBox"
                   data-testid="aadhar"
                   onChange={(event) => tableColumnHideShow("aadhar")}
-                />{" "}
+                />
                 <label htmlFor="date&time" className="form-label">
                   Aadhar Number
                 </label>
               </div>
+
               <div className="col-lg-2">
                 <input
                   type="checkbox"
@@ -207,11 +285,12 @@ function PfEnrolledList() {
                   role="checkBox"
                   data-testid="panNum"
                   onChange={(event) => tableColumnHideShow("panNum")}
-                />{" "}
+                />
                 <label htmlFor="date&time" className="form-label">
                   PAN Number
                 </label>
               </div>
+
               <div className="col-lg-2">
                 <input
                   type="checkbox"
@@ -220,11 +299,12 @@ function PfEnrolledList() {
                   role="checkBox"
                   data-testid="creationDate"
                   onChange={(event) => tableColumnHideShow("creationDate")}
-                />{" "}
+                />
                 <label htmlFor="date&time" className="form-label">
                   Creation Details
                 </label>
               </div>
+
               <div className="col-lg-2">
                 <input
                   type="checkbox"
@@ -233,12 +313,13 @@ function PfEnrolledList() {
                   role="checkBox"
                   data-testid="updationDate"
                   onChange={(event) => tableColumnHideShow("updationDate")}
-                />{" "}
+                />
                 <label htmlFor="date&time" className="form-label">
                   Updation Details
                 </label>
               </div>
             </div>
+
             <div className="empTable col-lg-12">
               <table
                 className="table table-bordered css-serial"
@@ -275,129 +356,131 @@ function PfEnrolledList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {records &&
-                    records.map((record: any, Index: number) => {
-                      if (record.pfStatus === "Active") {
-                        return (
-                          <tr key={Index}>
-                            <td></td>
-                            <td>
-                              <input
-                                name="name"
-                                className="data text eName"
-                                onChange={onValueChange}
-                                type="text"
-                                defaultValue={record.name}
-                                data-testid="eName"
-                                readOnly
-                              />
-                            </td>
-                            <td className="dobOfEmp" data-testid="dobOfEmp_td">
-                              {indianDate(record.empDob)}
-                            </td>
-                            <td>{record.empId}</td>
-                            <td className="aadhar" data-testid="aadhar_td">
-                              {record.aadharNumber}
-                            </td>
-                            <td className="panNum" data-testid="pan_td">
-                              {record.panNumber}
-                            </td>
-                            <td>
-                              <input
-                                name="bankName"
-                                className="data text eBankName"
-                                onChange={onValueChange}
-                                type="text"
-                                defaultValue={record.bankName}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="ifscCode"
-                                className="data text eIfsc"
-                                onChange={onValueChange}
-                                type="text"
-                                defaultValue={record.ifscCode}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="accountNumber"
-                                className="data text eAccount"
-                                onChange={onValueChange}
-                                type="number"
-                                defaultValue={record.accountNumber}
-                                readOnly
-                              />
-                            </td>
-                            <td>
-                              <input
-                                name="address"
-                                className="data text"
-                                onChange={onValueChange}
-                                type="text"
-                                defaultValue={record.address}
-                                readOnly
-                              />
-                            </td>
-                            <td>{indianDate(record.dateofRegistration)}</td>
-                            <td> {record.pfUanNumber}</td>
-                            <td>
-                              <select
-                                style={{ appearance: "none" }}
-                                name="pfStatus"
-                                className="data select"
-                                id="select"
-                                defaultValue={record.pfStatus}
-                                onChange={onValueChange}
-                                aria-readonly
-                              >
-                                {" "}
-                                <option value="Active">Active</option>
-                                <option value="Exited">Exited</option>
-                              </select>
-                            </td>
-                            <td>
-                              <i
-                                className="bi bi-pen-fill editIcon"
-                                data-testid="editButton"
-                                onClick={(e) => onEditBtnClick(e, record._id)}
-                              ></i>
-                              <i
-                                className="bi bi-check-circle-fill save-btn editIcon data-toggle=modal data-target=#myModal saveBtnDisable"
-                                data-testid="saveButton"
-                                onClick={(e) => {
-                                  onSaveBtnClick(e, record._id, record.name);
-                                }}
-                              ></i>
-                            </td>
-                            <td
-                              className="creationDate"
-                              data-testid="creationDate_td"
-                            >{`On ${indianDate(record.createdby?.date)} By ${
-                              record.createdby?.empId
-                            } `}</td>
-                            <td
-                              className="updationDate"
-                              data-testid="updationDate_td"
+                  {records.map((record: PfEmployee, index: number) => {
+                    if (record.pfStatus === "Active") {
+                      return (
+                        <tr key={index}>
+                          <td></td>
+                          <td>
+                            <input
+                              name="name"
+                              className="data text eName"
+                              onChange={onValueChange}
+                              type="text"
+                              defaultValue={record.name}
+                              data-testid="eName"
+                              readOnly
+                            />
+                          </td>
+                          <td className="dobOfEmp" data-testid="dobOfEmp_td">
+                            {indianDate(record.empDob)}
+                          </td>
+                          <td>{record.empId}</td>
+                          <td className="aadhar" data-testid="aadhar_td">
+                            {record.aadharNumber}
+                          </td>
+                          <td className="panNum" data-testid="pan_td">
+                            {record.panNumber}
+                          </td>
+                          <td>
+                            <input
+                              name="bankName"
+                              className="data text eBankName"
+                              onChange={onValueChange}
+                              type="text"
+                              defaultValue={record.bankName}
+                              readOnly
+                            />
+                          </td>
+                          <td>
+                            <input
+                              name="ifscCode"
+                              className="data text eIfsc"
+                              onChange={onValueChange}
+                              type="text"
+                              defaultValue={record.ifscCode}
+                              readOnly
+                            />
+                          </td>
+                          <td>
+                            <input
+                              name="accountNumber"
+                              className="data text eAccount"
+                              onChange={onValueChange}
+                              type="number"
+                              defaultValue={record.accountNumber}
+                              readOnly
+                            />
+                          </td>
+                          <td>
+                            <input
+                              name="address"
+                              className="data text"
+                              onChange={onValueChange}
+                              type="text"
+                              defaultValue={record.address}
+                              readOnly
+                            />
+                          </td>
+                          <td>{indianDate(record.dateofRegistration)}</td>
+                          <td>{record.pfUanNumber}</td>
+                          <td>
+                            <select
+                              style={{ appearance: "none" }}
+                              name="pfStatus"
+                              className="data select"
+                              id="select"
+                              defaultValue={record.pfStatus}
+                              onChange={onValueChange}
+                              aria-readonly
                             >
-                              {record.updatedby?.date === undefined &&
-                              record.updatedby?.empId === undefined
-                                ? "Not Updated"
-                                : `On ${indianDate(
-                                    record.updatedby?.date
-                                  )} By ${record.updatedby?.empId}`}{" "}
-                            </td>
-                          </tr>
-                        );
-                      }
-                    })}
+                              <option value="Active">Active</option>
+                              <option value="Exited">Exited</option>
+                            </select>
+                          </td>
+                          <td>
+                            <i
+                              className="bi bi-pen-fill editIcon"
+                              data-testid="editButton"
+                              onClick={(e) => onEditBtnClick(e, record._id)}
+                            ></i>
+                            <i
+                              className="bi bi-check-circle-fill save-btn editIcon data-toggle=modal data-target=#myModal saveBtnDisable"
+                              data-testid="saveButton"
+                              onClick={(e) => {
+                                onSaveBtnClick(e, record._id, record.name);
+                              }}
+                            ></i>
+                          </td>
+                          <td
+                            className="creationDate"
+                            data-testid="creationDate_td"
+                          >
+                            {`On ${indianDate(record.createdby?.date)} By ${
+                              record.createdby?.empId
+                            }`}
+                          </td>
+                          <td
+                            className="updationDate"
+                            data-testid="updationDate_td"
+                          >
+                            {record.updatedby?.date === undefined &&
+                            record.updatedby?.empId === undefined
+                              ? "Not Updated"
+                              : `On ${indianDate(record.updatedby?.date)} By ${
+                                  record.updatedby?.empId
+                                }`}
+                          </td>
+                        </tr>
+                      );
+                    }
+                    return null;
+                  })}
                 </tbody>
               </table>
             </div>
-            {lastWorkingDay ? (
+
+            {lastWorkingDay && (
               <div className="modal lastWorkingDayModal">
                 <div className="modal-dialog">
                   <div className="modal-content">
@@ -423,7 +506,9 @@ function PfEnrolledList() {
                           className="form-control"
                           id="lastWorkingDay"
                           name="lastWorkingDay"
-                          defaultValue={lastWorkingDay}
+                          defaultValue={
+                            lastWorkingDay ? lastWorkingDay.toString() : ""
+                          }
                           onChange={onValueChange}
                           max={dateFormat("dateInput", new Date())}
                         />
@@ -442,8 +527,6 @@ function PfEnrolledList() {
                   </div>
                 </div>
               </div>
-            ) : (
-              ""
             )}
           </div>
         </div>
@@ -451,4 +534,5 @@ function PfEnrolledList() {
     </Layout>
   );
 }
+
 export default PfEnrolledList;

@@ -16,25 +16,32 @@ const isValidEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
 const validEmailType = ["uvxcel.com", "uvxcel.in"];
 const nameValidation = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 
-const Superadmin = (location: any) => {
+interface NewUsersList {
+empId: string;
+}
+
+const Superadmin = () => {
   const [checkError, setCheckError] = useState(false);
-  const [maritalStatus, setMaritalStatus] = useState();
-  const [id, setId] = useState([]);
+  const [id, setId] = useState<NewUsersList[]>([]);
   const getAllEmployees = async () => {
     let data = await getNewUsers();
+    console.log(data);
+    
     setId(data.data);
+   
+    
   };
+  console.log(id);
   useEffect(() => {
     getAllEmployees();
   }, []);
 
   function spaceBlock() {
-    let allInputs = document.querySelectorAll(
+    let allInputs = document.querySelectorAll<HTMLInputElement>(
       ".preventSpaces"
-    ) as NodeListOf<Element>;
-    allInputs.forEach((input: any) => {
+    )
+    allInputs.forEach((input) => {
       if (input.selectionStart === 0) {
-        // window.event.code.preventDefault()
       }
     });
   }
@@ -62,10 +69,10 @@ const Superadmin = (location: any) => {
     if (exampleInputnumberOfMember.value === "1" && singleRadio.checked) {
       var parentT = document.getElementById("parents") as HTMLElement;
       parentT.style.display = "block";
-      document.querySelectorAll(".motherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".motherDiv").forEach((item) => {
         item.style.display = "none";
       });
-      document.querySelectorAll(".fatherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".fatherDiv").forEach((item) => {
         item.style.display = "none";
       });
     } else if (
@@ -74,15 +81,15 @@ const Superadmin = (location: any) => {
     ) {
       var parentT = document.getElementById("parents") as HTMLElement;
       parentT.style.display = "none";
-      document.querySelectorAll(".singleParent").forEach((parent: any) => {
+      document.querySelectorAll<HTMLInputElement>(".singleParent").forEach((parent) => {
         if (parent.checked) {
           parent.checked = false;
         }
       });
-      document.querySelectorAll(".motherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".motherDiv").forEach((item) => {
         item.style.display = "block";
       });
-      document.querySelectorAll(".fatherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".fatherDiv").forEach((item) => {
         item.style.display = "";
       });
     } else if (
@@ -94,61 +101,65 @@ const Superadmin = (location: any) => {
     } else {
       var parentT = document.getElementById("parents") as HTMLElement;
       parentT.style.display = "none";
-      document.querySelectorAll(".motherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".motherDiv").forEach((item) => {
         item.style.display = "block";
       });
-      document.querySelectorAll(".fatherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".fatherDiv").forEach((item) => {
         item.style.display = "block";
       });
     }
     if (famInput2.checked) {
-      document.querySelectorAll(".motherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".motherDiv").forEach((item) => {
         item.style.display = "none";
       });
-      document.querySelectorAll(".fatherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".fatherDiv").forEach((item) => {
         item.style.display = "";
       });
     } else if (famInput3.checked) {
-      document.querySelectorAll(".fatherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".fatherDiv").forEach((item) => {
         item.style.display = "none";
       });
-      document.querySelectorAll(".motherDiv").forEach((item: any) => {
+      document.querySelectorAll<HTMLElement>(".motherDiv").forEach((item) => {
         item.style.display = "";
       });
     }
   };
 
   //  To show child details
-  const ref: any = useRef(null);
-  const ref1: any = useRef(null);
-  const child1Click = (event: any) => {
-    if (ref.current.checked) {
-      var children1 = document.getElementsByClassName("child1")[0] as any;
-      children1.style = "display:block";
+  const ref = useRef<HTMLInputElement | null>(null);
+  const ref1 = useRef<HTMLInputElement | null>(null);
+  const child1Click = () => {
+    if (ref.current?.checked) {
+      const children1 = document.getElementsByClassName(
+        "child1"
+      )[0] as HTMLElement;
+      children1.style.display = "block";
     } else {
-      children1 = document.getElementsByClassName("child1")[0];
-      children1.style = "display:none";
+      const children1 = document.getElementsByClassName(
+        "child1"
+      )[0] as HTMLElement;
+      children1.style.display = "none";
     }
   };
-  const child2Click = (event: any) => {
-    if (ref1.current.checked) {
-      var children2 = document.getElementsByClassName("child2")[0] as any;
-      children2.style = "display:block";
+  const child2Click = () => {
+    const children2 = document.getElementsByClassName("child2")[0] as HTMLInputElement;
+  
+    if (ref1.current?.checked) {
+      children2.style.display = "block";
     } else {
-      children2 = document.getElementsByClassName("child2")[0];
-      children2.style = "display:none";
+      children2.style.display = "none";
     }
   };
 
   // on click of child information
-  const ref2: any = useRef(null);
-  const childInfoClick = (event: any) => {
-    if (ref2.current.checked) {
-      var childCheckBox = document.getElementById("childCheckBox") as any;
-      childCheckBox.style = "display:block";
+  const ref2 = useRef<HTMLInputElement | null>(null);
+  const childInfoClick = () => {
+    if (ref2.current?.checked) {
+      var childCheckBox = document.getElementById("childCheckBox") as HTMLInputElement;
+      childCheckBox.style.display = "block";
     } else {
-      var childCheckBox = document.getElementById("childCheckBox") as any;
-      childCheckBox.style = "display:none";
+      var childCheckBox = document.getElementById("childCheckBox") as HTMLInputElement;
+      childCheckBox.style.display = "none";
     }
   };
 
@@ -186,7 +197,7 @@ const Superadmin = (location: any) => {
   });
 
   // To validation for DOB
-  function getAge(DOB: any) {
+  function getAge(DOB: string) {
     var today = new Date();
     var birthDate = new Date(DOB);
     var age = today.getFullYear() - birthDate.getFullYear();
@@ -198,7 +209,7 @@ const Superadmin = (location: any) => {
   }
 
   //1st form On change - Basic Information of Employee
-  const handleFirstFormInput = async (e: any) => {
+  const handleFirstFormInput = async (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> ) => {
     // validations for 1st form
     const { name, value, localName } = e.target;
     if (name === "empId") {
@@ -219,8 +230,8 @@ const Superadmin = (location: any) => {
 
     const inputRef = document.querySelector(
       `${localName}[name = ${name}]`
-    ) as any;
-    const errorRef = inputRef.closest(".mb-3").lastChild as HTMLInputElement;
+    ) as HTMLElement;
+    const errorRef = inputRef?.closest(".mb-3")?.lastChild as HTMLInputElement;
     if (name === "empId") {
       if (value.length > 0 && value[0].toUpperCase() !== "U") {
         setCheckError(true);
@@ -256,7 +267,7 @@ const Superadmin = (location: any) => {
         inputRef.classList.remove("inputSuccess");
         errorRef.classList.add("errorRef");
         errorRef.innerHTML = "EmpId must contain  5 letter and 4 digits";
-      } else if (value.length === 9 && isNaN(value.slice(5)) === true) {
+      } else if (value.length === 9 && isNaN(parseInt(value.slice(5))) === true) {
         inputRef.classList.add("inputError");
         inputRef.classList.remove("inputSuccess");
         errorRef.classList.add("errorRef");
@@ -276,12 +287,12 @@ const Superadmin = (location: any) => {
   };
 
   //2nd form On change - Employee Position
-  const handleSecondFormInput = (e: any) => {
+  const handleSecondFormInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     // validations for 2nd form
     const { name, value } = e.target;
     const relationship = employeeData2.relationship;
-    const inputRef = document.querySelector(`[name = ${name}]`) as any;
-    const errorRef = inputRef.closest(".mb-3").lastChild as HTMLInputElement;
+    const inputRef = document.querySelector(`[name = ${name}]`) as HTMLInputElement;
+    const errorRef = inputRef?.closest(".mb-3")?.lastChild as HTMLInputElement;
 
     if (name === "NameofSpouse" && value.length > 0) {
       if (!employeeData2.numberOfMember) {
@@ -366,7 +377,7 @@ const Superadmin = (location: any) => {
       errorRef.classList.remove("errorRef");
     }
     if (name === "DOB" && relationship === "Husband") {
-      const age: any = getAge(value);
+      const age: number = getAge(value);
       if (age < 21) {
         setCheckError(true);
         inputRef.classList.add("inputError");
@@ -380,7 +391,7 @@ const Superadmin = (location: any) => {
         errorRef.classList.remove("errorRef");
       }
     } else if (name === "DOB" && relationship === "Wife") {
-      const age: any = getAge(value);
+      const age: number = getAge(value);
       if (age < 18) {
         setCheckError(true);
         inputRef.classList.add("inputError");
@@ -394,7 +405,7 @@ const Superadmin = (location: any) => {
         errorRef.classList.remove("errorRef");
       }
     } else if (name === "DOB3") {
-      const age: any = getAge(value);
+      const age: number = getAge(value);
       if (age < 42) {
         setCheckError(true);
         inputRef.classList.add("inputError");
@@ -408,7 +419,7 @@ const Superadmin = (location: any) => {
         errorRef.classList.remove("errorRef");
       }
     } else if (name === "DOB4") {
-      const age: any = getAge(value);
+      const age: number = getAge(value);
       if (age < 42) {
         setCheckError(true);
         inputRef.classList.add("inputError");
@@ -445,7 +456,7 @@ const Superadmin = (location: any) => {
   };
 
   // on first form submit
-  const handleFirstForm = (e: any) => {
+  const handleFirstForm: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     var form1ErrorMsg = document.getElementById(
       "form1ErrorMsg"
@@ -467,7 +478,7 @@ const Superadmin = (location: any) => {
   };
 
   // on second form submit
-  const handleSecondForm = async (e: any) => {
+  const handleSecondForm: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     var form2ErrorMsg = document.getElementById(
       "form2ErrorMsg"
@@ -501,7 +512,7 @@ const Superadmin = (location: any) => {
       return (form2ErrorMsg.innerHTML = "Please fill the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
-      ref.current.checked &&
+      ref.current?.checked &&
       (!employeeData2.child1 ||
         !employeeData2.child1Gender ||
         !employeeData2.DOB1)
@@ -510,7 +521,7 @@ const Superadmin = (location: any) => {
       return (form2ErrorMsg.innerHTML = "Please fill the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
-      ref1.current.checked &&
+      ref1.current?.checked &&
       (!employeeData2.child2 ||
         !employeeData2.child2Gender ||
         !employeeData2.DOB2)
@@ -602,7 +613,7 @@ const Superadmin = (location: any) => {
                               Select Employee Id
                             </option>
                             {id &&
-                              id.map((id: any, index: number) => (
+                              id.map((id: NewUsersList, index: number) => (
                                 <option key={index} value={id.empId}>
                                   {id.empId}
                                 </option>
@@ -663,7 +674,9 @@ const Superadmin = (location: any) => {
                               {" "}
                               Role
                             </option>
-                            <option value="super-admin-login">Super Admin</option>
+                            <option value="super-admin-login">
+                              Super Admin
+                            </option>
                             <option value="hrAdmin">Hr Admin</option>
                             <option value="technicalEmployee">
                               Technical Employee

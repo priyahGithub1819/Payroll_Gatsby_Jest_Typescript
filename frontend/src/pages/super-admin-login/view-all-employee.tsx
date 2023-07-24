@@ -4,12 +4,88 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { allUserData, getAllPfEmpData } from "../../services/api-function";
 import Modal from "react-modal";
-import Sidebar from "../../components/Sidebar";
+import SideBar from "../../components/Sidebar";
 import { indianDate } from "../../services/utils";
+
+interface EmployeeData {
+  basic: {
+    confirmationDate: string;
+    dateOfBirth: string;
+    dateOfJoining: string;
+    department: string;
+    designation: string;
+    email: string;
+    employeeId: string;
+    employmentStatus: string;
+    employmentType: string;
+    gender: string;
+    maritalStatus: string;
+    countryCode: string;
+    number: number;
+    probationPeriod: number;
+    selectCount: number;
+    workLocation: string;
+    workMode: string;
+    mobile: {
+      countryCode: string;
+      number: number;
+    };
+    name: {
+      firstName: string;
+      lastName: string;
+      middleName: string;
+    };
+    selfDeclaration: {
+      academics: {};
+      idProofs: {
+        panCard: {
+          panCardNumber: string;
+        }
+      };
+      previousCompany: {};
+    };
+  };
+  payrollData: {
+    NameofSpouse: string;
+    relationship: string;
+    DOB: string;
+    child1: string;
+    child1Gender: string;
+    DOB1: string;
+    child2: string;
+    child2Gender: string;
+    DOB2: string;
+    DOB3: string;
+    DOB4: string;
+    NameofFather: string;
+    NameofMother: string;
+    empId: string;
+    empStatus: string;
+    numberOfMember: number;
+    password: string;
+    role: string;
+    parents: string;
+  };
+  empPaymentData: {
+    aadharNumber: number;
+    accountNumber: number;
+    address: string;
+    bankName: string;
+    dateofRegistration: string;
+    empDob: string;
+    empId: string;
+    ifscCode: string;
+    name: string;
+    panNumber: string;
+    pfStatus: string;
+    pfUanNumber: string;
+    paymentType: string;
+  };
+}
 
 const App = () => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [records, setRecords] = useState<any>([]);
+  const [records, setRecords] = useState<EmployeeData[]>([]);
 
   //Function to fetch data from database
   const getAllEmployees = async () => {
@@ -17,12 +93,11 @@ const App = () => {
 
     let l = await allUserData();
     const payrollUser = l.employeeData;
-    // console.log(data)
 
     let k = await getAllPfEmpData();
+    console.log(k);
+    
     const empPaymentData = k.empInfo;
-    console.log("Checking Status of DB");
-    console.log(empPaymentData);
 
     let pfUser = new Map();
 
@@ -30,10 +105,7 @@ const App = () => {
       pfUser.set(empPaymentData[i].empId, i);
     }
 
-    // console.log(user)
-
     for (let i = 0; i < payrollUser.length; i++) {
-      // console.log(user.get(empPaymentData[i].empId))
       if (pfUser.has(payrollUser[i].payrollData.empId)) {
         combinedData.push({
           ...payrollUser[i],
@@ -44,19 +116,20 @@ const App = () => {
         combinedData.push({ ...payrollUser[i] });
       }
     }
-    console.log(combinedData);
 
     setRecords(combinedData);
   };
+  console.log(records);
+  
   //Basic information modal data
   const onButtonClick = (
     email: string,
-    dob: any,
+    dob: string,
     contNo: number,
     gender: string,
-    joiningD: any,
+    joiningD: string,
     probationP: number,
-    confDate: any
+    confDate: string
   ) => {
     setModalIsOpen(true);
     setTimeout(() => {
@@ -129,21 +202,18 @@ const App = () => {
     parents: string,
     Nspouse: string,
     relationship: string,
-    sDOB: any,
+    sDOB: string,
     c1Name: string,
     c1Gender: string,
-    c1DOB: any,
+    c1DOB: string,
     c2Name: string,
     c2Gender: string,
-    c2DOB: any,
+    c2DOB: string,
     fName: string,
-    fDOB: any,
+    fDOB: string,
     mName: string,
-    mDOB: any
+    mDOB: string
   ) => {
-    console.log(status);
-    console.log(sDOB);
-    console.log(c1DOB);
     setModalIsOpen(true);
     setTimeout(() => {
       var input = document.getElementById("common-modal") as HTMLInputElement;
@@ -303,7 +373,7 @@ const App = () => {
     }, 200);
   };
   //Pan and Pf Uan details modal
-  const onButtonClick3 = (pan: any, pf: any) => {
+  const onButtonClick3 = (pan: string, pf: string) => {
     setModalIsOpen(true);
     setTimeout(() => {
       var input = document.getElementById("common-modal") as HTMLInputElement;
@@ -358,10 +428,10 @@ const App = () => {
 
   return (
     <Layout>
-      <div className="OwnerContainer">
+      <div className="ownerContainer">
         <div className="row ownerRow justify-content-center ">
           <div className="col-lg-3">
-            <Sidebar />
+            <SideBar />
           </div>
           <div className="col-lg-9">
             <div className="row ownerColumn justify-content-center">
@@ -393,7 +463,7 @@ const App = () => {
                     </thead>
                     <tbody>
                       {records &&
-                        records.map((record: any, Index: number) => {
+                        records.map((record: EmployeeData, Index: number) => {
                           return (
                             <tr key={Index}>
                               <td></td>
@@ -482,6 +552,7 @@ const App = () => {
                               <td>
                                 <button
                                   data-testid="modalbtn5"
+                                  id="modalbtn5"
                                   onClick={() =>
                                     onButtonClick4(
                                       record.empPaymentData.paymentType,
@@ -511,7 +582,11 @@ const App = () => {
             <div className="familyInformation" id="common-modal"></div>
           </div>
           <div>
-            <button className="modalbtn" data-testid= "closeBtn"onClick={() => setModalIsOpen(false)}>
+            <button
+              className="modalbtn"
+              data-testid="closeBtn"
+              onClick={() => setModalIsOpen(false)}
+            >
               Close
             </button>
           </div>

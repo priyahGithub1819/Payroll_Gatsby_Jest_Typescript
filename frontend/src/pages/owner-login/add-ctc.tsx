@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import Layout from "../../components/Layout";
 import Papa from "papaparse";
 import { createCtcData } from "../../services/api-function";
@@ -7,85 +7,130 @@ import { Link } from "gatsby";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+interface Employee {
+  Emp_Id: string;
+  Name: string;
+  CTC: string;
+}
+
+const keysArray: string[] = [];
 function AddCTC() {
   // State to store parsed data
-  const [parsedData, setParsedData] = useState([]);
-  //State to store table Column name
-  const [tableRows, setTableRows] = useState([]);
-  //State to store the values
-  const [values, setValues] = useState([]);
+  const [parsedData, setParsedData] = useState<Employee[]>([]);
+  // State to store table Column name
+  const [tableRows, setTableRows] = useState<string[]>([]);
+  // State to store the values
+  const [values, setValues] = useState<string[][]>([]);
+
   // On clear btn click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    var bulkFile = document.getElementById("bulk-file") as HTMLInputElement;
-    bulkFile.value = "";
-    var tablewrappers = document.getElementById("table-wrapper") as HTMLElement;
-    tablewrappers.style.display = "none";
-    var saveClearBtns = document.getElementById(
+    var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
+    var tableWrapper = document.getElementById(
+      "table-wrapper"
+    ) as HTMLDivElement;
+    var saveclearbtns = document.getElementById(
       "save-clear-btns"
-    ) as HTMLElement;
-    saveClearBtns.style.display = "none";
+    ) as HTMLDivElement;
+    var tableinfoheading = document.getElementById(
+      "table-info-heading"
+    ) as HTMLHeadingElement;
+
+    // Clear the file input field
+    if (bulkfile) {
+      bulkfile.value = "";
+    }
+
+    // Hide table and buttons
+    tableWrapper.style.display = "none";
+    saveclearbtns.style.display = "none";
+    // tableinfoheading.classList.add("d-none");
+
+    // Auto-refresh the page
+    window.location.reload();
   };
-  // On Save btn click
-  const empCTC: any = [];
+
   // Function on Save button click
-  const saveCTCinfoToDatabase = async (e: any) => {
+  const saveCTCinfoToDatabase = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
+    const columnLength = keysArray.length;
     // Target `table-tbody Rows` and store it in an array.
-    // e.g. the below array will [tr,tr] if the row count is 2 in that table body.
     const allTableRows = document.querySelectorAll("tbody tr");
-    // ForEach loop to target/access data of each Row of table.
-    allTableRows.forEach((tr) => {
-      // Empty object to store each row's data. Means this object will contain single employee data.
-      let obj: any = {};
-      // Target td i.e. Data from Row and store it in an Array.
-      // e.g. format of below array for this project will be [td, td, td, td, td] if the Columns are 5 in a Row
-      let tableDataArray = tr.querySelectorAll("td");
-      // Store data in object
-      obj.Emp_Id = tableDataArray[0].textContent;
-      obj.Name = tableDataArray[1].textContent;
-      obj.CTC = tableDataArray[2].textContent;
-      // Push object into `empCTC` array
-      empCTC.push(obj);
-    });
-    // Post all employees CTC data from array into Database using axios
-    const { error } = await createCtcData(empCTC);
-    if (error) {
-      toast.error(error);
+    const empCTC: Employee[] = [];
+    if (columnLength == 3) {
+      // ForEach loop to target/access data of each Row of table.
+      allTableRows.forEach((tr) => {
+        // Empty object to store each row's data. Means this object will contain single employee data.
+        let obj: Employee = {} as Employee;
+        // Target td i.e. Data from Row and store it in an Array.
+        const tableDataArray = tr.querySelectorAll("td");
+        // Store data in object
+        obj.Emp_Id = tableDataArray[0].textContent || "";
+        obj.Name = tableDataArray[1].textContent || "";
+        obj.CTC = tableDataArray[2].textContent || "";
+        // Push object into `empCTC` array
+        empCTC.push(obj);
+      });
+
+      // Post all employees CTC data from array into Database using axios
+      const { error } = await createCtcData(empCTC);
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("CTC of an employee uploaded successfully.");
+      }
     } else {
-      toast.success("CTC of an employee uploaded successfully.");
+      toast.error("Please upload aprropriate CSV file");
     }
   };
-  const changeHandler = (event: any) => {
-    // Passing file data (event.target.files[0]) to parse using Papa.parse
-    Papa.parse(event.target.files[0], {
-      header: true,
-      skipEmptyLines: true,
-      complete: function (results: any) {
-        const rowsArray: any = [];
-        const valuesArray: any = [];
-        // Iterating data to get column name and their values
-        results.data.map((d: any) => {
-          rowsArray.push(Object.keys(d));
-          valuesArray.push(Object.values(d));
-        });
-        // Parsed Data Response in array format
-        setParsedData(results.data);
-        // Filtered Column Names
-        setTableRows(rowsArray[0]);
-        // Filtered Values
-        setValues(valuesArray);
-        // Display Table Div
-        var tablewrappers = document.getElementById(
-          "table-wrapper"
-        ) as HTMLElement;
-        tablewrappers.style.display = "block";
-        var saveClearBtns = document.getElementById(
-          "save-clear-btns"
-        ) as HTMLElement;
-        saveClearBtns.style.display = "block";
-      },
-    });
+
+  //Function for Onchange events
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          const valuesArray: string[][] = [];
+          const uniqueRows = new Set<string>(); // Using a Set to store unique values
+
+          // Iterating data to get column name and their values
+          (results.data as Employee[]).forEach((d: Employee) => {
+            const keys = Object.keys(d);
+            keysArray.push(...keys); // Spread the keys into keysArray
+            valuesArray.push(Object.values(d));
+            keys.forEach((key) => {
+              uniqueRows.add(key); // Add each column name to the Set
+            });
+          });
+
+          // Converting Set back to array of unique values
+          setTableRows(Array.from(uniqueRows));
+          setValues(valuesArray);
+
+          // Display Table Div
+          var tableWrapper = document.getElementById(
+            "table-wrapper"
+          ) as HTMLDivElement;
+          tableWrapper.style.display = "block";
+          var saveclearbtns = document.getElementById(
+            "save-clear-btns"
+          ) as HTMLDivElement;
+          saveclearbtns.style.display = "block";
+
+          // Check if the element exists before accessing its classList
+          var tableinfoheading = document.getElementById(
+            "table-info-heading"
+          ) as HTMLHeadingElement;
+          if (tableinfoheading) {
+            tableinfoheading.classList.remove("d-none");
+          }
+        },
+      });
+    }
   };
 
   return (
@@ -133,7 +178,10 @@ function AddCTC() {
                     <h1 className="text-center mb-4">
                       Employee CTC Information Table
                     </h1>
-                    <table className="table table-striped table-bordered table-sm"  data-testid="table-info-heading">
+                    <table
+                      className="table table-striped table-bordered table-sm"
+                      data-testid="table-info-heading"
+                    >
                       <thead>
                         <tr>
                           {tableRows.map((rows, index) => {
@@ -142,10 +190,10 @@ function AddCTC() {
                         </tr>
                       </thead>
                       <tbody>
-                        {values.map((value: any, index) => {
+                        {values.map((value, index) => {
                           return (
                             <tr key={index}>
-                              {value.map((val: any, i: any) => {
+                              {value.map((val, i) => {
                                 return <td key={i}>{val}</td>;
                               })}
                             </tr>
@@ -183,4 +231,5 @@ function AddCTC() {
     </Layout>
   );
 }
+
 export default AddCTC;

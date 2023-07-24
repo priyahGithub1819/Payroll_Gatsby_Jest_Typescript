@@ -8,10 +8,10 @@ const Sidebar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    let attr = document.querySelectorAll(".navbar-item a");
-    attr.forEach((item: any) => {
+    let attr: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".navbar-item a");
+    attr.forEach((item: HTMLAnchorElement) => {
       if (item.getAttribute("aria-current") === "page") {
-        item.closest(".navbar-item").classList.add("tab");
+        item.closest(".navbar-item")?.classList.add("tab");
       }
     });
     window.addEventListener("resize", checkWidth);
@@ -198,7 +198,7 @@ const Sidebar = () => {
                 <li className="navbar-item">
                   <div className="ownerSidebarIcons">
                     <div className="image">
-                      <Link to="/owner-login/confirm-employee/">
+                      <Link to="/owner-login/confirmed-employee/">
                         <i>
                           <img
                             src="/search.png"
@@ -210,8 +210,8 @@ const Sidebar = () => {
                     </div>
                     <div className="logoText">
                       <Link
-                        to="/owner-login/confirm-employee/"
-                        data-testid="confirm-employee"
+                        to="/owner-login/confirmed-employee/"
+                        data-testid="confirmed-employee"
                         className="nav-link fw-bold"
                         style={{ display: isOpen ? "none" : "block" }}
                         data-toggle="tab"

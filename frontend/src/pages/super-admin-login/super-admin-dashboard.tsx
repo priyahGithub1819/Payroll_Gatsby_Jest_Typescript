@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link } from "gatsby";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SuperaAdmin = () => {
+const SuperaAdmin: FC = () => {
   return (
     <div className="container superadmin-profile-wrapper margin">
       <div className="row justify-content-center mb-3">
@@ -21,7 +21,7 @@ const SuperaAdmin = () => {
               <h4 className="text-center">Add Employee To Payroll</h4>
               <div className="text-center">
                 <Link to="/super-admin-login/add-employee/" data-testid="addEmp">
-                  <img src="/addemp.png" alt="AddEmpImg" className="icon" />
+                  <img src="/addemp.jpg" alt="AddEmpImg" className="icon" />
                 </Link>
               </div>
               <p className="card-text text-center">
@@ -67,4 +67,5 @@ const SuperaAdmin = () => {
     </div>
   );
 };
+
 export default SuperaAdmin;

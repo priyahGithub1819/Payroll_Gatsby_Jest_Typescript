@@ -5,8 +5,22 @@ import { useState } from "react";
 import { allUserData } from "../../services/api-function";
 import Sidebar from "../../components/Owners-sidebar";
 
+interface EmployeeData {
+  basic: {
+    name: {
+      firstName: string;
+      middleName?: string;
+      lastName: string;
+    };
+  };
+  payrollData: {
+    empId: string;
+  };
+}
+
 function App() {
-  const [records, setRecords] = useState<any>([]);
+  const [records, setRecords] = useState<EmployeeData[]>([]);
+
   const getAllEmployees = async () => {
     let data = await allUserData();
     setRecords(data.employeeData);
@@ -39,7 +53,7 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {records.map((record: any, Index: number) => {
+                      {records.map((record: EmployeeData, Index: number) => {
                         return (
                           <tr key={Index}>
                             <td>{Index + 1}</td>
@@ -63,4 +77,5 @@ function App() {
     </Layout>
   );
 }
+
 export default App;

@@ -22,7 +22,104 @@ interface IAllRoleLinks {
   marketingEmployee: INavbarLinks[];
 }
 
-const allRoleLinks: any = {
+interface LoadUser {
+  employee?: {
+    basic: {
+      confirmationDate: string;
+      dateOfBirth: string;
+      dateOfJoining: string;
+      department: string;
+      designation: string;
+      email: string;
+      employeeId: string;
+      employmentStatus: string;
+      employmentType: string;
+      gender: string;
+      maritalStatus: string;
+      countryCode: string;
+      number: number;
+      probationPeriod: number;
+      selectCount: number;
+      workLocation: string;
+      workMode: string;
+      mobile: {
+        countryCode: string;
+        number: number;
+      };
+      name: {
+        firstName: string;
+        lastName: string;
+        middleName: string;
+      };
+      selfDeclaration: {
+        academics: {
+          course: "BE";
+          fileName: string;
+          instituteUniversity: string;
+          passingYear: string;
+          percentageCGPA: number;
+          stream: string;
+          uploadedAt: string;
+          verifyStatus: string;
+        };
+        idProofs: {
+          bloodGroup: string;
+          aadhaarCard: {
+            aadhaarNumber: number;
+          };
+          panCard: {
+            panCardNumber: string;
+          };
+          passport: {
+            uploadedAt: string;
+            verifyStatus: string;
+          };
+        };
+        previousCompany: {};
+      };
+    };
+    payrollData: {
+      NameofSpouse: string;
+      relationship: string;
+      DOB: string;
+      child1: string;
+      child1Gender: string;
+      DOB1: string;
+      child2: string;
+      child2Gender: string;
+      DOB2: string;
+      DOB3: string;
+      DOB4: string;
+      NameofFather: string;
+      NameofMother: string;
+      empId: string;
+      empStatus: string;
+      numberOfMember: number;
+      password: string;
+      role: string;
+      parents: string;
+    };
+    empPaymentData: {
+      aadharNumber: number;
+      accountNumber: number;
+      address: string;
+      bankName: string;
+      dateofRegistration: string;
+      empDob: string;
+      empId: string;
+      ifscCode: string;
+      name: string;
+      panNumber: string;
+      pfStatus: string;
+      pfUanNumber: string;
+      paymentType: string;
+    };
+  };
+  success: boolean;
+}
+
+
+const allRoleLinks: Record<string, { href: string; text: string }[]> = {
   owner: [
     { href: "/", text: "Home |" },
     { href: "/account", text: "Accounting |" },
@@ -35,7 +132,7 @@ const allRoleLinks: any = {
   superAdmin: [
     { href: "/", text: "Home |" },
     { href: "/account", text: "Accounting |" },
-    { href: "/superAdminPayroll", text: "Payroll |" },
+    { href: "/super-admin-payroll", text: "Payroll |" },
     { href: "/ecommerce", text: "Ecommerce |" },
     { href: "/projects", text: "Projects |" },
     { href: "/marketing", text: "Marketing & New Leads |" },
@@ -43,7 +140,7 @@ const allRoleLinks: any = {
   ],
   hrAdmin: [
     { href: "/", text: "Home |" },
-    { href: "/hr-payroll", text: "Payroll |" },
+    { href: "/hrPayroll", text: "Payroll |" },
     { href: "/projects", text: "Projects |" },
     { href: "/attendance", text: "Attendance system |" },
     { href: "/hr-management-login/hr-profile/", text: "My Profile |" },
@@ -80,10 +177,9 @@ const Navbar = (props: RouteComponentProps) => {
       logout();
     }
   }
- 
   const { user: data } = useContext(UserData);
-  const [user, setUser] = useState<any>({});
-  const [userRole, setUserRole] = useState<any>("");
+  const [user, setUser] = useState<LoadUser>();
+  const [userRole, setUserRole] = useState<string>("");
 
   const logout = async () => {
     const { success, message, error } = await logoutUser();
@@ -99,10 +195,10 @@ const Navbar = (props: RouteComponentProps) => {
   useEffect(() => {
     if (data?.employee) {
       setUser(data);
-      setUserRole(user.employee?.payrollData.role);
+      console.log(data);
+      setUserRole(data.employee?.payrollData.role);
     }
   }, [data, userRole]);
-
   return (
     <>
       <nav className="navbar navbar-expand-lg fixed-top gatsbyNav">
@@ -129,7 +225,7 @@ const Navbar = (props: RouteComponentProps) => {
             <ul className="navbar-nav ms-auto">
               {userRole && allRole.indexOf(userRole) !== -1 ? (
                 allRoleLinks[userRole as keyof IAllRoleLinks].map(
-                  (link: any) => {
+                  (link: INavbarLinks) => {
                     return (
                       <li key={link.href} className="nav-item">
                         <a className="nav-link" href={link.href}>

@@ -23,7 +23,7 @@ const Owner = () => {
         </div>
         <div className="col-xl-2 col-lg-4 col-md-5 list-of-employee">
           <h3>Confirmed Employee</h3>{" "}
-          <Link to="/owner-login/confirm-employee"
+          <Link to="/owner-login/confirmed-employee"
            data-testid="confirmedEmpList">
             {" "}
             <img src="/search.png" alt="UploadImg" className="icon img-fluid" />
