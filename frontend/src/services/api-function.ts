@@ -1,4 +1,6 @@
 import axios from "axios";
+
+
 interface loginData {
   username: string;
   password: string;
@@ -8,9 +10,169 @@ interface IConfig {
     "Content-Type": string;
   };
 }
+interface  MyObject  {
+  empId: string | null;
+  role: string | null;
+  numberOfMember: string | null;
+  status: string | null;
+  NameofSpouse: string | null;
+  relationship : string | null;
+  DOB : string | null;
+  child1 : string | null;
+  child1Gender: string | null;
+  DOB1 : string | null;
+  child2 :string | null;
+  child2Gender: string | null;
+  DOB2 : string | null;
+  NameofFather: string | null;
+  DOB3 : string | null;
+  NameofMother : string | null;
+  DOB4 : string | null;
+  tempPassword: string | null;
+}
+interface EmployeeData {
+  basic: {
+    confirmationDate: string;
+    dateOfBirth: string;
+    dateOfJoining: string;
+    department: string;
+    designation: string;
+    email: string;
+    employeeId: string;
+    employmentStatus: string;
+    employmentType: string;
+    gender: string;
+    maritalStatus: string;
+    countryCode: string;
+    number: number;
+    probationPeriod: number;
+    selectCount: number;
+    workLocation: string;
+    workMode: string;
+    mobile: {
+      countryCode: string;
+      number: number;
+    };
+    name: {
+      firstName: string;
+      lastName: string;
+      middleName: string;
+    };
+    selfDeclaration: {
+      academics: {};
+      idProofs: {
+        panCard: {
+          panCardNumber: string;
+        };
+      };
+      previousCompany: {};
+    };
+  };
+  payrollData: {
+    NameofSpouse: string;
+    relationship: string;
+    DOB: string;
+    child1: string;
+    child1Gender: string;
+    DOB1: string;
+    child2: string;
+    child2Gender: string;
+    DOB2: string;
+    DOB3: string;
+    DOB4: string;
+    NameofFather: string;
+    NameofMother: string;
+    empId: string;
+    empStatus: string;
+    numberOfMember: number;
+    password: string;
+    role: string;
+    parents: string;
+  };
+  empPaymentData: {
+    aadharNumber: number;
+    accountNumber: number;
+    address: string;
+    bankName: string;
+    dateofRegistration: string;
+    empDob: string;
+    empId: string;
+    ifscCode: string;
+    name: string;
+    panNumber: string;
+    pfStatus: string;
+    pfUanNumber: string;
+    paymentType: string;
+  };
+  CTC?: number,
+  designation: string, 
+}
+
+interface Candidate {
+  candidateId: string;
+  candidateName: string;
+  eduQual: string;
+  primarySkill: string;
+  secondarySkill: string;
+  noticePeriod: string;
+  currentCTC: string;
+  expectedCTC: string;
+  candiStatus: string;
+}
+
+interface allUserData {
+  numberOfMember: string;
+  parents: string;
+  NameofSpouse: string;
+  relationship: string;
+  DOB: string;
+  child1: string;
+  DOB1: string;
+  child1Gender: string;
+  child2: string;
+  DOB2: string;
+  child2Gender: string;
+  empId: string;
+}
+
+interface Employee {
+  Emp_Id: string;
+  Name: string;
+  CTC: string;
+}
+
+interface CandidateStatus {
+  candiStatus: string; 
+  rejectedMessage?: string;
+}
+
+// interface CandidateStatus {
+// candiStatus: string
+// candidateId: string
+// candidateName: string
+// createdAt: string
+// currentCTC: number
+// eduQual: string
+// expectedCTC: string
+// noticePeriod: string
+// primarySkill: string
+// secondarySkill: string
+// id: string
+// rejectedMessage: string
+// }
+
+// interface RejectedMsg extend CandidateStatus {
+// candidateName: string
+// id: string
+// rejectedMessage: string
+// }
+
+interface EmployeeCtc {
+  CTC: number | undefined;
+}
 
 // login function
-export const getLogin = async (userData: any) => {
+export const getLogin = async (userData: loginData) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post("/api/v2/login", userData, config);
@@ -72,7 +234,7 @@ export const getUserData = async (month: number, year: number) => {
 };
 
 //create user {super admin}
-export const createUser = async (userData: any) => {
+export const createUser = async (userData: allUserData) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
@@ -87,7 +249,7 @@ export const createUser = async (userData: any) => {
 };
 
 // add many user {super admin}
-export const createManyUser = async (userData: any) => {
+export const createManyUser = async (userData: MyObject[]) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
@@ -112,7 +274,7 @@ export const allUserData = async () => {
 };
 
 //Create CTC(Owner login)
-export const createCtcData = async (ctcdata: any) => {
+export const createCtcData = async (ctcdata: Employee[]) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
@@ -127,7 +289,7 @@ export const createCtcData = async (ctcdata: any) => {
 };
 
 //Confirm emp
-export const createConfirmEmp = async (confirmempdata: any) => {
+export const createConfirmEmp = async (confirmempdata: string) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
@@ -162,7 +324,7 @@ export const getMyCTC = async () => {
 };
 
 //Upload Candidate Information and Save to database(hr Admin login)
-export const uploadCandiInfo = async (candiInfo: any) => {
+export const uploadCandiInfo = async (candiInfo: Candidate[]) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
@@ -187,7 +349,7 @@ export const getAllCTC = async () => {
 };
 
 // Edit employee information
-export const editEmpStatusPayroll = async (id: string, userData: any) => {
+export const editEmpStatusPayroll = async (id: string, userData: string[]) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.put(
@@ -202,7 +364,7 @@ export const editEmpStatusPayroll = async (id: string, userData: any) => {
 };
 // Edit employee information
 
-export const editEmpStatusErp = async (id: string, userData: any) => {
+export const editEmpStatusErp = async (id: string, userData: EmployeeData) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.put(
@@ -217,7 +379,7 @@ export const editEmpStatusErp = async (id: string, userData: any) => {
 };
 
 // Edit candidate status
-export const editCandiStatus = async (id: string, userData: any) => {
+export const editCandiStatus = async (id: string, userData: CandidateStatus) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.put(
@@ -232,7 +394,7 @@ export const editCandiStatus = async (id: string, userData: any) => {
 };
 
 // Edit candidate status
-export const editRejectCandiInfo = async (id: string, userData: any) => {
+export const editRejectCandiInfo = async (id: string, userData: string) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.put(
@@ -257,7 +419,7 @@ export const getAllPfEmpData = async () => {
 };
 
 //Upload employee Information and Save to database(hr Admin login)
-export const uploadPfEmpInfo = async (empInfo: any) => {
+export const uploadPfEmpInfo = async (empInfo: string) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
@@ -302,7 +464,7 @@ export const getSinglePfData = async (id: string) => {
 };
 
 // edit single ctc data
-export const editSingleCtc = async (empId: string, editData: any) => {
+export const editSingleCtc = async (empId: string, editData: EmployeeCtc) => {
   try {
     const data = await axios.put(`/api/v2/edit-ctc/${empId}`, editData);
     return data;

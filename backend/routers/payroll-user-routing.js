@@ -45,7 +45,7 @@ router
   .route("/payroll/many-user/create")
   .post(
     isAuthenticated,
-    isAdmin("super-admin-login", "owner"),
+    isAdmin("superAdmin", "owner"),
     createdBy,
     createManyPayrollUser
   );
@@ -57,7 +57,7 @@ router
   .route("/single-emp/:id")
   .get(
     isAuthenticated,
-    isAdmin("hrAdmin", "owner", "super-admin-login"),
+    isAdmin("hrAdmin", "owner", "superAdmin"),
     singleEmployee
   );
 
@@ -80,12 +80,12 @@ router.route("/logout").get(logout);
 router.route("/me").get(isAuthenticated, loadUser);
 router
   .route("/admin/data")
-  .get(isAuthenticated, isAdmin("super-admin-login", "hrAdmin"), adminData);
+  .get(isAuthenticated, isAdmin("superAdmin", "hrAdmin"), adminData);
 router.route("/user/data").get(isAuthenticated, userData);
 
 //New employee from ERP
 router
   .route("/payroll/user/new")
-  .get(isAuthenticated, isAdmin("super-admin-login"), getNewUsers);
+  .get(isAuthenticated, isAdmin("superAdmin"), getNewUsers);
 
 module.exports = router;

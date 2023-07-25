@@ -20,7 +20,7 @@ const routes = [
     component: () => <h1>list of employee page is rendered.</h1>,
   },
   {
-    path: "/owner-login/confirm-employee",
+    path: "/owner-login/confirmed-employee",
     component: () => <h1>list of confirm employee page</h1>,
   },
   {

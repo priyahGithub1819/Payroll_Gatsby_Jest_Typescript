@@ -8,10 +8,10 @@ const Sidebar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    let attr = document.querySelectorAll(".navbar-item a");
-    attr.forEach((item: any) => {
-      if (item.getAttribute("aria-current") === "page") {
-        item.closest(".navbar-item").classList.add("tab");
+    let attr: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".navbar-item a");
+    attr.forEach((item: HTMLAnchorElement) => {
+      if (item && item.getAttribute("aria-current") === "page") {
+        item.closest(".navbar-item")?.classList.add("tab");
       }
     });
     window.addEventListener("resize", checkWidth);

@@ -1,119 +1,151 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Link } from "gatsby";
 import Layout from "../../../components/Layout";
 import Papa from "papaparse";
 import { uploadPfEmpInfo } from "../../../services/api-function";
 import { toast } from "react-toastify";
 
+interface ParsedData {
+  name: string;
+  empId: string;
+  empDob: string;
+  aadharNumber: string;
+  panNumber: string;
+  bankName: string;
+  ifscCode: string;
+  accountNumber: string;
+  address: string;
+  dateofRegistration: string;
+  pfUanNumber: string;
+  pfStatus: string;
+}
+const keysArray: string[] = [];
+
 function NewPfEnrollment() {
-  // State to store parsed data
-  const [parsedData, setParsedData] = useState<any>([]);
+  // const [parsedData, setParsedData] = useState<ParsedData[]>([]);
+  const [tableRows, setTableRows] = useState<string[]>([]);
+  const [values, setValues] = useState<string[][]>([]);
+ 
+ // On clear btn click
+ const onClearBtnClick = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
+  var tableWrapper = document.getElementById(
+    "table-wrapper"
+  ) as HTMLDivElement;
+  var saveclearbtns = document.getElementById(
+    "save-clear-btns"
+  ) as HTMLDivElement;
+  var tableinfoheading = document.getElementById(
+    "table-info-heading"
+  ) as HTMLHeadingElement;
 
-  //State to store table Column name
-  const [tableRows, setTableRows] = useState<any>([]);
+  // Clear the file input field
+  if (bulkfile) {
+    bulkfile.value = "";
+  }
 
-  //State to store the values
-  const [values, setValues] = useState<any>([]);
+  // Hide table and buttons
+  tableWrapper.style.display = "none";
+  saveclearbtns.style.display = "none";
+  tableinfoheading.classList.add("d-none");
 
-  // clear Button
-  const onClearBtnClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    var bulkFile = document.getElementById("bulk-file") as HTMLInputElement;
-    bulkFile.value = "";
-    var tablewrappers = document.getElementById("table-wrapper") as HTMLElement;
-    tablewrappers.style.display = "none";
-    var saveClearBtns = document.getElementById(
-      "save-clear-btns"
-    ) as HTMLElement;
-    saveClearBtns.style.display = "none";
-  };
+  // Auto-refresh the page
+  window.location.reload();
+};
 
-  // Function on Save button click
-  const pfEmp: any[] = [];
-  const saveTableDataToDatabase = async (e: any) => {
+  const saveTableDataToDatabase = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-
-    // Target `table-tbody Rows` and store it in an array.
+    window.alert("rowsArray.length");
+    window.alert(keysArray.length);
+    if (keysArray.length == 12) {
     const allTableRows = document.querySelectorAll("tbody tr");
+    const pfEmp: ParsedData[] = [];
 
-    //to target data of each Row of table.
     allTableRows.forEach((tr) => {
-      // Empty object to store each row's data.
-      let obj: any = {};
-      // Target td
-      let tableDataArray = tr.querySelectorAll("td");
-      // Store data in object
-      obj.name = tableDataArray[1].textContent;
-      obj.empId = tableDataArray[2].textContent;
-      obj.empDob = tableDataArray[3].textContent;
-      obj.aadharNumber = tableDataArray[4].textContent;
-      obj.panNumber = tableDataArray[5].textContent;
-      obj.bankName = tableDataArray[6].textContent;
-      obj.ifscCode = tableDataArray[7].textContent;
-      obj.accountNumber = tableDataArray[8].textContent;
-      obj.address = tableDataArray[9].textContent;
-      obj.dateofRegistration = tableDataArray[10].textContent;
-      obj.pfUanNumber = tableDataArray[11].textContent;
-      obj.pfStatus = tableDataArray[12].textContent;
-
+      let obj: ParsedData = {} as ParsedData;
+      const tableDataArray = tr.querySelectorAll("td");
+      obj.name = tableDataArray[0].textContent!;
+      obj.empId = tableDataArray[1].textContent!;
+      obj.empDob = tableDataArray[2].textContent!;
+      obj.aadharNumber = tableDataArray[3].textContent!;
+      obj.panNumber = tableDataArray[4].textContent!;
+      obj.bankName = tableDataArray[5].textContent!;
+      obj.ifscCode = tableDataArray[6].textContent!;
+      obj.accountNumber = tableDataArray[7].textContent!;
+      obj.address = tableDataArray[8].textContent!;
+      obj.dateofRegistration = tableDataArray[9].textContent!;
+      obj.pfUanNumber = tableDataArray[10].textContent!;
+      obj.pfStatus = tableDataArray[11].textContent!;
       pfEmp.push(obj);
     });
 
-    // Post all employees data from array into Database using axios
-
     const { error } = await uploadPfEmpInfo(pfEmp);
     if (error) {
-      // window.alert(error)
       toast.error(error);
     } else {
-      // alert("Information of added successfully")
       toast.success("PF employee information is added successfully.");
     }
-    //window.location.reload(false)
+  } else {
+    toast.error("Please upload aprropriate CSV file");
+  }
+  
   };
 
-  // onChange function
-  const changeHandler = (event: any) => {
-    // Passing file data
-    Papa.parse(event.target.files[0], {
+ //Function for Onchange events
+ const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const file = event.target.files && event.target.files[0];
+  if (file) {
+    Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
-      complete: function (results: any) {
-        const rowsArray: any[] = [];
-        const valuesArray: any[] = [];
-        //to get column name and their values
-        results.data.map((d: any) => {
-          rowsArray.push(Object.keys(d));
+      complete: function (results) {
+        const valuesArray: string[][] = [];
+        const uniqueRows = new Set<string>(); // Using a Set to store unique values
+
+        // Iterating data to get column name and their values
+        (results.data as ParsedData[]).forEach((d: ParsedData) => {
+          const keys = Object.keys(d);
+          keysArray.push(...keys); // Spread the keys into keysArray
           valuesArray.push(Object.values(d));
+          keys.forEach((key) => {
+            uniqueRows.add(key); // Add each column name to the Set
+          });
         });
-        // Parsed Data Response in array format
-        setParsedData(results.data);
-        // Filtered Column Names
-        setTableRows(rowsArray[0]);
-        // Filtered Values
+
+        // Converting Set back to array of unique values
+        setTableRows(Array.from(uniqueRows));
         setValues(valuesArray);
+
         // Display Table Div
-        var tablewrapperer = document.getElementById(
+        var tableWrapper = document.getElementById(
           "table-wrapper"
-        ) as HTMLElement;
-        tablewrapperer.style.display = "block";
-        var saveclearbtnsValue = document.getElementById(
+        ) as HTMLDivElement;
+        tableWrapper.style.display = "block";
+        var saveclearbtns = document.getElementById(
           "save-clear-btns"
-        ) as HTMLElement;
-        saveclearbtnsValue.style.display = "block";
+        ) as HTMLDivElement;
+        saveclearbtns.style.display = "block";
+
+        // Check if the element exists before accessing its classList
+        var tableinfoheading = document.getElementById(
+          "table-info-heading"
+        ) as HTMLHeadingElement;
+        if (tableinfoheading) {
+          tableinfoheading.classList.remove("d-none");
+        }
       },
     });
-  };
+  }
+};
+
   return (
     <Layout>
       <div className="container new-pf-enrollment">
         <div className="row justify-content-center">
           <div className="col-lg-12">
             <Link to="/hr-management-login/pf-dashboard" data-testid="arrowLink">
-              <i
-                className="bi bi-arrow-left-circle-fill"
-                data-testid="leftArrow"
-              ></i>
+              <i className="bi bi-arrow-left-circle-fill" data-testid="leftArrow"></i>
             </Link>
           </div>
           <div className="col-lg-8 cardDiv">
@@ -131,7 +163,7 @@ function NewPfEnrollment() {
                 data-testid="inputFile"
               />
               <h6 className="text-muted">
-                Hint : Upload Employee PF Information CSV file here.
+                Hint: Upload Employee PF Information CSV file here.
               </h6>
               <div className="csvEgImg">
                 <img
@@ -143,9 +175,7 @@ function NewPfEnrollment() {
                   data-testid="csvEgImg"
                 />
               </div>
-              <h6 className="text-muted mt-1">
-                Refer the sample CSV file image
-              </h6>
+              <h6 className="text-muted mt-1">Refer to the sample CSV file image.</h6>
             </div>
           </div>
 
@@ -165,31 +195,25 @@ function NewPfEnrollment() {
               >
                 <thead>
                   <tr>
-                    {tableRows.map((rows: any, index: number) => {
-                      return <th key={index}>{rows}</th>;
-                    })}
+                    {tableRows.map((row: string, index: number) => (
+                      <th key={index}>{row}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {values.map((value: any, index: number) => {
-                    return (
-                      <tr key={index}>
-                        {value.map((val: any, i: number) => {
-                          return <td key={i}>{val}</td>;
-                        })}
-                      </tr>
-                    );
-                  })}
+                  {values.map((value: string[], index: number) => (
+                    <tr key={index}>
+                      {value.map((val: string, i: number) => (
+                        <td key={i}>{val}</td>
+                      ))}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
-            
+
             {/* Save & Clear buttons */}
-            <div
-              className="row my-3"
-              id="save-clear-btns"
-              style={{ display: "none" }}
-            >
+            <div className="row my-3" id="save-clear-btns" style={{ display: "none" }}>
               <div className="col-4 offset-8 d-flex justify-content-end">
                 <button
                   className="btn btn-success"
@@ -208,4 +232,5 @@ function NewPfEnrollment() {
     </Layout>
   );
 }
+
 export default NewPfEnrollment;

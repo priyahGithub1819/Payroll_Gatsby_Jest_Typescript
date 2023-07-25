@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "gatsby";
 import Layout from "../../components/Layout";
 
-export default function pf() {
+interface PfProps {}
+
+const Pf: React.FC<PfProps> = () => {
   return (
     <Layout>
       <div className="container pfManagementContainer">
@@ -63,4 +65,6 @@ export default function pf() {
       </div>
     </Layout>
   );
-}
+};
+
+export default Pf;

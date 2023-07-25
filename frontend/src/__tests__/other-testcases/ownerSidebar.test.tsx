@@ -35,7 +35,7 @@ const routes = [
     component: () => <h1>List of Employee page</h1>,
   },
   {
-    path: "/owner-login/confirm-employee/",
+    path: "/owner-login/confirmed-employee/",
     component: () => <h1>List of confirm Employee page</h1>,
   },
   {
@@ -280,7 +280,7 @@ describe("Testing superadmin sidebar", () => {
     );
     expect(queryByText("My Dashboard")).toBeInTheDocument();
 
-    const Btn = screen.getByTestId("confirm-employee");
+    const Btn = screen.getByTestId("confirmed-employee");
     userEvent.click(Btn);
     cleanup();
 

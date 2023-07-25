@@ -4,35 +4,63 @@ import Layout from "../../../components/Layout";
 import { getAllPfEmpData, allUserData } from "../../../services/api-function";
 import { indianDate } from "../../../services/utils";
 
-function PfExitedEmpList() {
-  // usestate
-  const [records, setRecords] = useState<any>([]);
+interface PfEmployee {
+  name: string;
+  empDob: string;
+  empId: string;
+  aadharNumber: string;
+  panNumber: string;
+  bankName: string;
+  ifscCode: string;
+  accountNumber: string;
+  address: string;
+  dateofRegistration: string;
+  pfUanNumber: string;
+  lastWorkingDay?: string;
+  updatedby?: {
+    empId?: string;
+    date?: string;
+  };
+}
 
-  // function to get all data from database
+interface PayrollUser {
+  payrollData: {
+    empId: string;
+  };
+  basic: {
+    dateOfJoining: string;
+  };
+}
+
+function PfExitedEmpList() {
+  const [records, setRecords] = useState<any[]>([]);
+
   const getAllPfEmpList = async () => {
-    let combinedData = [];
+    let combinedData: any[] = [];
 
     let pfData = await getAllPfEmpData();
-    const empPaymentData = pfData.empInfo;
+    const empPaymentData: PfEmployee[] = pfData.empInfo;
 
     let empData = await allUserData();
-    const payrollUser = empData.employeeData;
+    const payrollUser: PayrollUser[] = empData.employeeData;
 
-    let user = new Map();
+    let user = new Map<string, number>();
 
     for (let i = 0; i < payrollUser.length; i++) {
       user.set(payrollUser[i].payrollData.empId, i);
     }
+
     for (let i = 0; i < empPaymentData.length; i++) {
       if (user.has(empPaymentData[i].empId)) {
         combinedData.push({
-          empPfData: empPaymentData[i],
-          ...payrollUser[user.get(empPaymentData[i].empId)],
+          ...empPaymentData[i],
+          ...payrollUser[user.get(empPaymentData[i].empId)!],
         });
       } else {
-        combinedData.push({ ...empPaymentData[i] });
+        combinedData.push(empPaymentData[i]);
       }
     }
+
     setRecords(combinedData);
   };
 
@@ -46,20 +74,14 @@ function PfExitedEmpList() {
         <div className="row justify-content-center">
           <div className="col-lg-12">
             <Link to="/hr-management-login/pf-dashboard" data-testid="arrowLink">
-              <i
-                className="bi bi-arrow-left-circle-fill"
-                data-testid="leftArrow"
-              ></i>
+              <i className="bi bi-arrow-left-circle-fill" data-testid="leftArrow"></i>
             </Link>
             <h2 className="text-center mb-4" data-testid="heading">
               List of Exited PF Employees{" "}
             </h2>
 
             <div className="empTable col-lg-12">
-              <table
-                className="table table-bordered css-serial"
-                data-testid="table"
-              >
+              <table className="table table-bordered css-serial" data-testid="table">
                 <thead>
                   <tr>
                     <th className="heading" role="column">
@@ -110,35 +132,33 @@ function PfExitedEmpList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {records &&
-                    records.map((record: any, Index: number) => {
-                      if (record.empPfData?.pfStatus === "Exited")
-                        return (
-                          <tr key={Index}>
-                            <td></td>
-                            <td>{record.empPfData.name}</td>
-                            <td>{indianDate(record.empPfData.empDob)}</td>
-                            <td>{record.empPfData.empId}</td>
-                            <td>{record.empPfData.aadharNumber}</td>
-                            <td>{record.empPfData.panNumber}</td>
-                            <td>{record.empPfData.bankName}</td>
-                            <td>{record.empPfData.ifscCode}</td>
-                            <td>{record.empPfData.accountNumber}</td>
-                            <td>{record.empPfData.address}</td>
-                            <td>{record.empPfData.dateofRegistration}</td>
-                            <td>{record.empPfData.pfUanNumber}</td>
-                            <td>{indianDate(record.basic.dateOfJoining)}</td>
-                            <td>
-                              {indianDate(record.empPfData?.lastWorkingDay)}
-                            </td>
-                            <td>{`By ${
-                              record.empPfData.updatedby?.empId
-                            } on ${indianDate(
-                              record.empPfData.updatedby?.date
-                            )}`}</td>
-                          </tr>
-                        );
-                    })}
+                  {records.map((record: any, index: number) => {
+                    if (record.pfStatus === "Exited") {
+                      return (
+                        <tr key={index}>
+                          <td></td>
+                          <td>{record.name}</td>
+                          <td>{indianDate(record.empDob)}</td>
+                          <td>{record.empId}</td>
+                          <td>{record.aadharNumber}</td>
+                          <td>{record.panNumber}</td>
+                          <td>{record.bankName}</td>
+                          <td>{record.ifscCode}</td>
+                          <td>{record.accountNumber}</td>
+                          <td>{record.address}</td>
+                          <td>{record.dateofRegistration}</td>
+                          <td>{record.pfUanNumber}</td>
+                          <td>{indianDate(record.basic.dateOfJoining)}</td>
+                          <td>{indianDate(record.lastWorkingDay || "")}</td>
+                          <td>{`By ${record.updatedby?.empId} on ${indianDate(
+                            record.updatedby?.date || ""
+                          )}`}</td>
+                        </tr>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
                 </tbody>
               </table>
             </div>
@@ -148,4 +168,5 @@ function PfExitedEmpList() {
     </Layout>
   );
 }
+
 export default PfExitedEmpList;

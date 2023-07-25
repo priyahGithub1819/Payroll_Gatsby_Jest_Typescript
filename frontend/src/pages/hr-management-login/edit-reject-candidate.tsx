@@ -6,12 +6,25 @@ import { Link } from "gatsby";
 import { getOwnerData } from "../../services/api-function";
 import { toast } from "react-toastify";
 
+interface CandidateRecord {
+  candidateId: number;
+  candidateName: string;
+  eduQual: string;
+  primarySkill: string;
+  secondarySkill: string;
+  noticePeriod: string;
+  currentCTC: string;
+  expectedCTC: string;
+  candiStatus: string;
+  rejectedMessage: string;
+}
+
 function App() {
   // All use state
-  const [candirecords, setCandirecords] = useState<any>([]);
-  const [rejectCandi, setRejectCandi] = useState<any>([]);
-  const [candiToEdit, setCandiToEdit] = useState<any>({
-    candidateId: "",
+  const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
+  const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
+  const [candiToEdit, setCandiToEdit] = useState<CandidateRecord>({
+    candidateId: 0,
     candidateName: "",
     eduQual: "",
     primarySkill: "",
@@ -28,7 +41,7 @@ function App() {
     let data = await getOwnerData();
 
     if (data.success === true) {
-      data.candiInfo.map((record: any) => {
+      data.candiInfo.forEach((record: CandidateRecord) => {
         if (record?.candiStatus === "Rejected") {
           rejectCandi.push(record);
         }
@@ -43,27 +56,33 @@ function App() {
   }, []);
 
   // onChange function
-  const onValueChange = (e: any) => {
+  const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCandiToEdit({ ...candiToEdit, [e.target.name]: e.target.value });
   };
 
   //On edit button click
-  const onEditBtnClick = async (e: any, candiId: number) => {
-    const tableRow = e.target.closest("tr");
+ //On edit button click
+const onEditBtnClick = async (e: React.MouseEvent<HTMLElement>, candiId: number) => {
+  const tableRow = e.currentTarget.closest("tr");
+  if (tableRow) {
     const rowData = tableRow.querySelectorAll(".data");
     tableRow.querySelectorAll(".data").forEach((input: any) => {
       input.style.border = "1px solid black";
     });
-    tableRow.querySelector(".save-btn").style.display = "";
+    const saveBtn = tableRow.querySelector(".save-btn") as HTMLElement;
+    if (saveBtn) {
+      saveBtn.style.display = "";
+    }
     rowData.forEach((element: any) => {
       element.removeAttribute("readOnly");
     });
     const currentCandi = await axios.get(`/api/v2/single-candi/${candiId}`);
     setCandiToEdit(currentCandi.data);
-  };
+  }
+};
 
   //On save button click
-  const onSaveBtnClick = async (e: any, candiId: number, name: string) => {
+  const onSaveBtnClick = async (e: React.MouseEvent<HTMLElement>, candiId: number, name: string) => {
     if (
       candiToEdit.candidateName === "" ||
       candiToEdit.eduQual === "" ||
@@ -74,69 +93,65 @@ function App() {
       candiToEdit.expectedCTC === ""
     ) {
       toast.error("Field should not be empty.");
-      if (candiToEdit.candidateName === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".name").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (candiToEdit.eduQual === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".eduQual").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (candiToEdit.primarySkill === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".primarySkill").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (candiToEdit.secondarySkill === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".secondarySkill").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (candiToEdit.noticePeriod === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".noticePeriod").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (candiToEdit.currentCTC === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".currectCTC").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
-      }
-      if (candiToEdit.expectedCTC === "") {
-        const tableRow = e.target.closest("tr");
-        tableRow.querySelectorAll(".expectedCTC").forEach((input: any) => {
-          input.style.border = "2px solid red";
-        });
+      const tableRow = (e.target as HTMLElement).closest("tr");
+      if (tableRow) {
+        if (candiToEdit.candidateName === "") {
+          tableRow.querySelectorAll(".name").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+        if (candiToEdit.eduQual === "") {
+          tableRow.querySelectorAll(".eduQual").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+        if (candiToEdit.primarySkill === "") {
+          tableRow.querySelectorAll(".primarySkill").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+        if (candiToEdit.secondarySkill === "") {
+          tableRow.querySelectorAll(".secondarySkill").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+        if (candiToEdit.noticePeriod === "") {
+          tableRow.querySelectorAll(".noticePeriod").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+        if (candiToEdit.currentCTC === "") {
+          tableRow.querySelectorAll(".currectCTC").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+        if (candiToEdit.expectedCTC === "") {
+          tableRow.querySelectorAll(".expectedCTC").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
       }
     } else {
       await axios.put(`/api/v2/edit-rejectcandi/${candiId}`, candiToEdit);
-      e.target.style.display = "none";
+      (e.target as HTMLElement).style.display = "none";
       await getAllCandidates();
-      const tableRow = e.target.closest("tr");
-      tableRow.querySelectorAll(".data").forEach((input: any) => {
-        input.style.border = "none";
-      });
+      const tableRow = (e.target as HTMLElement).closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".data").forEach((input: any) => {
+          input.style.border = "none";
+        });
+      }
       toast.success("Information of " + name + " is updated successfully.");
     }
   };
+  
   return (
     <Layout>
       <div className="container-fluid HrEmployeeContainer margin">
         <div className="row justify-content-center">
           <div className="col-lg-12">
             <Link to="/app/hr-dashboard">
-              <i
-                className="bi bi-arrow-left-circle-fill"
-                data-testid="arrowBtn"
-              ></i>
+              <i className="bi bi-arrow-left-circle-fill" data-testid="arrowBtn"></i>
             </Link>
             <div className="hrTableHeading">
               <h1 className="animate-charcter" data-testid="tableHeading">
@@ -147,10 +162,7 @@ function App() {
           <div className="col-lg-12">
             <div className="empTable">
               {/* table  */}
-              <table
-                className="table table-bordered"
-                data-testid="editRejectTable"
-              >
+              <table className="table table-bordered" data-testid="editRejectTable">
                 <thead>
                   <tr>
                     <th className="heading" role="column">
@@ -187,8 +199,8 @@ function App() {
                 </thead>
                 <tbody>
                   {candirecords &&
-                    candirecords.map((candirecord: any, Index: number) => {
-                      if (candirecord.candiStatus == "Rejected") {
+                    candirecords.map((candirecord: CandidateRecord, Index: number) => {
+                      if (candirecord.candiStatus === "Rejected") {
                         return (
                           <tr key={Index}>
                             <td>{Index + 1}</td>
@@ -269,21 +281,13 @@ function App() {
                               <i
                                 className="bi bi-pen-fill editIcon"
                                 role="editBtn"
-                                onClick={(e) =>
-                                  onEditBtnClick(e, candirecord.candidateId)
-                                }
+                                onClick={(e) => onEditBtnClick(e, candirecord.candidateId)}
                               ></i>
                               <i
                                 className="bi bi-check-circle-fill save-btn editIcon"
                                 style={{ display: "none" }}
                                 role="saveBtn"
-                                onClick={(e) =>
-                                  onSaveBtnClick(
-                                    e,
-                                    candirecord.candidateId,
-                                    candirecord.candidateName
-                                  )
-                                }
+                                onClick={(e) => onSaveBtnClick(e, candirecord.candidateId, candirecord.candidateName)}
                               ></i>
                             </td>
                           </tr>
@@ -299,4 +303,5 @@ function App() {
     </Layout>
   );
 }
+
 export default App;

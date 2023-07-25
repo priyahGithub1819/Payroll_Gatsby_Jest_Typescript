@@ -95,10 +95,7 @@ exports.updatePayrollEmployee = catchAysncError(async (req, res, next) => {
   }
 
   req.body.resetPasswordTimeOut = +new Date() + 60 * 60 * 1000;
-
   const payrollUser = await ERPUser.updateOne({ empId }, req.body);
-
-  // console.log(payrollUser);
 
   res.status(200).json({
     success: true,
@@ -144,7 +141,7 @@ exports.createManyPayrollUser = catchAysncError(async (req, res, next) => {
     }
   }
   if (notUpdated.length > 0) {
-    return next(new ErrorHandler(`${notUpdated} not in ERP`));
+    return next(new ErrorHandler(`This ${notUpdated} is not available/uploaded in ERP system`));
   }
 
   res.status(200).json({ success: true, notUpdated });

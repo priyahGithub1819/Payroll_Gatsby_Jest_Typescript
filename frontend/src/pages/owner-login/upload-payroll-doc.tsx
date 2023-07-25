@@ -1,30 +1,109 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import Layout from "../../components/Layout";
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Owners-sidebar";
 import { toast } from "react-toastify";
 
+interface Document {
+  originalname: string;
+  mimetype: string;
+  filename: string;
+}
+
 const UploadDocument = () => {
-  const [uploadFile, setUploadFile] = useState<any>();
-  const onFileChange = (e: any) => {
-    setUploadFile(e.target.files[0]);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setUploadFile(e.target.files[0]);
+    }
+  };
+
+  const handleUploadError = (error: AxiosError) => {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        console.error("Server Error:", error.response.data);
+        toast.error("File upload failed. Please try again later.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response received from the server.");
+      } else {
+        console.error("Error:", error.message);
+        toast.error("Error occurred while uploading the file.");
+      }
+    } else {
+      console.error("Unknown Error:", error);
+      toast.error("Unknown error occurred. Please try again later.");
+    }
   };
 
   const onFileUpload = async () => {
+    window.alert("checking upload");
     if (uploadFile) {
       const formData = new FormData();
+      console.log(formData);
       formData.append("myFile", uploadFile);
-      const data = await axios.post("api/v2/document/upload", formData);
-      toast.success("File uploaded successfully");
+      console.log(formData.get("myFile"));
+      try {
+        const response: any = await axios.post(
+          "/api/v2/document/upload",
+          formData
+        );
+        toast.success("File uploaded successfully");
+      } catch (error: any) {
+        handleUploadError(error);
+      }
     }
   };
+
+  // const onFileUpload = async () => {
+  //   try {
+  //     if (uploadFile) {
+  //       window.alert("upload")
+  //       const formData = new FormData();
+  //       formData.append("myFile", uploadFile);
+  //       const { data } = await axios.post("api/v2/document/upload", formData);
+  //       toast.success("File uploaded successfully");
+  //     }
+  //   } catch (error) {
+  //     if (axios.isAxiosError(error)) {
+  //       // Axios error: handle network or server errors
+  //       const axiosError = error as AxiosError;
+  //       if (axiosError.response) {
+  //         // Error with response from server
+  //         console.error(
+  //           `Upload failed with status code ${axiosError.response.status}`
+  //         );
+  //         // Handle specific error status codes 
+  //         // For example:
+  //         if (axiosError.response.status === 404) {
+  //           // File not found on the server
+  //           toast.error("File not found on the server");
+  //         } else {
+  //           // Other server error
+  //           toast.error("File upload failed");
+  //         }
+  //       } else {
+  //         // Error with request or no response received
+  //         console.error("Error with request or no response received");
+  //         // Handle other errors if needed
+  //       }
+  //     } else {
+  //       // Non-Axios error: handle other types of errors
+  //       console.error("File upload failed");
+  //       // Handle other errors if needed
+  //     }
+  //   }
+  // };
+  
   // On clear button click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     window.location.reload();
   };
 
-  const [docs, setDocs] = useState([]);
+  const [docs, setDocs] = useState<Document[]>([]);
+
   const getAllDocuments = async () => {
     const { data } = await axios.get("/api/v2/document/all");
     if (data.success === false) {
@@ -38,18 +117,18 @@ const UploadDocument = () => {
     getAllDocuments();
   }, []);
 
-  useEffect(() => {}, [docs]);
-
   const seeDocBtnClick = () => {
-    var docTable = document.getElementById("documentTable") as HTMLElement;
+    const docTable = document.getElementById("documentTable") as HTMLElement;
     docTable.style.display = "block";
     getAllDocuments();
   };
+
   const closeBtnClick = () => {
-    var docTable = document.getElementById("documentTable") as HTMLElement;
+    const docTable = document.getElementById("documentTable") as HTMLElement;
     docTable.style.display = "none";
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
     <Layout>
       <div className="OwnerContainer wrapper">
@@ -76,15 +155,15 @@ const UploadDocument = () => {
                     Hint : You can upload all types of files here.
                   </h6>
                 </div>
-                {uploadFile ? (
+                {uploadFile && (
                   <div id="FileDetails">
                     <br />
                     <h2>File Details:</h2>
                     <p>File Name: {uploadFile.name} </p>
                     <p>File Type: {uploadFile.type}</p>
                     <p>
-                      Last Modified:
-                      {uploadFile.lastModifiedDate.toDateString()}
+                      {/* Last Modified: {uploadFile.lastModified.toDateString()} */}
+                      Last Modified: {new Date(uploadFile.lastModified).toLocaleDateString()}
                     </p>
                     <button
                       className="btn btn-success mt-3"
@@ -100,8 +179,6 @@ const UploadDocument = () => {
                       Clear
                     </button>
                   </div>
-                ) : (
-                  ""
                 )}
 
                 <div className="text-center">
@@ -134,26 +211,20 @@ const UploadDocument = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {docs &&
-                        docs.map((docs: any, Index: number) => {
-                          return (
-                            <tr key={Index}>
-                              <td>{Index + 1}</td>
-                              <td>{docs.originalname}</td>
-                              <td>{docs.mimetype}</td>
-                              <td>
-                                <button className="docDownloadBtn btn btn-light">
-                                  <a
-                                    href={`/document/${docs.filename}`}
-                                    download
-                                  >
-                                    Download
-                                  </a>
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
+                      {docs.map((doc, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{doc.originalname}</td>
+                          <td>{doc.mimetype}</td>
+                          <td>
+                            <button className="docDownloadBtn btn btn-light">
+                              <a href={`/document/${doc.filename}`} download>
+                                Download
+                              </a>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

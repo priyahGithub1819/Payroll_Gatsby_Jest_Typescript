@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "gatsby";
 
-const hrDashboard = () => {
+const HrDashboard: React.FC = () => {
   return (
     <>
       <section className="mt-5" style={{ minHeight: "65vh" }}>
@@ -18,7 +18,7 @@ const hrDashboard = () => {
               <Link
                 to="/hr-management-login/employee/"
                 data-testid="employeeList"
-                className=" mx-auto text-center"
+                className="mx-auto text-center"
               >
                 <img
                   className="w-50 mx-auto"
@@ -28,7 +28,7 @@ const hrDashboard = () => {
               </Link>
             </div>
             <div
-              className=" col-lg-2 card p-3 m-3 hrDashBoardDiv"
+              className="col-lg-2 card p-3 m-3 hrDashBoardDiv"
               role="HrCard"
             >
               <h3 className="text-center">
@@ -36,7 +36,7 @@ const hrDashboard = () => {
               </h3>
               <Link
                 to="/hr-management-login/edit-reject-candidate/"
-                className=" mx-auto text-center pt-0"
+                className="mx-auto text-center pt-0"
                 data-testid="rejectedCandiList"
               >
                 <img
@@ -47,7 +47,7 @@ const hrDashboard = () => {
               </Link>
             </div>
             <div
-              className=" col-lg-2 card p-3 m-3 hrDashBoardDiv"
+              className="col-lg-2 card p-3 m-3 hrDashBoardDiv"
               role="HrCard"
             >
               <h3 className="text-center">Upload Candidates List</h3>
@@ -64,7 +64,7 @@ const hrDashboard = () => {
               </Link>
             </div>
             <div
-              className=" col-lg-2 card p-3 m-3 hrDashBoardDiv"
+              className="col-lg-2 card p-3 m-3 hrDashBoardDiv"
               role="HrCard"
             >
               <h3 className="text-center">PF management</h3>
@@ -83,4 +83,4 @@ const hrDashboard = () => {
   );
 };
 
-export default hrDashboard;
+export default HrDashboard;

@@ -2,7 +2,7 @@ import React from "react"
 import { render } from "../../test_Util/custom-render-function";
 import {rest} from "msw"
 import {setupServer} from "msw/node";
-import ConfirmEmp from "../../pages/owner-login/confirm-employee"
+import ConfirmEmp from "../../pages/owner-login/confirmed-employee"
 
 const data = {
             "success": true,
@@ -157,7 +157,7 @@ describe("testing list of confirm employee in owner login",()=>{
     afterAll(()=>server.close())
     it("all user list is rendering here", async ()=>{
         customeServerCall() 
-        const {debug,findByText} = render(<ConfirmEmp />,{route:"/owner-login/confirm-employee/"})
+        const {debug,findByText} = render(<ConfirmEmp />,{route:"/owner-login/confirmed-employee/"})
     
         await findByText("UISPL0004")
 

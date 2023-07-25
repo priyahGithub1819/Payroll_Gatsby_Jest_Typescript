@@ -1305,7 +1305,7 @@ button.nextBtn:active::after {
 
 .superadmin-profile-wrapper .icon {
   height: 17%;
-  width: 17%;
+  width: 30%;
   transition: 0.3s ease-in-out;
 }
 

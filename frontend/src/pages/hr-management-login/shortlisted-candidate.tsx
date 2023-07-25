@@ -1,104 +1,134 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import Layout from "../../components/Layout";
 import { Link } from "gatsby";
 import Papa from "papaparse";
 import { uploadCandiInfo } from "../../services/api-function";
 import { toast } from "react-toastify";
 
+interface Candidate {
+  candidateId: string;
+  candidateName: string;
+  eduQual: string;
+  primarySkill: string;
+  secondarySkill: string;
+  noticePeriod: string;
+  currentCTC: string;
+  expectedCTC: string;
+  candiStatus: string;
+  rejectionMsg: string;
+}
+
+const keysArray: string[] = [];
 function ShortlistedCandidate() {
-  // State to store parsed data
-  const [parsedData, setParsedData] = useState([]);
+  // const [parsedData, setParsedData] = useState<Candidate[]>([]);
+  const [tableRows, setTableRows] = useState<string[]>([]);
+  const [values, setValues] = useState<string[][]>([]);
 
-  //State to store table Column name
-  const [tableRows, setTableRows] = useState([]);
-
-  //State to store the values
-  const [values, setValues] = useState<any>([]);
-
-  //To clear Table
+  // On clear btn click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    var bulkFile = document.getElementById("bulk-file") as HTMLInputElement;
-    bulkFile.value = "";
-    var tablewrappers = document.getElementById("table-wrapper") as HTMLElement;
-    tablewrappers.style.display = "none";
-    var saveClearBtns = document.getElementById(
+    var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
+    var tableWrapper = document.getElementById(
+      "table-wrapper"
+    ) as HTMLDivElement;
+    var saveclearbtns = document.getElementById(
       "save-clear-btns"
-    ) as HTMLElement;
-    saveClearBtns.style.display = "none";
+    ) as HTMLDivElement;
+    var tableinfoheading = document.getElementById(
+      "table-info-heading"
+    ) as HTMLHeadingElement;
+
+    // Clear the file input field
+    if (bulkfile) {
+      bulkfile.value = "";
+    }
+
+    // Hide table and buttons
+    tableWrapper.style.display = "none";
+    saveclearbtns.style.display = "none";
+
+    // Auto-refresh the page
+    window.location.reload();
   };
 
-  // Function on Save button click
-  const candidate: any[] = [];
-  //To save candidate CSV file to db
-  const saveCandiInfoToDb = async (e: any) => {
+  const saveCandiInfoToDb = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (keysArray.length == 10) {
+      const allTableRows = document.querySelectorAll("tbody tr");
+      const candidate: Candidate[] = [];
+      allTableRows.forEach((tr: any) => {
+        let obj: Partial<Candidate> = {}; // Use Partial<Candidate> to allow undefined properties
+        let tableDataArray = tr.querySelectorAll("td");
 
-    // Target `table-tbody Rows` and store it in an array.
-    const allTableRows = document.querySelectorAll("tbody tr");
+        obj.candidateId = tableDataArray[0].textContent;
+        obj.candidateName = tableDataArray[1].textContent;
+        obj.eduQual = tableDataArray[2].textContent;
+        obj.primarySkill = tableDataArray[3].textContent;
+        obj.secondarySkill = tableDataArray[4].textContent;
+        obj.noticePeriod = tableDataArray[5].textContent;
+        obj.currentCTC = tableDataArray[6].textContent;
+        obj.expectedCTC = tableDataArray[7].textContent;
+        obj.candiStatus = tableDataArray[8].textContent;
+        obj.rejectionMsg = tableDataArray[9].textContent;
+        candidate.push(obj as Candidate); // Assert obj as Candidate
+      });
 
-    //to target data of each Row of table.
-    allTableRows.forEach((tr: any) => {
-      // Empty object to store each row's data.
-      let obj: any = {};
-      // Target td
-      let tableDataArray = tr.querySelectorAll("td");
-      // Store data in object
-      obj.candidateId = tableDataArray[1].textContent;
-      obj.candidateName = tableDataArray[2].textContent;
-      obj.eduQual = tableDataArray[3].textContent;
-      obj.primarySkill = tableDataArray[4].textContent;
-      obj.secondarySkill = tableDataArray[5].textContent;
-      obj.noticePeriod = tableDataArray[6].textContent;
-      obj.currentCTC = tableDataArray[7].textContent;
-      obj.expectedCTC = tableDataArray[8].textContent;
-      obj.candiStatus = tableDataArray[9].textContent;
-
-      candidate.push(obj);
-    });
-
-    // Post all employees data from array into Database using axios
-    const { error } = await uploadCandiInfo(candidate);
-    if (error) {
-      // window.alert(error)
-      toast.error(error);
+      const { error } = await uploadCandiInfo(candidate);
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Candidate information is added successfully.");
+      }
     } else {
-      //alert("Candidate information added successfully")
-      toast.success("Candidate information is added successfully.");
+      toast.error("Please upload aprropriate CSV file");
     }
   };
 
-  // onChange function
-  const changeHandler = (event: any) => {
-    // Passing file data
-    Papa.parse(event.target.files[0], {
-      header: true,
-      skipEmptyLines: true,
-      complete: function (results: any) {
-        const rowsArray: any[] = [];
-        const valuesArray: any[] = [];
-        //to get column name and their values
-        results.data.map((d: any) => {
-          rowsArray.push(Object.keys(d));
-          valuesArray.push(Object.values(d));
-        });
-        // Parsed Data Response in array format
-        setParsedData(results.data);
-        // Filtered Column Names
-        setTableRows(rowsArray[0]);
-        // Filtered Values
-        setValues(valuesArray);
-        // Display Table Div
-        var tablewrapperer = document.getElementById(
-          "table-wrapper"
-        ) as HTMLElement;
-        tablewrapperer.style.display = "block";
-        var saveclearbtnsValue = document.getElementById(
-          "save-clear-btns"
-        ) as HTMLElement;
-        saveclearbtnsValue.style.display = "block";
-      },
-    });
+  //Function for Onchange events
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          const valuesArray: string[][] = [];
+          const uniqueRows = new Set<string>(); // Using a Set to store unique values
+
+          // Iterating data to get column name and their values
+          (results.data as Candidate[]).forEach((d: Candidate) => {
+            const keys = Object.keys(d);
+            keysArray.push(...keys); // Spread the keys into keysArray
+            valuesArray.push(Object.values(d));
+            keys.forEach((key) => {
+              uniqueRows.add(key); // Add each column name to the Set
+            });
+          });
+
+          // Converting Set back to array of unique values
+          setTableRows(Array.from(uniqueRows));
+          setValues(valuesArray);
+
+          // Display Table Div
+          var tableWrapper = document.getElementById(
+            "table-wrapper"
+          ) as HTMLDivElement;
+          tableWrapper.style.display = "block";
+          var saveclearbtns = document.getElementById(
+            "save-clear-btns"
+          ) as HTMLDivElement;
+          saveclearbtns.style.display = "block";
+
+          // Check if the element exists before accessing its classList
+          var tableinfoheading = document.getElementById(
+            "table-info-heading"
+          ) as HTMLHeadingElement;
+          if (tableinfoheading) {
+            tableinfoheading.classList.remove("d-none");
+          }
+        },
+      });
+    }
   };
 
   return (
@@ -124,7 +154,7 @@ function ShortlistedCandidate() {
                 style={{ display: "block", margin: "10px auto" }}
               />
               <h6 className="text-muted">
-                Hint : Upload candidate information CSV file here.
+                Hint: Upload candidate information CSV file here.
               </h6>
               <div className="csvEgImg">
                 <img
@@ -135,7 +165,7 @@ function ShortlistedCandidate() {
                   height="300"
                 />
               </div>
-              <h6 className="text-muted">Refer the sample CSV file image</h6>
+              <h6 className="text-muted">Refer to the sample CSV file image</h6>
             </div>
           </div>
 
@@ -157,10 +187,10 @@ function ShortlistedCandidate() {
                   </tr>
                 </thead>
                 <tbody>
-                  {values.map((value: any, index: number) => {
+                  {values.map((value: string[], index: number) => {
                     return (
                       <tr key={index}>
-                        {value.map((val: any, i: number) => {
+                        {value.map((val, i) => {
                           return <td key={i}>{val}</td>;
                         })}
                       </tr>
@@ -192,4 +222,5 @@ function ShortlistedCandidate() {
     </Layout>
   );
 }
+
 export default ShortlistedCandidate;
