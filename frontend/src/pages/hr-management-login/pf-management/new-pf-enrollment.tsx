@@ -56,8 +56,6 @@ function NewPfEnrollment() {
 
   const saveTableDataToDatabase = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    window.alert("rowsArray.length");
-    window.alert(keysArray.length);
     if (keysArray.length == 12) {
     const allTableRows = document.querySelectorAll("tbody tr");
     const pfEmp: ParsedData[] = [];
