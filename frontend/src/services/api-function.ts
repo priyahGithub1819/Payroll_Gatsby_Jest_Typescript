@@ -146,26 +146,20 @@ interface CandidateStatus {
   rejectedMessage?: string;
 }
 
-// interface CandidateStatus {
-// candiStatus: string
-// candidateId: string
-// candidateName: string
-// createdAt: string
-// currentCTC: number
-// eduQual: string
-// expectedCTC: string
-// noticePeriod: string
-// primarySkill: string
-// secondarySkill: string
-// id: string
-// rejectedMessage: string
-// }
-
-// interface RejectedMsg extend CandidateStatus {
-// candidateName: string
-// id: string
-// rejectedMessage: string
-// }
+interface ParsedData {
+  name: string;
+  empId: string;
+  empDob: string;
+  aadharNumber: string;
+  panNumber: string;
+  bankName: string;
+  ifscCode: string;
+  accountNumber: string;
+  address: string;
+  dateofRegistration: string;
+  pfUanNumber: string;
+  pfStatus: string;
+}
 
 interface EmployeeCtc {
   CTC: number | undefined;
@@ -419,7 +413,7 @@ export const getAllPfEmpData = async () => {
 };
 
 //Upload employee Information and Save to database(hr Admin login)
-export const uploadPfEmpInfo = async (empInfo: string) => {
+export const uploadPfEmpInfo = async (empInfo: ParsedData[]) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(

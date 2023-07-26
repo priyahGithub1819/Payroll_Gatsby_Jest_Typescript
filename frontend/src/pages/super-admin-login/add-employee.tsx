@@ -25,13 +25,9 @@ const Superadmin = () => {
   const [id, setId] = useState<NewUsersList[]>([]);
   const getAllEmployees = async () => {
     let data = await getNewUsers();
-    console.log(data);
-    
-    setId(data.data);
-   
-    
+    setId(data.data); 
   };
-  console.log(id);
+ 
   useEffect(() => {
     getAllEmployees();
   }, []);

@@ -259,10 +259,8 @@ describe("update-ctc.test.tsx", () => {
     const selectRef = getAllByTestId("myCTC")[0] as HTMLInputElement;
 
     expect(selectRef).toHaveValue("90000");
-    console.log(selectRef.value);
     // await waitFor(()=> fireEvent.change(selectRef,{ target:{value: "500000"}}))
     await waitFor(() => userEvent.type(selectRef, "500000"));
     // userEvent.type(selectRef, "500000");
-    console.log(selectRef.value);
   });
 });

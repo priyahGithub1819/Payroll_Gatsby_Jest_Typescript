@@ -25,7 +25,6 @@ exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
       process.env.JWT_SECRET
     );
     req.employee = await payrollUser.findOne({ empId: token.id });
-    // console.log(req.employee)
     next();
   } else {
     return next(new ErrorHandler(`please login first`, 200));

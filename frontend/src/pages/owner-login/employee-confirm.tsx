@@ -94,12 +94,6 @@ function App() {
     let data = await allUserData();
     setRecords(data.employeeData);
   };
-  console.log("empToEdit")
-  console.log(empToEdit)
-  // useEffect(() => {
-  //   console.log("empToEdit")
-  //   console.log(empToEdit)
-  // }, [empToEdit]);
 
   useEffect(() => {
     getAllEmployees();
@@ -123,9 +117,9 @@ function App() {
       const rowData = tableRow.querySelectorAll(".data");
       tableRow.querySelectorAll(".data").forEach((input: any) => {
         input.style.border = "1px solid black";
-        input.style.display = "block"; // Fix: use 'display' instead of 'style'
+        input.disabled = false;
+        input.style.appearance = "revert";
       });
-
       const saveConfirmDate = tableRow.querySelector(
         ".saveConfirmDate"
       ) as HTMLElement | null;
@@ -144,7 +138,6 @@ function App() {
   };
 
   const onSaveClick = async (
-    // e: MouseEvent<HTMLImageElement>,
     e: any,
     empId: string,
     count: number,
@@ -153,16 +146,16 @@ function App() {
     name: string,
     lastName: string
   ) => {
-    console.log(probationPeriod)
     await editEmpStatusPayroll(empId, empToEdit?.payrollData);
-    await editEmpStatusErp(empId, {probationPeriod});
+    await editEmpStatusErp(empId, { probationPeriod });
     e.target.style.display = "none";
     const tableRow = e.target.closest("tr");
     if (tableRow === null) return; // Handle the case where tableRow is null
 
     tableRow.querySelectorAll(".data").forEach((input: any) => {
       input.style.border = "none";
-      // input.style.display = "none"; // Fix: use 'display' instead of 'style'
+      input.disabled = true;
+      input.style.appearance = "none";
     });
 
     toast.success(`Probation period of ${empId} is updated successfully`);
@@ -173,7 +166,6 @@ function App() {
     }
 
     let updatedEmployee: Employee | null = null;
-
     if (
       probationPeriod === 3 ||
       probationPeriod === 6 ||
@@ -201,8 +193,6 @@ function App() {
       };
     }
 
-    console.log(updatedEmployee)
-
     setEmpToEdit(updatedEmployee);
     getAllEmployees();
   };
@@ -211,11 +201,6 @@ function App() {
     editEmpStatusPayroll(id, { empStatus: "Confirmed" });
     toast.success(id + " confirmed successfully");
     getAllEmployees();
-  };
-
-  const notification = async (id: string) => {
-    var notification = document.getElementById("notification") as HTMLElement;
-    notification.style.display = "block";
   };
 
   return (
@@ -265,7 +250,7 @@ function App() {
                               <td>{record.payrollData.empId}</td>
                               <td>{record.basic.selectCount}</td>
                               <td>
-                                <select
+                                <select disabled
                                   style={{ appearance: "none" }}
                                   name="probationPeriod"
                                   className="data select"
@@ -273,14 +258,13 @@ function App() {
                                   data-testid="probitionPeriod"
                                   onChange={(e) => {
                                     if (empToEdit) {
-                                        console.log("Probation period")
-                                    empToEdit.basic.probationPeriod = Number(e.target.value)
-                                    setEmpToEdit({...empToEdit});
-                      
+                                      empToEdit.basic.probationPeriod = Number(e.target.value)
+                                      setEmpToEdit({ ...empToEdit });
+
                                     }
-                                  
+
                                     records[index].basic.probationPeriod = Number(e.target.value);
-                                     setRecords(records)
+                                    setRecords(records)
                                   }}
                                   value={record.basic.probationPeriod}
                                 >
@@ -291,11 +275,10 @@ function App() {
                                 <img
                                   src="/edit.png"
                                   alt="edit button"
-                                  className={`editConfirmDate ${
-                                    record.basic.selectCount === 2
-                                      ? "d-none"
-                                      : ""
-                                  }`}
+                                  className={`editConfirmDate ${record.basic.selectCount === 2
+                                    ? "d-none"
+                                    : ""
+                                    }`}
                                   id="editBtn"
                                   data-testid="editBtn"
                                   onClick={(e) =>

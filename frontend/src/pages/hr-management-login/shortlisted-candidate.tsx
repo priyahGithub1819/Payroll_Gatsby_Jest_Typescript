@@ -80,7 +80,7 @@ function ShortlistedCandidate() {
         toast.success("Candidate information is added successfully.");
       }
     } else {
-      toast.error("Please upload aprropriate CSV file");
+      toast.error("Please upload appropriate CSV file");
     }
   };
 

@@ -143,7 +143,7 @@ function AddBulkEmployee() {
         toast.success("Employee information uploded successfully.");
       }
     } else {
-      toast.error("Please upload aprropriate CSV file");
+      toast.error("Please upload appropriate CSV file");
     }
   };
 

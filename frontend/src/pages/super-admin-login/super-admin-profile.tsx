@@ -60,8 +60,7 @@ success: boolean;
 
 const Profile = () => {
   const [user, setUser] = useState<EmployeeData | undefined>();
-  console.log(user);
-  
+   
   useEffect(() => {
     loadUser()
       .then((data: EmployeeData) => setUser(data))

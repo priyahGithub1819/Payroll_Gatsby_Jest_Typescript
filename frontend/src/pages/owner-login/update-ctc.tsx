@@ -112,7 +112,7 @@ interface EmployeeData {
     paymentType: string;
   };
   CTC?: number,
-  designation: string, 
+  designation: string,
 }
 
 function App() {
@@ -136,22 +136,19 @@ function App() {
     setRecords(data.employeeData);
 
     if (ctcData.success && data.success) {
-      console.log(ctcData);
-
       setAllCtc(ctcData.resultData);
     } else {
       window.alert(ctcData.error);
     }
   };
-  console.log(empToEdit);
 
   useEffect(() => {
     getAllEmployees();
   }, []);
 
   const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(empToEdit)
-    setEmpToEdit({ ...empToEdit, [e.target.name]: e.target.value });
+    if (empToEdit)
+      setEmpToEdit({ ...empToEdit, [e.target.name]: e.target.value });
   };
 
   //To edit designation and CTC columns
@@ -160,7 +157,6 @@ function App() {
     empId: string
   ) => {
     const target = e.target as HTMLElement;
-    console.log(target);
     const tableRow = target.closest("tr");
     const rowData = tableRow?.querySelectorAll(".data");
     if (rowData) {
@@ -174,10 +170,10 @@ function App() {
     if (saveBtn) {
       saveBtn.style.display = "";
     }
-   
+
     const currentEmp = await axios.get(`/api/v2/single-emp/${empId}`);
     setEmpToEdit(currentEmp.data);
-  
+
     rowData?.forEach((element: Element) => {
       if (element instanceof HTMLElement) {
         element.removeAttribute("readOnly");
@@ -192,53 +188,53 @@ function App() {
     name: string,
     lastName: string
   ) => {
-    if(empToEdit){
-    const { CTC } = empToEdit;
+    if (empToEdit) {
+      const { CTC } = empToEdit;
 
-    if (String(empToEdit.CTC) === "") {
-      alert("Field should not be empty.");
-      const target = e.currentTarget as HTMLElement;
-      const tableRow = target.closest("tr");
-      const inputElements = tableRow?.querySelectorAll(".CTC");
-      if (inputElements) {
-        inputElements.forEach((input: Element) => {
-          if (input instanceof HTMLElement) {
-            input.style.border = "2px solid red";
-          }
-        });
-      }
-    } 
-    else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
-      alert("CTC cannot be negative.");
-      const target = e.currentTarget as HTMLElement;
-      const tableRow = target.closest("tr");
-      const inputElements = tableRow?.querySelectorAll(".CTC");
-      if (inputElements) {
-        inputElements.forEach((input: Element) => {
-          if (input instanceof HTMLElement) {
-            input.style.border = "2px solid red";
-          }
-        });
-      }
-    } else {
-      await editEmpStatusErp(empId, empToEdit);
-      await editSingleCtc(empId, { CTC });
-      const target = e.target as HTMLButtonElement;
-      if (target) {
-        target.style.display = "none";
+      if (String(empToEdit.CTC) === "") {
+        alert("Field should not be empty.");
+        const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
-        const inputElements = tableRow?.querySelectorAll(".data");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
         if (inputElements) {
           inputElements.forEach((input: Element) => {
             if (input instanceof HTMLElement) {
-              input.style.border = "none";
+              input.style.border = "2px solid red";
             }
           });
         }
       }
-      toast.success(`Information of ${empId} is updated successfully`);
+      else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
+        alert("CTC cannot be negative.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else {
+        await editEmpStatusErp(empId, empToEdit);
+        await editSingleCtc(empId, { CTC });
+        const target = e.target as HTMLButtonElement;
+        if (target) {
+          target.style.display = "none";
+          const tableRow = target.closest("tr");
+          const inputElements = tableRow?.querySelectorAll(".data");
+          if (inputElements) {
+            inputElements.forEach((input: Element) => {
+              if (input instanceof HTMLElement) {
+                input.style.border = "none";
+              }
+            });
+          }
+        }
+        toast.success(`Information of ${empId} is updated successfully`);
+      }
     }
-  }
   };
 
   return (
@@ -286,16 +282,16 @@ function App() {
                                     onChange={onValueChange}
                                     defaultValue={
                                       allCtc &&
-                                      allCtc.filter(
-                                        (ctc: CtcData) =>
-                                          ctc.Emp_Id ===
-                                          record.payrollData.empId
-                                      ).length > 0
+                                        allCtc.filter(
+                                          (ctc: CtcData) =>
+                                            ctc.Emp_Id ===
+                                            record.payrollData.empId
+                                        ).length > 0
                                         ? allCtc.filter(
-                                            (ctc: CtcData) =>
-                                              ctc.Emp_Id ===
-                                              record.payrollData.empId
-                                          )[0].CTC
+                                          (ctc: CtcData) =>
+                                            ctc.Emp_Id ===
+                                            record.payrollData.empId
+                                        )[0].CTC
                                         : "CTC not found"
                                     }
                                     readOnly
