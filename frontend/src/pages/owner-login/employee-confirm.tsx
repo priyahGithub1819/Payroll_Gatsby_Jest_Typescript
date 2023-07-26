@@ -153,11 +153,9 @@ function App() {
     name: string,
     lastName: string
   ) => {
-    console.log(empToEdit)
+    console.log(probationPeriod)
     await editEmpStatusPayroll(empId, empToEdit?.payrollData);
-    // console.log("saveButtonRef");
-    console.log(e.target.style);
-    // e.currentTarget.style.display = "none";
+    await editEmpStatusErp(empId, {probationPeriod});
     e.target.style.display = "none";
     const tableRow = e.target.closest("tr");
     if (tableRow === null) return; // Handle the case where tableRow is null
@@ -168,11 +166,11 @@ function App() {
     });
 
     toast.success(`Probation period of ${empId} is updated successfully`);
-    // if (count === 0) {
-    //   editEmpStatusErp(empId, { selectCount: 1 });
-    // } else {
-    //   editEmpStatusErp(empId, { selectCount: 2 });
-    // }
+    if (count === 0) {
+      editEmpStatusErp(empId, { selectCount: 1 });
+    } else {
+      editEmpStatusErp(empId, { selectCount: 2 });
+    }
 
     let updatedEmployee: Employee | null = null;
 
@@ -202,6 +200,8 @@ function App() {
         },
       };
     }
+
+    console.log(updatedEmployee)
 
     setEmpToEdit(updatedEmployee);
     getAllEmployees();

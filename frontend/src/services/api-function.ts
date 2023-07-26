@@ -349,7 +349,7 @@ export const getAllCTC = async () => {
 };
 
 // Edit employee information
-export const editEmpStatusPayroll = async (id: string, userData: string[]) => {
+export const editEmpStatusPayroll = async (id: string, userData: any) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.put(
@@ -364,7 +364,7 @@ export const editEmpStatusPayroll = async (id: string, userData: string[]) => {
 };
 // Edit employee information
 
-export const editEmpStatusErp = async (id: string, userData: EmployeeData) => {
+export const editEmpStatusErp = async (id: string, userData: any) => {
   try {
     const config: IConfig = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.put(

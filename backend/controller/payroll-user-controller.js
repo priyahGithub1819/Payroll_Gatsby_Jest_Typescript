@@ -225,7 +225,7 @@ exports.editEmployeeERP = catchAysncError(async (req, res) => {
   const data = req.body;
   const id = req.params.id;
   if (!data) {
-    return next(new ErrorHandler("No PayrollData was sent", 400));
+    return next(new ErrorHandler("No Payroll data was sent", 400));
   } else if (!id) {
     return next(new ErrorHandler("id was not sent", 400));
   }
