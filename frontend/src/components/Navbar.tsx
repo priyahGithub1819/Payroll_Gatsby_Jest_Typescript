@@ -195,7 +195,6 @@ const Navbar = (props: RouteComponentProps) => {
   useEffect(() => {
     if (data?.employee) {
       setUser(data);
-      console.log(data);
       setUserRole(data.employee?.payrollData.role);
     }
   }, [data, userRole]);

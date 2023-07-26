@@ -82,7 +82,7 @@ function AddCTC() {
         toast.success("CTC of an employee uploaded successfully.");
       }
     } else {
-      toast.error("Please upload aprropriate CSV file");
+      toast.error("Please upload appropriate CSV file");
     }
   };
 

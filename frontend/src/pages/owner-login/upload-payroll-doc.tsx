@@ -41,9 +41,7 @@ const UploadDocument = () => {
     window.alert("checking upload");
     if (uploadFile) {
       const formData = new FormData();
-      console.log(formData);
       formData.append("myFile", uploadFile);
-      console.log(formData.get("myFile"));
       try {
         const response: any = await axios.post(
           "/api/v2/document/upload",
@@ -56,46 +54,6 @@ const UploadDocument = () => {
     }
   };
 
-  // const onFileUpload = async () => {
-  //   try {
-  //     if (uploadFile) {
-  //       window.alert("upload")
-  //       const formData = new FormData();
-  //       formData.append("myFile", uploadFile);
-  //       const { data } = await axios.post("api/v2/document/upload", formData);
-  //       toast.success("File uploaded successfully");
-  //     }
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       // Axios error: handle network or server errors
-  //       const axiosError = error as AxiosError;
-  //       if (axiosError.response) {
-  //         // Error with response from server
-  //         console.error(
-  //           `Upload failed with status code ${axiosError.response.status}`
-  //         );
-  //         // Handle specific error status codes 
-  //         // For example:
-  //         if (axiosError.response.status === 404) {
-  //           // File not found on the server
-  //           toast.error("File not found on the server");
-  //         } else {
-  //           // Other server error
-  //           toast.error("File upload failed");
-  //         }
-  //       } else {
-  //         // Error with request or no response received
-  //         console.error("Error with request or no response received");
-  //         // Handle other errors if needed
-  //       }
-  //     } else {
-  //       // Non-Axios error: handle other types of errors
-  //       console.error("File upload failed");
-  //       // Handle other errors if needed
-  //     }
-  //   }
-  // };
-  
   // On clear button click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -162,7 +120,6 @@ const UploadDocument = () => {
                     <p>File Name: {uploadFile.name} </p>
                     <p>File Type: {uploadFile.type}</p>
                     <p>
-                      {/* Last Modified: {uploadFile.lastModified.toDateString()} */}
                       Last Modified: {new Date(uploadFile.lastModified).toLocaleDateString()}
                     </p>
                     <button
