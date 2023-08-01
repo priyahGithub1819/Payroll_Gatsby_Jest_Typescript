@@ -31,12 +31,6 @@ function ShortlistedCandidate() {
     var tableWrapper = document.getElementById(
       "table-wrapper"
     ) as HTMLDivElement;
-    var saveclearbtns = document.getElementById(
-      "save-clear-btns"
-    ) as HTMLDivElement;
-    var tableinfoheading = document.getElementById(
-      "table-info-heading"
-    ) as HTMLHeadingElement;
 
     // Clear the file input field
     if (bulkfile) {
@@ -45,10 +39,8 @@ function ShortlistedCandidate() {
 
     // Hide table and buttons
     tableWrapper.style.display = "none";
-    saveclearbtns.style.display = "none";
-
-    // Auto-refresh the page
-    window.location.reload();
+    setTableRows([])
+    setValues([])
   };
 
   const saveCandiInfoToDb = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -78,6 +70,8 @@ function ShortlistedCandidate() {
         toast.error(error);
       } else {
         toast.success("Candidate information is added successfully.");
+        setTableRows([])
+        setValues([])
       }
     } else {
       toast.error("Please upload aprropriate CSV file");
@@ -88,6 +82,14 @@ function ShortlistedCandidate() {
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
+      if(file.size>1024*1024*2){
+        // if already any file exits 
+        event.target.value = ""
+        setTableRows([])
+        setValues([])
+        return toast.warn("file size exceeds")
+    }else{
+
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
@@ -114,10 +116,6 @@ function ShortlistedCandidate() {
             "table-wrapper"
           ) as HTMLDivElement;
           tableWrapper.style.display = "block";
-          var saveclearbtns = document.getElementById(
-            "save-clear-btns"
-          ) as HTMLDivElement;
-          saveclearbtns.style.display = "block";
 
           // Check if the element exists before accessing its classList
           var tableinfoheading = document.getElementById(
@@ -128,6 +126,8 @@ function ShortlistedCandidate() {
           }
         },
       });
+            
+    }
     }
   };
 
@@ -202,9 +202,8 @@ function ShortlistedCandidate() {
             <div
               className="row my-3"
               id="save-clear-btns"
-              style={{ display: "none" }}
             >
-              <div className="col-4 offset-8 d-flex justify-content-end">
+             { tableRows.length > 0 ?  <div className="col-4 offset-8 d-flex justify-content-end">
                 <button
                   className="btn btn-success"
                   onClick={(e) => saveCandiInfoToDb(e)}
@@ -214,7 +213,7 @@ function ShortlistedCandidate() {
                 <button className="btn btn-danger" onClick={onClearBtnClick}>
                   Clear
                 </button>
-              </div>
+              </div> : "" }
             </div>
           </div>
         </div>

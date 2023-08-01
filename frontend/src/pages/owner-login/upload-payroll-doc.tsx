@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import Layout from "../../components/Layout";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Sidebar from "../../components/Owners-sidebar";
 import { toast } from "react-toastify";
 
@@ -12,10 +12,22 @@ interface Document {
 
 const UploadDocument = () => {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const resetInputRef = useRef<null | HTMLInputElement>(null);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+        const file = e.target.files[0]
+
+        if(file.size>1024*1024*2){
+            // if already any file exits 
+            e.target.value = ""
+            setUploadFile(null)
+            return toast.warn("file size exceeds")
+        }
+
       setUploadFile(e.target.files[0]);
+    }else{
+        toast.warn("Please select the file")
     }
   };
 
@@ -38,68 +50,29 @@ const UploadDocument = () => {
   };
 
   const onFileUpload = async () => {
-    window.alert("checking upload");
+    // window.alert("checking upload");
     if (uploadFile) {
       const formData = new FormData();
-      console.log(formData);
       formData.append("myFile", uploadFile);
-      console.log(formData.get("myFile"));
       try {
         const response: any = await axios.post(
           "/api/v2/document/upload",
           formData
         );
         toast.success("File uploaded successfully");
+        resetInputRef.current?.click()
+        setUploadFile(null)
       } catch (error: any) {
         handleUploadError(error);
       }
     }
   };
 
-  // const onFileUpload = async () => {
-  //   try {
-  //     if (uploadFile) {
-  //       window.alert("upload")
-  //       const formData = new FormData();
-  //       formData.append("myFile", uploadFile);
-  //       const { data } = await axios.post("api/v2/document/upload", formData);
-  //       toast.success("File uploaded successfully");
-  //     }
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       // Axios error: handle network or server errors
-  //       const axiosError = error as AxiosError;
-  //       if (axiosError.response) {
-  //         // Error with response from server
-  //         console.error(
-  //           `Upload failed with status code ${axiosError.response.status}`
-  //         );
-  //         // Handle specific error status codes 
-  //         // For example:
-  //         if (axiosError.response.status === 404) {
-  //           // File not found on the server
-  //           toast.error("File not found on the server");
-  //         } else {
-  //           // Other server error
-  //           toast.error("File upload failed");
-  //         }
-  //       } else {
-  //         // Error with request or no response received
-  //         console.error("Error with request or no response received");
-  //         // Handle other errors if needed
-  //       }
-  //     } else {
-  //       // Non-Axios error: handle other types of errors
-  //       console.error("File upload failed");
-  //       // Handle other errors if needed
-  //     }
-  //   }
-  // };
-  
   // On clear button click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    window.location.reload();
+    resetInputRef.current?.click()
+    setUploadFile(null)
   };
 
   const [docs, setDocs] = useState<Document[]>([]);
@@ -144,6 +117,7 @@ const UploadDocument = () => {
                 </h2>
                 <div className="card shadow-lg p-4">
                   <h4>Upload Payroll documents here</h4>
+                  <form>
                   <input
                     type="file"
                     id="bulk-file"
@@ -151,8 +125,12 @@ const UploadDocument = () => {
                     className="form-control inputFont"
                     onChange={onFileChange}
                   />
+                  <input ref={resetInputRef} type="reset" hidden />
+                  </form>
                   <h6 className="text-muted mt-3">
                     Hint : You can upload all types of files here.
+                  </h6><h6 className="text-muted">
+                    Hint : File size limit - upto 2MB.
                   </h6>
                 </div>
                 {uploadFile && (
@@ -162,7 +140,6 @@ const UploadDocument = () => {
                     <p>File Name: {uploadFile.name} </p>
                     <p>File Type: {uploadFile.type}</p>
                     <p>
-                      {/* Last Modified: {uploadFile.lastModified.toDateString()} */}
                       Last Modified: {new Date(uploadFile.lastModified).toLocaleDateString()}
                     </p>
                     <button
@@ -211,7 +188,7 @@ const UploadDocument = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {docs.map((doc, index) => (
+                      {docs && docs.map((doc, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{doc.originalname}</td>
