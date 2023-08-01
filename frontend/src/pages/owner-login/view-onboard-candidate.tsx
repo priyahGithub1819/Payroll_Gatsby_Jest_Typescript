@@ -57,6 +57,9 @@ const App: React.FC = () => {
                 <h2 className="bulkText text-center mb-4">
                   List of Candidates to be Onboarded
                 </h2>
+                {candirecords.length === 0 ? (
+                  <div className="noDataAvailable">Currently no candidate's data available.</div>
+                ) : (
                 <div className="empTable">
                   <table className="table table-bordered">
                     <thead>
@@ -94,6 +97,7 @@ const App: React.FC = () => {
                     </tbody>
                   </table>
                 </div>
+                )}
               </div>
             </div>
           </div>

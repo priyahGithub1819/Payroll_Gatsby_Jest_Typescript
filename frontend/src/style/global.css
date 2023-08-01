@@ -2774,3 +2774,9 @@ div.content {
 select:disabled {
   color: black;
 }
+
+.noDataAvailable {
+  text-align: center;
+  padding-top: 10px;
+  font-weight: bold;
+}
