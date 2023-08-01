@@ -124,8 +124,7 @@ const Layout: React.FC<PageProps> = ({ children }) => {
   useEffect(() => {
     callUser();
   }, []);
-  console.log(user);
-
+  
   return (
     <>
       <UserData.Provider

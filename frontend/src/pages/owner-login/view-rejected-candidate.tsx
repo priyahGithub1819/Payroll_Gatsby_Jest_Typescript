@@ -68,6 +68,9 @@ function App() {
                 <h2 className="bulkText text-center">
                   List of Rejected Candidates
                 </h2>
+                {candirecords.length === 0 ? (
+                  <div className="noDataAvailable">Currently no candidate's data available.</div>
+                ) : (
                 <div className="empTable">
                   <table className="table-bordered ownersTable">
                     <thead>
@@ -117,6 +120,7 @@ function App() {
                     </tbody>
                   </table>
                 </div>
+                )}
                 <Modal ariaHideApp={false} isOpen={modalIsOpen}>
                   <h1
                     data-testid="reject-Message-Model"

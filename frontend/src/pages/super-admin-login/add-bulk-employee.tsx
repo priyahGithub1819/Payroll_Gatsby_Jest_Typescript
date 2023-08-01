@@ -34,22 +34,22 @@ interface ChangeHandlerList {
   "Name of Child 2": string;
   "Number of Members": string;
   "Payment Type": string;
-  Relationship: string;
+  "Relationship": string;
   "Account Number": string;
   "Auto password generator": string;
   "Bank Name": string;
   "Branch Name": string;
   "Confirmation date": string;
   "Contact No": string;
-  Department: string;
-  Designation: string;
+  "Department": string;
+  "Designation": string;
   "Email address": string;
   "Employee ID": string;
   "Full Name": string;
-  Gender: string;
+  "Gender": string;
   "IFSC Code": string;
   "Joining Date": string;
-  Location: string;
+  "Location": string;
   "Marital Status": string;
   "Name of Child 1": string;
   "Name of Father": string;
@@ -58,10 +58,11 @@ interface ChangeHandlerList {
   "PAN Number": string;
   "PF UAN Number": string;
   "Probation Period": string;
-  Role: string;
+  "Role": string;
   "Work Mode": string;
 }
 const rowsArray: string[] = [];
+const valuesArray: string[][] = [];
 function AddBulkEmployee() {
   //State to store table Column name
   const [tableRows, setTableRows] = useState<string[]>([]);
@@ -70,7 +71,6 @@ function AddBulkEmployee() {
 
   // On clear btn click
   const onClearBtnClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
     var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
     var tableWrapper = document.getElementById(
       "table-wrapper"
@@ -104,10 +104,9 @@ function AddBulkEmployee() {
   ) => {
     const columnLength = rowsArray.length;
     e.preventDefault();
+    const [tableColumnName] = document.querySelectorAll("thead tr");
+    const allTableRows = document.querySelectorAll("tbody tr");
     if (columnLength == 18) {
-      const [tableColumnName] = document.querySelectorAll("thead tr");
-      const allTableRows = document.querySelectorAll("tbody tr");
-
       allTableRows.forEach((tr) => {
         let obj: MyObject = {} as MyObject;
         let tableDataArray = tr.querySelectorAll("td");
@@ -139,11 +138,15 @@ function AddBulkEmployee() {
 
       if (error) {
         toast.error(error);
-      } else {
+      }
+      else {
         toast.success("Employee information uploded successfully.");
       }
-    } else {
-      toast.error("Please upload aprropriate CSV file");
+    } else if (columnLength == 0) {
+      toast.error("Current CSV file is empty.Please upload appropriate CSV file");
+    }
+    else {
+      toast.error("Please upload appropriate CSV file");
     }
   };
 
@@ -151,12 +154,21 @@ function AddBulkEmployee() {
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     // Passing file data (event.target.files[0]) to parse using Papa.parse
     const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    // Check if the file is a CSV
+    if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
+      toast.error("Please upload a CSV file.");
+      event.target.value = ""; // Clear the file input to allow selecting again
+      return;
+    }
     if (file) {
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
         complete: function (results) {
-          const valuesArray: string[][] = [];
           // Iterating data to get column name and their values
           (results.data as ChangeHandlerList[]).forEach(
             (d: ChangeHandlerList) => {
@@ -165,8 +177,6 @@ function AddBulkEmployee() {
             }
           );
 
-          // const lengthOfArray = rowsArray.length;
-          // Filtered Column Names
           setTableRows(
             rowsArray.filter(
               (value, index, self) => self.indexOf(value) === index
@@ -174,7 +184,6 @@ function AddBulkEmployee() {
           );
           // Filtered Values
           setValues(valuesArray);
-
           // Display Table Div
           var tableWrapper = document.getElementById(
             "table-wrapper"

@@ -95,7 +95,6 @@ const App = () => {
     const payrollUser = l.employeeData;
 
     let k = await getAllPfEmpData();
-    console.log(k);
     
     const empPaymentData = k.empInfo;
 
@@ -119,7 +118,6 @@ const App = () => {
 
     setRecords(combinedData);
   };
-  console.log(records);
   
   //Basic information modal data
   const onButtonClick = (

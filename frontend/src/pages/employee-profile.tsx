@@ -254,8 +254,6 @@ const Profile = () => {
   };
 
   const [records, setRecords] = useState<EmployeeData>();
-  console.log(records);
-
   const [ctc, setCtc] = useState();
   const [previousMonthAttendance, setPreviousMonthAttendance] =
     useState<PreviousAttendance>();
@@ -384,7 +382,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (records && records.basic.dateOfJoining) {
-      console.log(records);
       let cYear = new Date().getFullYear();
       let setYear = [];
       while (cYear >= new Date(records.basic.dateOfJoining).getFullYear()) {
@@ -394,8 +391,6 @@ const Profile = () => {
       setValidYear(setYear);
 
       if (selectedAttendanceYear) {
-        console.log(records.basic.dateOfJoining);
-        
         if (
           Number(selectedAttendanceYear) ===
             new Date(records.basic.dateOfJoining).getFullYear() &&
@@ -423,7 +418,6 @@ const Profile = () => {
       }
     }
     if (ctc && previousMonthAttendance) {
-      console.log(ctc);
       setPreviousMonthsalaryData(
         calculateSalaryDetail({ ctc: ctc, ...previousMonthAttendance })
       );

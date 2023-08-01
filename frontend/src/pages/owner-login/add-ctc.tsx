@@ -13,7 +13,7 @@ interface Employee {
   CTC: string;
 }
 
-const keysArray: string[] = [];
+let columnLength: number;
 function AddCTC() {
   // State to store parsed data
   const [parsedData, setParsedData] = useState<Employee[]>([]);
@@ -44,8 +44,7 @@ function AddCTC() {
     // Hide table and buttons
     tableWrapper.style.display = "none";
     saveclearbtns.style.display = "none";
-    // tableinfoheading.classList.add("d-none");
-
+    
     // Auto-refresh the page
     window.location.reload();
   };
@@ -55,10 +54,11 @@ function AddCTC() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    const columnLength = keysArray.length;
     // Target `table-tbody Rows` and store it in an array.
     const allTableRows = document.querySelectorAll("tbody tr");
     const empCTC: Employee[] = [];
+    //Checking if CSV file is empty
+   
     if (columnLength == 3) {
       // ForEach loop to target/access data of each Row of table.
       allTableRows.forEach((tr) => {
@@ -81,19 +81,34 @@ function AddCTC() {
       } else {
         toast.success("CTC of an employee uploaded successfully.");
       }
-    } else {
-      toast.error("Please upload aprropriate CSV file");
+    } else  if(columnLength ==0) {
+      toast.error("Current CSV file is empty.Please upload appropriate CSV file");
+    }
+    else  {
+      toast.error("Please upload appropriate CSV file");
     }
   };
 
   //Function for Onchange events
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+   
+    // Check if the file is a CSV
+    if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
+      toast.error("Please upload a CSV file.");
+      event.target.value = ""; // Clear the file input to allow selecting again
+      return;
+    }
+
     if (file) {
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
         complete: function (results) {
+          const keysArray: string[] = [];
           const valuesArray: string[][] = [];
           const uniqueRows = new Set<string>(); // Using a Set to store unique values
 
@@ -109,6 +124,9 @@ function AddCTC() {
 
           // Converting Set back to array of unique values
           setTableRows(Array.from(uniqueRows));
+
+          columnLength = Array.from(uniqueRows).length;
+          window.alert("columnLength" + columnLength);
           setValues(valuesArray);
 
           // Display Table Div
