@@ -233,7 +233,7 @@ a {
   margin: 30px 10px 1px 10px;
 } */
 
-.super-admin-login-sidebar li:hover {
+.superAdmin-sidebar li:hover {
   background-color: #c3e7f8;
   color: black;
   font-weight: 400;
@@ -530,10 +530,10 @@ input .larger {
   color: #000 !important;
 }
 
-.editIcon {
-  font-size: 23px !important;
+.editIcon .cancelIcon {
+  font-size: 20px !important;
   margin-left: 2px !important;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .HrEmployeeContainer {
@@ -583,14 +583,14 @@ input .larger {
   text-align: center;
 }
 
-.new-pf-enrollment h2 {
+.newPfEnrollment h2 {
   padding-top: 15px;
   font-weight: 700;
   padding-bottom: 15px;
   text-align: center;
 }
 
-.new-pf-enrollment {
+.newPfEnrollment {
   margin-top: 4rem;
   min-height: 75vh;
 }
@@ -677,12 +677,12 @@ h4.card-title {
   padding: 10px;
 }
 
-.hr-dashboard {
+.hrDashboard {
   min-height: 67.2vh;
   max-width: 90% !important;
 }
 
-.hrDashBoardH2 {
+.hrDashboardH2 {
   background-color: #00adad;
   width: 88%;
   text-align: center;
@@ -691,15 +691,15 @@ h4.card-title {
   border-radius: 40px;
 }
 
-.hrDashBoardDiv {
+.hrDashboardDiv {
   background-color: #ffceb9 !important;
 }
 
-.hrDashBoardDiv h3 {
+.hrDashboardDiv h3 {
   font-size: 18px !important;
 }
 
-.hrDashBoardDiv:hover {
+.hrDashboardDiv:hover {
   background-color: #ffb696 !important;
   transform: translate(0, 0.375em);
   transition: 0.3s ease-in-out;
@@ -1305,7 +1305,7 @@ button.nextBtn:active::after {
 
 .superadmin-profile-wrapper .icon {
   height: 17%;
-  width: 30%;
+  width: 17%;
   transition: 0.3s ease-in-out;
 }
 
@@ -1366,13 +1366,13 @@ button.nextBtn:active::after {
   display: block;
 }
 
-.super-admin-login-sidebar li:hover {
+.superAdmin-sidebar li:hover {
   background-color: #e9e8fc;
   color: black;
   font-weight: 400;
 }
 
-.super-admin-login-sidebar {
+.superAdmin-sidebar {
   background-color: #fae3f7 !important;
   width: fit-content;
   border-right: 1px solid gray;
@@ -1390,7 +1390,7 @@ button.nextBtn:active::after {
   font-size: 16px !important;
 }
 
-.super-admin-login-sidebar .nav-link {
+.superAdmin-sidebar .nav-link {
   margin: 30px 20px 30px 20px !important;
 }
 
@@ -1409,7 +1409,7 @@ button.nextBtn:active::after {
   font-weight: 500;
 }
 
-/*super-admin-dashboard Sidebar*/
+/*SuperAdmin Sidebar*/
 
 .menu {
   list-style: none;
@@ -1606,7 +1606,7 @@ button.nextBtn:active::after {
   padding: 5px;
 }
 
-.super-admin-profile {
+.superAdminProfile {
   grid-column: 1/ 5;
   color: #fff;
   text-align: center;
@@ -1619,7 +1619,7 @@ button.nextBtn:active::after {
   animation-duration: 4s;
 }
 
-.super-admin-profile h1 {
+.superAdminProfile h1 {
   font-size: 30px !important;
   position: relative;
   animation-name: headerAnimation;
@@ -1681,7 +1681,7 @@ button.nextBtn:active::after {
   color: black;
 }
 
-.super-admin-profile p {
+.superAdminProfile p {
   font-weight: 600;
 }
 
@@ -1810,7 +1810,7 @@ button.nextBtn:active::after {
     min-height: 86.3vh;
   }
 
-  .new-pf-enrollment {
+  .newPfEnrollment {
     margin-top: 4rem;
     min-height: 86.9vh;
   }
@@ -1966,12 +1966,12 @@ button.nextBtn:active::after {
     min-height: 76.6vh;
   }
 
-  .new-pf-enrollment {
+  .newPfEnrollment {
     margin-top: 4rem;
     min-height: 77.5vh;
   }
 
-  .hr-dashboard {
+  .hrDashboard {
     min-height: 70.7vh;
   }
 
@@ -2221,12 +2221,12 @@ option {
   margin-bottom: 0rem !important;
 }
 
-.list-of-employee h3,
+.listOfEmp h3,
 .listOfEmp1 h3 {
   font-size: 18px !important;
 }
 
-.list-of-employee {
+.listOfEmp {
   background-color: #faf2f8;
   color: black;
   text-align: center;
@@ -2237,7 +2237,7 @@ option {
   margin: 5px 10px 20px 10px;
 }
 
-.list-of-employee:hover {
+.listOfEmp:hover {
   -ms-transform: scale(1.2);
   /* IE 9 */
   -webkit-transform: scale(1.2);
@@ -2246,7 +2246,7 @@ option {
   border: 1px solid #000;
 }
 
-.list-of-employee img {
+.listOfEmp img {
   width: 20%;
   margin: 7px 7px;
 }
@@ -2400,7 +2400,7 @@ div.content {
 
 /*Code by Priya for edit confirmation date*/
 .editConfirmDate {
-  width: 25px;
+  width: 30px;
   height: 30px;
 }
 
@@ -2498,14 +2498,20 @@ div.content {
   padding-bottom: 20px;
 }
 
-.save-btn {
+.save-btn .cancelIcon {
   margin-left: 5px;
 }
 
 .saveBtnDisable {
   display: none;
 }
+.cancelIconDisable {
+  display: none;
+}
 .saveBtnEnable {
+  display: block;
+}
+.cancelIconEnable {
   display: block;
 }
 .table> :not(caption)>*>* {
@@ -2613,11 +2619,11 @@ div.content {
   text-align: center;
 }
 
-.super-admin-login-sidebar p {
+.superAdmin-sidebar p {
   background-color: #ffc8c8;
 }
 
-.owner-profilebar {
+.ownerProfilebar {
   margin: 0;
   padding-top: 5rem;
   width: 200px;
@@ -2630,7 +2636,7 @@ div.content {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
 
-.owner-profilebar a {
+.ownerProfilebar a {
   display: block;
   color: black;
   padding: 16px;
@@ -2643,7 +2649,7 @@ div.content {
 }
 
 @media screen and (max-width: 700px) {
-  .owner-profilebar {
+  .ownerProfilebar {
     width: 100%;
     height: auto;
     position: fixed;
@@ -2652,7 +2658,7 @@ div.content {
     border-bottom: 1px solid rgb(162, 248, 23);
   }
 
-  .owner-profilebar a {
+  .ownerProfilebar a {
     float: left;
   }
 
@@ -2662,7 +2668,7 @@ div.content {
 }
 
 /* @media screen and (max-width: 400px) {
-  .owner-profilebar a {
+  .ownerProfilebar a {
     text-align: center;
     float: none;
   }
@@ -2773,10 +2779,4 @@ div.content {
 
 select:disabled {
   color: black;
-}
-
-.noDataAvailable {
-  text-align: center;
-  padding-top: 10px;
-  font-weight: bold;
 }
