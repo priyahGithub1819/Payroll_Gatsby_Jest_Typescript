@@ -88,11 +88,13 @@ interface Employee {
 function App() {
   const [records, setRecords] = useState<Employee[]>([]);
   const [empToEdit, setEmpToEdit] = useState<Employee | null>(null);
-  const saveButtonRef = useRef(null)
+  const [oldProbation, setOldProbation] = useState<number | null>(null);
+  const saveButtonRef = useRef(null);
   // To get All Employees
   const getAllEmployees = async () => {
     let data = await allUserData();
     setRecords(data.employeeData);
+    //setOldProbation(data.employeeData);
   };
 
   useEffect(() => {
@@ -109,12 +111,18 @@ function App() {
     selectCount: number
   ) => {
     if (selectCount < 2) {
+      
       const tableRow = e.currentTarget.closest(
         "tr"
       ) as HTMLTableRowElement | null;
       if (tableRow === null) return; // Handle the case where tableRow is null
-
       const rowData = tableRow.querySelectorAll(".data");
+      const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+      const saveBtn = tableRow?.querySelector(".save-btn") as HTMLElement;
+      const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
+      cancelBtn.style.display = "";
+      saveBtn.style.display = "";
+      editBtn.style.display = "none";
       tableRow.querySelectorAll(".data").forEach((input: any) => {
         input.style.border = "1px solid black";
         input.disabled = false;
@@ -128,6 +136,9 @@ function App() {
       }
 
       const currentEmp = await getSingleEmp(empId);
+      setOldProbation(currentEmp.basic.probationPeriod)
+      
+      
       setEmpToEdit(currentEmp);
       rowData.forEach((element: any) => {
         element.removeAttribute("readOnly");
@@ -135,6 +146,43 @@ function App() {
     } else {
       toast.error("Sorry!! Can not edit");
     }
+  };
+
+  const onCancleClick = async (
+    e: any,
+    empId: string,
+    count: number,
+    joiningDate: Date,
+    probationPeriod: number,
+    firstName: string,
+    lastName: string
+  ) => {
+    const target = e.target as HTMLElement;
+    const tableRow = target.closest("tr") as HTMLTableRowElement;
+    const rowData = tableRow?.querySelectorAll(".data");
+    const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+    const saveBtn = tableRow?.querySelector(".save-btn") as HTMLElement;
+    const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
+    cancelBtn.style.display = "none";
+    saveBtn.style.display = "none";
+    editBtn.style.display = "";
+    console.log(empId,oldProbation);
+    
+if(empId && oldProbation)
+ {
+  records.filter((r)=> r.payrollData.empId === empId)[0].basic.probationPeriod = oldProbation
+  console.log(records);
+  
+  setRecords([...records])
+ }
+    
+  
+    
+    tableRow.querySelectorAll(".data").forEach((input: any) => {
+      input.style.border = "none";
+      input.disabled = true;
+      input.style.appearance = "none";
+    });
   };
 
   const onSaveClick = async (
@@ -151,7 +199,10 @@ function App() {
     e.target.style.display = "none";
     const tableRow = e.target.closest("tr");
     if (tableRow === null) return; // Handle the case where tableRow is null
-
+    const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+    const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
+    cancelBtn.style.display = "none";
+    editBtn.style.display = "";
     tableRow.querySelectorAll(".data").forEach((input: any) => {
       input.style.border = "none";
       input.disabled = true;
@@ -171,6 +222,10 @@ function App() {
       probationPeriod === 6 ||
       probationPeriod === 9
     ) {
+      const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+      const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
+      cancelBtn.style.display = "none";
+      editBtn.style.display = "";
       const confirmDate = new Date(joiningDate);
       confirmDate.setMonth(confirmDate.getMonth() + Number(probationPeriod));
 
@@ -183,6 +238,10 @@ function App() {
         },
       };
     } else {
+      const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+      const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
+      cancelBtn.style.display = "none";
+      editBtn.style.display = "";
       // If probation period is not 3, 6, or 9, just update the basic selectCount property
       updatedEmployee = {
         ...empToEdit!,
@@ -191,6 +250,7 @@ function App() {
           selectCount: count + 1,
         },
       };
+      
     }
 
     setEmpToEdit(updatedEmployee);
@@ -250,7 +310,8 @@ function App() {
                               <td>{record.payrollData.empId}</td>
                               <td>{record.basic.selectCount}</td>
                               <td>
-                                <select disabled
+                                <select
+                                  disabled
                                   style={{ appearance: "none" }}
                                   name="probationPeriod"
                                   className="data select"
@@ -258,14 +319,17 @@ function App() {
                                   data-testid="probitionPeriod"
                                   onChange={(e) => {
                                     if (empToEdit) {
-                                      empToEdit.basic.probationPeriod = Number(e.target.value)
+                                      empToEdit.basic.probationPeriod = Number(
+                                        e.target.value
+                                      );
                                       setEmpToEdit({ ...empToEdit });
-
                                     }
 
-                                    records[index].basic.probationPeriod = Number(e.target.value);
-                                    setRecords(records)
-                                  }}
+                                    records[index].basic.probationPeriod =
+                                      Number(e.target.value);
+                                    setRecords(records);
+                                  }
+                                }
                                   value={record.basic.probationPeriod}
                                 >
                                   <option value="3">3 Months</option>
@@ -275,10 +339,11 @@ function App() {
                                 <img
                                   src="/edit.png"
                                   alt="edit button"
-                                  className={`editConfirmDate ${record.basic.selectCount === 2
-                                    ? "d-none"
-                                    : ""
-                                    }`}
+                                  className={`editConfirmDate ${
+                                    record.basic.selectCount === 2
+                                      ? "d-none"
+                                      : ""
+                                  }`}
                                   id="editBtn"
                                   data-testid="editBtn"
                                   onClick={(e) =>
@@ -290,12 +355,34 @@ function App() {
                                   }
                                 />
                                 <img
+                                  src="/crossSign1.png"
+                                  alt="cancel button"
+                                  className="editConfirmDate cancel-btn"
+                                  id="cancelBtn"
+                                  style={{
+                                    display: "none",
+                                    marginLeft: "40px",
+                                  }}
+                                  data-testid="cancelBtn"
+                                  onClick={(e) =>
+                                    onCancleClick(
+                                      e,
+                                      record.payrollData.empId,
+                                      record.basic.selectCount,
+                                      new Date(record.basic.dateOfJoining),
+                                      record.basic.probationPeriod,
+                                      record.basic.name.firstName,
+                                      record.basic.name.lastName
+                                    )
+                                  }
+                                />
+                                <img
                                   src="/save.png"
                                   id="saveBtn"
                                   alt="ViewImg"
                                   ref={saveButtonRef}
                                   data-testid="saveBtn"
-                                  className="saveConfirmDate editConfirmDate"
+                                  className="saveConfirmDate editConfirmDate save-btn"
                                   style={{ display: "none" }}
                                   onClick={(e) =>
                                     onSaveClick(

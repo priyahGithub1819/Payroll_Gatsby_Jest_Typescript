@@ -76,8 +76,8 @@ function App() {
 
   const saveOnboardCandi = async (id: string, candidateName: string) => {
     toast.success(`Candidate ${id} will be onboarded soon`);
-    editCandiStatus(id, { candiStatus: "Onboard" });
-    getAllCandidates();
+    await editCandiStatus(id, { candiStatus: "Onboard" });
+    await getAllCandidates();
   };
 
   return (
