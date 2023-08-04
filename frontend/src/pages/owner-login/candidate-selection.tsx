@@ -79,10 +79,10 @@ function App() {
 
     if (rejectionMessage.length === 0) {
       toast.error("Please provide a reason to reject the candidate.");
-    } else if (rejectionMessage.length < 255) {
-      toast.error("Rejection message should contain proper description");
     } else if (!/^[A-Za-z\s]+$/.test(rejectionMessage)) {
       toast.error("Rejection message should only contain letters and spaces.");
+    } else if (rejectionMessage.length < 30 || rejectionMessage.length > 255) {
+      toast.error("Rejection message should be between 30 and 255 characters.");
     } else {
       toast.success(
         "Candidate " + rejectReason.candidateName + " is rejected successfully"
