@@ -198,19 +198,32 @@ function App() {
     saveBtn.style.display = "none";
     editBtn.style.display = "";
     let data:string="";
+    let designationData:string="";
     if(allCtc){
       data= allCtc.filter(
         (ctc: CtcData) =>
           ctc.Emp_Id ===
           empId
       )[0].CTC;
-    }    
+    }  
+    if(records){
+      designationData= records.filter(
+        (records: EmployeeData) =>
+        records.payrollData.empId ===
+          empId
+      )[0].basic.designation;
+    }  
+
+    console.log(empToEdit);
+    console.log(records);
+    console.log(designationData);
+    
     
     if (empToEdit && rowData){
       let elementValue=rowData[1] as HTMLInputElement;
       elementValue.value=data;
-      console.log(elementValue.value);
-      
+      let designationValue=rowData[0] as HTMLInputElement;
+      designationValue.value=designationData;
     }
 
     const inputElements = tableRow?.querySelectorAll(".data");

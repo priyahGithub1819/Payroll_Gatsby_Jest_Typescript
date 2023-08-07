@@ -7,7 +7,7 @@ import { getOwnerData } from "../../services/api-function";
 import { toast } from "react-toastify";
 
 interface CandidateRecord {
-  candidateId: number;
+  candidateId: string;
   candidateName: string;
   eduQual: string;
   primarySkill: string;
@@ -17,15 +17,16 @@ interface CandidateRecord {
   expectedCTC: string;
   candiStatus: string;
   rejectedMessage: string;
+  [key: string]: string;
 }
 
 function App() {
   // All use state
   const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
-  const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
+  //const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
   const [oldData, setOldata] = useState<CandidateRecord[]>([]);
   const [candiToEdit, setCandiToEdit] = useState<CandidateRecord>({
-    candidateId: 0,
+    candidateId: "",
     candidateName: "",
     eduQual: "",
     primarySkill: "",
@@ -39,20 +40,24 @@ function App() {
   const ctc = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
   const decimalRegex = /^\d+(\.\d{0,2})?$/;
   const education = /^[a-zA-Z\s\-.,()']{2,50}$/;
-  const skills = /r"^[^!@#$%^&*()_+{}\[\]:;\"'<>.?~`|\\/-]*([, ]{1}[^!@#$%^&*()_+{}\[\]:;\"'<>.?~`|\\/-]*)*$"/;
+  const skills = /^[A-Za-z0-9 ,]+$/;
+  const probationPeriod = /^(3|6|9) Months$/;
 
   // To get all candidate from db
   const getAllCandidates = async () => {
+    let rejectCandiArray: CandidateRecord[] = [];
+    let oldCandiArray: CandidateRecord[] = [];
     let data = await getOwnerData();
 
     if (data.success === true) {
       data.candiInfo.forEach((record: CandidateRecord) => {
         if (record?.candiStatus === "Rejected") {
-          rejectCandi.push(record);
+          rejectCandiArray.push(record);
+          oldCandiArray.push(record);
         }
       });
-      setCandirecords([...rejectCandi]);
-      setOldata([...rejectCandi]);
+      setCandirecords([...rejectCandiArray]);
+      setOldata([...oldCandiArray]);
     }
   };
 
@@ -62,7 +67,27 @@ function App() {
   }, []);
 
   // onChange function
-  const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onValueChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    candiId: string
+  ) => {
+    const { name, value } = e.target;
+    
+    // const obj:CandidateRecord={candidateId:"CANDI123",candidateName:"Prapti Gomekar",candiStatus:"Rejected",currentCTC:"500000",eduQual:"BE",expectedCTC:"1000000",noticePeriod:"3 Months",primarySkill:"Java",rejectedMessage:"abcd",secondarySkill:"React"}
+    // setCandirecords([obj])
+
+    // const currentRecord = candirecords.filter(
+    //   (candi) => candi.candidateId === candiId
+    // )[0];
+    // const remainingRecord = candirecords.filter(
+    //   (candi) => candi.candidateId !== candiId
+    // );
+    // currentRecord[name] = value;
+    // setCandirecords([currentRecord, ...remainingRecord]);
+
+    candirecords.filter((candi)=>candi.candidateId === candiId)[0][name]=value
+    setCandirecords([...candirecords])
+
     setCandiToEdit({ ...candiToEdit, [e.target.name]: e.target.value });
   };
 
@@ -70,7 +95,7 @@ function App() {
   //On edit button click
   const onEditBtnClick = async (
     e: React.MouseEvent<HTMLElement>,
-    candiId: number
+    candiId: string
   ) => {
     const tableRow = e.currentTarget.closest("tr");
     if (tableRow) {
@@ -86,7 +111,7 @@ function App() {
         element.removeAttribute("readOnly");
       });
       const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
-     // const saveButton = tableRow?.querySelector(".save-btn") as HTMLElement;
+      // const saveButton = tableRow?.querySelector(".save-btn") as HTMLElement;
       const editBtn = tableRow?.querySelector(".editIcon") as HTMLElement;
       cancelBtn.style.display = "";
       //saveButton.style.display = "";
@@ -95,45 +120,62 @@ function App() {
       setCandiToEdit(currentCandi.data);
     }
   };
-
+  console.log(oldData[0]);
   const onCancleButtonClick = async (
     e: React.MouseEvent<HTMLElement>,
-    candiId: number
+    candiId: string
   ) => {
     const target = e.target as HTMLElement;
     const tableRow = target.closest("tr");
     const rowData = tableRow?.querySelectorAll(".data");
     const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
-      const saveButton = tableRow?.querySelector(".save-btn") as HTMLElement;
-      const editBtn = tableRow?.querySelector(".editIcon") as HTMLElement;
-      cancelBtn.style.display = "none";
-      saveButton.style.display = "none";
-      editBtn.style.display = "";
+    const saveButton = tableRow?.querySelector(".save-btn") as HTMLElement;
+    const editBtn = tableRow?.querySelector(".editIcon") as HTMLElement;
+    cancelBtn.style.display = "none";
+    saveButton.style.display = "none";
+    editBtn.style.display = "";
+    await getAllCandidates();
+    // console.log(oldData[0]);
 
-      setCandirecords([...oldData]);
-      console.log(rowData);
-      console.log(candiId);
-      
-      console.log(oldData[0].candidateId);
-      if(candiId && oldData){
-       let filterData = oldData.filter((r)=> r.candidateId === candiId);
-       console.log(filterData);
-       
-        //console.log(oldData);
-      }
-      
-      if (tableRow) {
-        tableRow.querySelectorAll(".data").forEach((input: any) => {
-          input.style.border = "none";
-          input.readOnly = true;
-        });
-      }
+    //       setCandirecords([...oldData]);
+
+    // console.log(rowData);
+    // console.log(candiId);
+
+    // console.log(oldData[0].candidateId);
+    if (candiId && oldData && rowData) {
+      let filterData = oldData.filter((r) => r.candidateId === candiId);
+      console.log(filterData[0].candidateId);
+
+      // let candirecords = candirecords.filter((r) => r.candidateId === filterData[0].candidateId);
+      let cName = rowData[0] as HTMLInputElement;
+      cName.value = filterData[0].candidateName;
+      let cEduQual = rowData[1] as HTMLInputElement;
+      cEduQual.value = filterData[0].eduQual;
+      let cPrimarySkill = rowData[2] as HTMLInputElement;
+      cPrimarySkill.value = filterData[0].primarySkill;
+      let cSecondarySkill = rowData[3] as HTMLInputElement;
+      cSecondarySkill.value = filterData[0].secondarySkill;
+      let cNoticePeriod = rowData[4] as HTMLInputElement;
+      cNoticePeriod.value = filterData[0].noticePeriod;
+      let cCurrentCTC = rowData[5] as HTMLInputElement;
+      cCurrentCTC.value = filterData[0].currentCTC;
+      let cExpectedCTC = rowData[6] as HTMLInputElement;
+      cExpectedCTC.value = filterData[0].expectedCTC;
+    }
+
+    if (tableRow) {
+      tableRow.querySelectorAll(".data").forEach((input: any) => {
+        input.style.border = "none";
+        input.readOnly = true;
+      });
+    }
   };
 
   //On save button click
   const onSaveBtnClick = async (
     e: React.MouseEvent<HTMLElement>,
-    candiId: number,
+    candiId: string,
     name: string
   ) => {
     if (
@@ -184,26 +226,23 @@ function App() {
           });
         }
       }
-    }
-    // else if (!skills.test(candiToEdit.primarySkill)) {
-    //   const tableRow = (e.target as HTMLElement).closest("tr");
-    //   if (tableRow) {
-    //     tableRow.querySelectorAll(".primarySkill").forEach((input: any) => {
-    //       input.style.border = "2px solid red";
-    //     });
-    //     toast.error("Please enter only characters.");
-    //   }
-    // }
-    // else if (!skills.test(candiToEdit.secondarySkill)) {
-    //   const tableRow = (e.target as HTMLElement).closest("tr");
-    //   if (tableRow) {
-    //     tableRow.querySelectorAll(".secondarySkill").forEach((input: any) => {
-    //       input.style.border = "2px solid red";
-    //     });
-    //     toast.error("Please enter only characters.");
-    //   }
-    // }
-     else if (!education.test(candiToEdit.eduQual)) {
+    } else if (!skills.test(candiToEdit.primarySkill)) {
+      const tableRow = (e.target as HTMLElement).closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".primarySkill").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+        toast.error("Please enter only characters or numbers.");
+      }
+    } else if (!skills.test(candiToEdit.secondarySkill)) {
+      const tableRow = (e.target as HTMLElement).closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".secondarySkill").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+        toast.error("Please enter only characters or numbers.");
+      }
+    } else if (!education.test(candiToEdit.eduQual)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
         tableRow.querySelectorAll(".eduQual").forEach((input: any) => {
@@ -218,8 +257,16 @@ function App() {
           input.style.border = "2px solid red";
         });
         toast.error("Please enter only characters");
-      }
-    } else if (
+      }}
+      else if (!probationPeriod.test(candiToEdit.noticePeriod)) {
+        const tableRow = (e.target as HTMLElement).closest("tr");
+        if (tableRow) {
+          tableRow.querySelectorAll(".noticePeriod").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+          toast.error("Please enter correct details.");
+        }
+      } else if (
       !ctc.test(candiToEdit.expectedCTC) ||
       !decimalRegex.test(candiToEdit.expectedCTC)
     ) {
@@ -348,9 +395,11 @@ function App() {
                                   name="candidateName"
                                   className="data name"
                                   data-testid="candidateName"
-                                  onChange={onValueChange}
+                                  onChange={(e) =>
+                                    onValueChange(e, candirecord.candidateId)
+                                  }
                                   type="text"
-                                  defaultValue={candirecord.candidateName}
+                                  value={candirecord.candidateName}
                                   readOnly
                                 />
                               </td>
@@ -358,9 +407,11 @@ function App() {
                                 <input
                                   name="eduQual"
                                   className="data text eduQual"
-                                  onChange={onValueChange}
+                                  onChange={(e) =>
+                                    onValueChange(e, candirecord.candidateId)
+                                  }
                                   type="text"
-                                  defaultValue={candirecord.eduQual}
+                                  value={candirecord.eduQual}
                                   readOnly
                                 />
                               </td>
@@ -368,7 +419,9 @@ function App() {
                                 <input
                                   name="primarySkill"
                                   className="data primarySkill"
-                                  onChange={onValueChange}
+                                  onChange={(e) =>
+                                    onValueChange(e, candirecord.candidateId)
+                                  }
                                   type="text"
                                   defaultValue={candirecord.primarySkill}
                                   readOnly
@@ -378,9 +431,11 @@ function App() {
                                 <input
                                   name="secondarySkill"
                                   className="data secondarySkill"
-                                  onChange={onValueChange}
+                                  onChange={(e) =>
+                                    onValueChange(e, candirecord.candidateId)
+                                  }
                                   type="text"
-                                  defaultValue={candirecord.secondarySkill}
+                                  value={candirecord.secondarySkill}
                                   readOnly
                                 />
                               </td>
@@ -388,9 +443,11 @@ function App() {
                                 <input
                                   name="noticePeriod"
                                   className="data text noticePeriod"
-                                  onChange={onValueChange}
+                                  onChange={(e) =>
+                                    onValueChange(e, candirecord.candidateId)
+                                  }
                                   type="text"
-                                  defaultValue={candirecord.noticePeriod}
+                                  value={candirecord.noticePeriod}
                                   readOnly
                                 />
                               </td>
@@ -399,9 +456,11 @@ function App() {
                                   name="currentCTC"
                                   data-testid="currentCTC"
                                   className="data text currectCTC"
-                                  onChange={onValueChange}
+                                  onChange={(e) =>
+                                    onValueChange(e, candirecord.candidateId)
+                                  }
                                   type="number"
-                                  defaultValue={candirecord.currentCTC}
+                                  value={candirecord.currentCTC}
                                   readOnly
                                 />
                               </td>
@@ -409,9 +468,11 @@ function App() {
                                 <input
                                   name="expectedCTC"
                                   className="data text expectedCTC"
-                                  onChange={onValueChange}
+                                  onChange={(e) =>
+                                    onValueChange(e, candirecord.candidateId)
+                                  }
                                   type="number"
-                                  defaultValue={candirecord.expectedCTC}
+                                  value={candirecord.expectedCTC}
                                   readOnly
                                 />
                               </td>
