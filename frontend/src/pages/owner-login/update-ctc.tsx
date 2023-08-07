@@ -240,7 +240,7 @@ function App() {
       const tableRow = target.closest("tr");
       const rowData = tableRow?.querySelectorAll(".data");
       if (String(empToEdit.CTC) === "") {
-        toast.error("Field should not be empty.");
+        toast.error("CTC should not be empty.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -264,7 +264,7 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
-        toast.error("Please enter only 2 digit after decimal.");
+        toast.error("Please enter only 2 digit after decimal point.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -277,7 +277,7 @@ function App() {
         }
       }
       else if (Number(empToEdit.CTC) < 1) {
-        toast.error("Field should not be zero.");
+        toast.error("CTC can not be zero.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");

@@ -22,31 +22,20 @@ function AddCTC() {
   // State to store the values
   const [values, setValues] = useState<string[][]>([]);
 
-  // On clear btn click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
-    var tableWrapper = document.getElementById(
-      "table-wrapper"
-    ) as HTMLDivElement;
-    var saveclearbtns = document.getElementById(
-      "save-clear-btns"
-    ) as HTMLDivElement;
-    var tableinfoheading = document.getElementById(
-      "table-info-heading"
-    ) as HTMLHeadingElement;
+    var form = document.getElementById("file-form") as HTMLFormElement;
+    var tableWrapper = document.getElementById("table-wrapper") as HTMLDivElement;
+    var saveclearbtns = document.getElementById("save-clear-btns") as HTMLDivElement;
 
-    // Clear the file input field
-    if (bulkfile) {
-      bulkfile.value = "";
+    // Clear the file input field by resetting the form
+    if (form) {
+      form.reset();
     }
 
     // Hide table and buttons
     tableWrapper.style.display = "none";
     saveclearbtns.style.display = "none";
-    
-    // Auto-refresh the page
-    window.location.reload();
   };
 
   // Function on Save button click
@@ -58,7 +47,7 @@ function AddCTC() {
     const allTableRows = document.querySelectorAll("tbody tr");
     const empCTC: Employee[] = [];
     //Checking if CSV file is empty
-   
+
     if (columnLength == 3) {
       // ForEach loop to target/access data of each Row of table.
       allTableRows.forEach((tr) => {
@@ -81,11 +70,11 @@ function AddCTC() {
       } else {
         toast.success("CTC of an employee uploaded successfully.");
       }
-    } else  if(columnLength ==0) {
-      toast.error("Current CSV file is empty.Please upload appropriate CSV file");
+    } else if (columnLength == 0) {
+      toast.warn("Current CSV file is empty.Please upload appropriate CSV file");
     }
-    else  {
-      toast.error("Please upload appropriate CSV file");
+    else {
+      toast.warn("Please upload appropriate CSV file");
     }
   };
 
@@ -95,10 +84,10 @@ function AddCTC() {
     if (!file) {
       return;
     }
-   
+
     // Check if the file is a CSV
     if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
-      toast.error("Please upload a CSV file.");
+      toast.warn("Please upload a CSV file.");
       event.target.value = ""; // Clear the file input to allow selecting again
       return;
     }
@@ -126,7 +115,6 @@ function AddCTC() {
           setTableRows(Array.from(uniqueRows));
 
           columnLength = Array.from(uniqueRows).length;
-          window.alert("columnLength" + columnLength);
           setValues(valuesArray);
 
           // Display Table Div
@@ -166,7 +154,7 @@ function AddCTC() {
                 <div className="col-12">
                   <div className="card shadow-lg p-4">
                     <h4>Upload CTC information of Employee</h4>
-                    <input
+                    <form id="file-form"><input
                       id="ctc-file"
                       type="file"
                       name="file"
@@ -175,7 +163,8 @@ function AddCTC() {
                       accept=".csv"
                       style={{ display: "block", margin: "10px auto" }}
                       data-testid="csvFile"
-                    />
+                    /></form>
+
                     <h6 className="text-muted">Upload CTC CSV file here.</h6>
                     <div style={{ textAlign: "center" }}>
                       <img

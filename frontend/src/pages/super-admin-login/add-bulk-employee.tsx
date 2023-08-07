@@ -71,29 +71,19 @@ function AddBulkEmployee() {
 
   // On clear btn click
   const onClearBtnClick = () => {
-    var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
-    var tableWrapper = document.getElementById(
-      "table-wrapper"
-    ) as HTMLDivElement;
-    var saveclearbtns = document.getElementById(
-      "save-clear-btns"
-    ) as HTMLDivElement;
-    var tableinfoheading = document.getElementById(
-      "table-info-heading"
-    ) as HTMLHeadingElement;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    var form = document.getElementById("file-form") as HTMLFormElement;
+    var tableWrapper = document.getElementById("table-wrapper") as HTMLDivElement;
+    var saveclearbtns = document.getElementById("save-clear-btns") as HTMLDivElement;
 
-    // Clear the file input field
-    if (bulkfile) {
-      bulkfile.value = "";
+    // Clear the file input field by resetting the form
+    if (form) {
+      form.reset();
     }
 
     // Hide table and buttons
     tableWrapper.style.display = "none";
     saveclearbtns.style.display = "none";
-    tableinfoheading.classList.add("d-none");
-
-    // Auto-refresh the page
-    window.location.reload();
   };
 
   // On Save btn click
@@ -143,10 +133,10 @@ function AddBulkEmployee() {
         toast.success("Employee information uploded successfully.");
       }
     } else if (columnLength == 0) {
-      toast.error("Current CSV file is empty.Please upload appropriate CSV file");
+      toast.warn("Current CSV file is empty.Please upload appropriate CSV file");
     }
     else {
-      toast.error("Please upload appropriate CSV file");
+      toast.warn("Please upload appropriate CSV file");
     }
   };
 
@@ -160,7 +150,7 @@ function AddBulkEmployee() {
 
     // Check if the file is a CSV
     if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
-      toast.error("Please upload a CSV file.");
+      toast.warn("Please upload a CSV file.");
       event.target.value = ""; // Clear the file input to allow selecting again
       return;
     }
@@ -217,16 +207,15 @@ function AddBulkEmployee() {
                 </h2>
                 <div className="col-12">
                   <div className="card shadow-lg p-4">
-                    <h4>Upload Bulk Employee Information</h4>
-                    <input
+                    <form id="file-form"><input
                       id="bulk-file"
                       type="file"
                       name="file"
                       className="form-control my-3 inputFont"
                       onChange={changeHandler}
                       accept=".csv"
-                      data-testid="csvFile"
-                    />
+                      data-testid="inputFile"
+                    /></form>
                     <h6 className="text-muted">
                       Hint : Upload bulk employee information CSV file here.
                     </h6>
