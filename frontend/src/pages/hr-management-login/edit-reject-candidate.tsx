@@ -23,7 +23,7 @@ interface CandidateRecord {
 function App() {
   // All use state
   const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
-  const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
+  //const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
   const [oldData, setOldata] = useState<CandidateRecord[]>([]);
   const [candiToEdit, setCandiToEdit] = useState<CandidateRecord>({
     candidateId: "",
@@ -40,10 +40,9 @@ function App() {
   const ctc = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
   const decimalRegex = /^\d+(\.\d{0,2})?$/;
   const education = /^[a-zA-Z\s\-.,()']{2,50}$/;
-
   const skills = /^[A-Za-z0-9 ,]+$/;
   const probationPeriod = /^(3|6|9) Months$/;
-        
+
   // To get all candidate from db
   const getAllCandidates = async () => {
     let rejectCandiArray: CandidateRecord[] = [];
@@ -57,7 +56,6 @@ function App() {
           oldCandiArray.push(record);
         }
       });
-
       setCandirecords([...rejectCandiArray]);
       setOldata([...oldCandiArray]);
     }
@@ -74,26 +72,13 @@ function App() {
     candiId: string
   ) => {
     const { name, value } = e.target;
-    
-    // const obj:CandidateRecord={candidateId:"CANDI123",candidateName:"Prapti Gomekar",candiStatus:"Rejected",currentCTC:"500000",eduQual:"BE",expectedCTC:"1000000",noticePeriod:"3 Months",primarySkill:"Java",rejectedMessage:"abcd",secondarySkill:"React"}
-    // setCandirecords([obj])
-
-    // const currentRecord = candirecords.filter(
-    //   (candi) => candi.candidateId === candiId
-    // )[0];
-    // const remainingRecord = candirecords.filter(
-    //   (candi) => candi.candidateId !== candiId
-    // );
-    // currentRecord[name] = value;
-    // setCandirecords([currentRecord, ...remainingRecord]);
-
-    candirecords.filter((candi)=>candi.candidateId === candiId)[0][name]=value
-    setCandirecords([...candirecords])
+    candirecords.filter((candi) => candi.candidateId === candiId)[0][name] =
+      value;
+    setCandirecords([...candirecords]);
 
     setCandiToEdit({ ...candiToEdit, [e.target.name]: e.target.value });
   };
 
-  //On edit button click
   //On edit button click
   const onEditBtnClick = async (
     e: React.MouseEvent<HTMLElement>,
@@ -113,16 +98,13 @@ function App() {
         element.removeAttribute("readOnly");
       });
       const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
-      // const saveButton = tableRow?.querySelector(".save-btn") as HTMLElement;
       const editBtn = tableRow?.querySelector(".editIcon") as HTMLElement;
       cancelBtn.style.display = "";
-      //saveButton.style.display = "";
       editBtn.style.display = "none";
       const currentCandi = await axios.get(`/api/v2/single-candi/${candiId}`);
       setCandiToEdit(currentCandi.data);
     }
   };
-  console.log(oldData[0]);
   const onCancleButtonClick = async (
     e: React.MouseEvent<HTMLElement>,
     candiId: string
@@ -137,19 +119,9 @@ function App() {
     saveButton.style.display = "none";
     editBtn.style.display = "";
     await getAllCandidates();
-    // console.log(oldData[0]);
 
-    //       setCandirecords([...oldData]);
-
-    // console.log(rowData);
-    // console.log(candiId);
-
-    // console.log(oldData[0].candidateId);
     if (candiId && oldData && rowData) {
       let filterData = oldData.filter((r) => r.candidateId === candiId);
-      console.log(filterData[0].candidateId);
-
-      // let candirecords = candirecords.filter((r) => r.candidateId === filterData[0].candidateId);
       let cName = rowData[0] as HTMLInputElement;
       cName.value = filterData[0].candidateName;
       let cEduQual = rowData[1] as HTMLInputElement;
@@ -173,11 +145,6 @@ function App() {
       });
     }
   };
-
-    }
-  };
-
- 
 
   //On save button click
   const onSaveBtnClick = async (
@@ -233,7 +200,6 @@ function App() {
           });
         }
       }
-
     } else if (!skills.test(candiToEdit.primarySkill)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
@@ -251,7 +217,6 @@ function App() {
         toast.error("Please enter only characters or numbers.");
       }
     } else if (!education.test(candiToEdit.eduQual)) {
-
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
         tableRow.querySelectorAll(".eduQual").forEach((input: any) => {
@@ -266,17 +231,16 @@ function App() {
           input.style.border = "2px solid red";
         });
         toast.error("Please enter only characters");
-      }}
-      else if (!probationPeriod.test(candiToEdit.noticePeriod)) {
-        const tableRow = (e.target as HTMLElement).closest("tr");
-        if (tableRow) {
-          tableRow.querySelectorAll(".noticePeriod").forEach((input: any) => {
-            input.style.border = "2px solid red";
-          });
-          toast.error("Please enter correct details.");
-        }
-      } else if (
-
+      }
+    } else if (!probationPeriod.test(candiToEdit.noticePeriod)) {
+      const tableRow = (e.target as HTMLElement).closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".noticePeriod").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+        toast.error("Please enter correct details.");
+      }
+    } else if (
       !ctc.test(candiToEdit.expectedCTC) ||
       !decimalRegex.test(candiToEdit.expectedCTC)
     ) {
