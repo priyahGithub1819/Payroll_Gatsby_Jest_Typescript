@@ -15,7 +15,7 @@ interface PfEmployee {
   panNumber: string;
   bankName: string;
   ifscCode: string;
-  accountNumber: string;
+  accountNumber: number;
   address: string;
   dateofRegistration: string;
   pfUanNumber: string;
@@ -42,7 +42,7 @@ function PfEnrolledList() {
     panNumber: "",
     bankName: "",
     ifscCode: "",
-    accountNumber: "",
+    accountNumber: 0,
     address: "",
     dateofRegistration: "",
     pfUanNumber: "",
@@ -56,12 +56,15 @@ function PfEnrolledList() {
       date: "",
       empId: "",
     },
-  });
+  } as PfEmployee);
 
   const [lastWorkingDay, setLastWorkingDay] = useState<boolean>(false);
+  const [originalPfEmpToEdit, setOriginalPfEmpToEdit] =
+    useState<PfEmployee | null>(null);
 
   const getAllPfEmpList = async () => {
     try {
+      setRecords([]);
       const data = await getAllPfEmpData();
       setRecords(data.empInfo);
     } catch (error) {
@@ -86,8 +89,10 @@ function PfEnrolledList() {
 
   const onEditBtnClick = async (
     e: React.MouseEvent<HTMLElement>,
-    empId: number
+    empId: string
   ) => {
+    console.log(empId);
+
     const target = e.target as HTMLElement;
     const tableRow = target.closest("tr");
     if (tableRow) {
@@ -102,6 +107,16 @@ function PfEnrolledList() {
         saveBtn.classList.add("saveBtnEnable");
       }
 
+      const cancelBtn = tableRow.querySelector(".cancelIcon");
+      if (cancelBtn) {
+        cancelBtn.classList.add("cancelIconEnable");
+      }
+
+      const editBtn = tableRow.querySelector(".editIcon");
+      if (editBtn) {
+        editBtn.classList.add("editIconDisable");
+      }
+
       rowData.forEach((element: any) => {
         element.removeAttribute("readOnly");
       });
@@ -114,53 +129,97 @@ function PfEnrolledList() {
       }
     }
   };
+  const bankName = /^[A-Za-z\s]+$/;
+  const ifscCode = /^[A-Za-z]{4}\d{7}$/;
 
   const onSaveBtnClick = async (
     e: React.MouseEvent<HTMLElement>,
     empId: number,
     name: string
   ) => {
+    console.log(typeof pfEmpToEdit?.accountNumber);
+
     if (
-      pfEmpToEdit.name === "" ||
-      pfEmpToEdit.bankName === "" ||
-      pfEmpToEdit.ifscCode === "" ||
-      pfEmpToEdit.accountNumber === "" ||
-      pfEmpToEdit.address === ""
+      pfEmpToEdit?.bankName === "" ||
+      pfEmpToEdit?.ifscCode === "" ||
+      pfEmpToEdit?.accountNumber === 0 ||
+      pfEmpToEdit?.address === ""
     ) {
       toast.error("Field should not be empty.");
       const target = e.target as HTMLElement;
 
       const tableRow = target.closest("tr");
-  
       if (tableRow) {
-        if (pfEmpToEdit.name === "") {
-          tableRow.querySelectorAll(".eName").forEach((input: any) => {
-            input.style.border = "2px solid red";
-          });
-        }
-  
         if (pfEmpToEdit.bankName === "") {
           tableRow.querySelectorAll(".eBankName").forEach((input: any) => {
             input.style.border = "2px solid red";
           });
         }
-  
+
         if (pfEmpToEdit.ifscCode === "") {
           tableRow.querySelectorAll(".eIfsc").forEach((input: any) => {
             input.style.border = "2px solid red";
           });
         }
-  
-        if (pfEmpToEdit.accountNumber === "") {
+
+        if (pfEmpToEdit.accountNumber === 0) {
           tableRow.querySelectorAll(".eAccount").forEach((input: any) => {
             input.style.border = "2px solid red";
           });
         }
+        if (pfEmpToEdit.address === "") {
+          tableRow.querySelectorAll(".eAddress").forEach((input: any) => {
+            input.style.border = "2px solid red";
+          });
+        }
+      }
+    } else if (!bankName.test(pfEmpToEdit?.bankName)) {
+      toast.error("Invalid bank name. Only alphabets are allowed.");
+      const target = e.target as HTMLElement;
+      const tableRow = target.closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".eBankName").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+      }
+    } else if (!ifscCode.test(pfEmpToEdit?.ifscCode)) {
+      toast.error("Invalid IFSC code. Please enter a valid IFSC code.");
+      const target = e.target as HTMLElement;
+      const tableRow = target.closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".eIfsc").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+      }
+    } else if (
+      pfEmpToEdit?.address.length < 3 ||
+      pfEmpToEdit?.address.length > 255
+    ) {
+      toast.error("Address length should be between 3 and 255 characters.");
+      const target = e.target as HTMLElement;
+      const tableRow = target.closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".eAddress").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+      }
+      return;
+    } else if (
+      pfEmpToEdit?.accountNumber.toString().length !== 10 &&
+      pfEmpToEdit?.accountNumber.toString().length !== 12
+    ) {
+      toast.error("Account number should be 10 or 12 digits.");
+      const target = e.target as HTMLElement;
+
+      const tableRow = target.closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".eAccount").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
       }
     } else {
       try {
         await axios.put(`/api/v2/edit-pfemp/${empId}`, pfEmpToEdit);
-        console.log(e)
         const target = e.target as HTMLElement;
 
         const tableRow = target.closest("tr");
@@ -168,14 +227,26 @@ function PfEnrolledList() {
           const saveBtn = tableRow.querySelector(".save-btn") as HTMLElement;
           saveBtn.classList.remove("saveBtnEnable");
           saveBtn.classList.add("saveBtnDisable");
-  
+
+          const cancelBtn = tableRow.querySelector(".cancelIcon");
+          if (cancelBtn) {
+            cancelBtn.classList.remove("cancelIconEnable");
+            cancelBtn.classList.add("cancelIconDisable");
+          }
+
+          const editBtn = tableRow.querySelector(".editIcon");
+          if (editBtn) {
+            editBtn.classList.remove("editIconDisable");
+            editBtn.classList.add("editIconEnable");
+          }
+
           tableRow.querySelectorAll(".data").forEach((input: any) => {
             input.style = "appearance: none";
             input.style.border = "none";
           });
-  
+
           toast.success("Information of " + name + " is updated successfully.");
-  
+
           await getAllPfEmpList();
         }
       } catch (error) {
@@ -183,7 +254,42 @@ function PfEnrolledList() {
       }
     }
   };
-  
+
+  const onCancelBtnClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const tableRow = (e.currentTarget as HTMLElement).closest("tr");
+    if (tableRow) {
+      const rowData = tableRow.querySelectorAll(".data");
+      tableRow.querySelectorAll(".data").forEach((input: any) => {
+        input.style = "appearance: none";
+        input.style.border = "none";
+      });
+      rowData.forEach((element: any) => {
+        element.setAttribute("readOnly", true);
+      });
+
+      const saveBtn = tableRow.querySelector(".save-btn");
+      if (saveBtn) {
+        saveBtn.classList.remove("saveBtnEnable");
+        saveBtn.classList.add("saveBtnDisable");
+      }
+
+      const cancelBtn = tableRow.querySelector(".cancelIcon");
+      if (cancelBtn) {
+        cancelBtn.classList.remove("cancelIconEnable");
+        cancelBtn.classList.add("cancelIconDisable");
+      }
+
+      const editBtn = tableRow.querySelector(".editIcon");
+      if (editBtn) {
+        editBtn.classList.remove("editIconDisable");
+        editBtn.classList.add("editIconEnable");
+      }
+      await getAllPfEmpList();
+    }
+  };
+
   const onSaveLastWorkingDay = () => {
     if (!pfEmpToEdit.lastWorkingDay) {
       toast.error("Please select the last working day of the employee.");
@@ -356,21 +462,13 @@ function PfEnrolledList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {records.map((record: PfEmployee, index: number) => {
+                  {records?.map((record: PfEmployee, index: number) => {
                     if (record.pfStatus === "Active") {
                       return (
                         <tr key={index}>
                           <td></td>
-                          <td>
-                            <input
-                              name="name"
-                              className="data text eName"
-                              onChange={onValueChange}
-                              type="text"
-                              defaultValue={record.name}
-                              data-testid="eName"
-                              readOnly
-                            />
+                          <td className="eName" data-testid="eName">
+                            {record.name}
                           </td>
                           <td className="dobOfEmp" data-testid="dobOfEmp_td">
                             {indianDate(record.empDob)}
@@ -415,7 +513,7 @@ function PfEnrolledList() {
                           <td>
                             <input
                               name="address"
-                              className="data text"
+                              className="data text eAddress"
                               onChange={onValueChange}
                               type="text"
                               defaultValue={record.address}
@@ -442,13 +540,24 @@ function PfEnrolledList() {
                             <i
                               className="bi bi-pen-fill editIcon"
                               data-testid="editButton"
-                              onClick={(e) => onEditBtnClick(e, record._id)}
+                              onClick={(e) => onEditBtnClick(e, record.empId)}
                             ></i>
                             <i
                               className="bi bi-check-circle-fill save-btn editIcon data-toggle=modal data-target=#myModal saveBtnDisable"
                               data-testid="saveButton"
                               onClick={(e) => {
                                 onSaveBtnClick(e, record._id, record.name);
+                              }}
+                            ></i>
+                            <i
+                              className="bi bi-x-circle-fill cancelIcon cancelIconDisable"
+                              onClick={(
+                                e: React.MouseEvent<
+                                  HTMLButtonElement,
+                                  MouseEvent
+                                >
+                              ) => {
+                                onCancelBtnClick(e);
                               }}
                             ></i>
                           </td>

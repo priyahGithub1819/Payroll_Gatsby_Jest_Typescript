@@ -530,11 +530,12 @@ input .larger {
   color: #000 !important;
 }
 
-.editIcon {
-  font-size: 23px !important;
+.editIcon .cancelIcon {
+  font-size: 20px !important;
   margin-left: 2px !important;
-  cursor: pointer;
+  cursor: pointer !important;
 }
+
 
 .HrEmployeeContainer {
   min-height: 100vh;
@@ -2498,7 +2499,7 @@ div.content {
   padding-bottom: 20px;
 }
 
-.save-btn {
+.save-btn .cancelIco{
   margin-left: 5px;
 }
 
@@ -2506,6 +2507,18 @@ div.content {
   display: none;
 }
 .saveBtnEnable {
+  display: block;
+}
+.cancelIconDisable {
+  display: none;
+}
+.cancelIconEnable {
+  display: block;
+}
+.editIconDisable {
+  display: none;
+}
+.editIconEnable {
   display: block;
 }
 .table> :not(caption)>*>* {
