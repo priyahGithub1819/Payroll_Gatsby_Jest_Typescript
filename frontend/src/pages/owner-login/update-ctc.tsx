@@ -259,6 +259,30 @@ function App() {
             }
           });
         }
+      } else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
+        toast.error("CTC cannot be negative.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
+        toast.error("Please enter only 2 digit after decimal.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
       } else if (empToEdit.CTC && empToEdit.CTC < Number(data)) {
         toast.error("Updated CTC should be greater than old CTC.");
         const target = e.currentTarget as HTMLElement;

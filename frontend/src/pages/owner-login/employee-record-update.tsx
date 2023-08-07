@@ -217,8 +217,7 @@ function App() {
     console.log(empToEdit);
     console.log(records);
     console.log(designationData);
-    
-    
+ 
     if (empToEdit && rowData){
       let elementValue=rowData[1] as HTMLInputElement;
       elementValue.value=data;
@@ -287,6 +286,30 @@ function App() {
       }
       else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
         toast.error("CTC cannot be negative.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
+        toast.error("Please enter only 2 digit after decimal.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else if (Number(empToEdit.CTC) < 1) {
+        toast.error("Field should not be zero.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");

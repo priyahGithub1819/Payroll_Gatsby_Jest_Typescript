@@ -20,7 +20,7 @@ interface ParsedData {
   pfStatus: string;
 }
 const keysArray: string[] = [];
-
+let columnLength: number;
 function NewPfEnrollment() {
   // const [parsedData, setParsedData] = useState<ParsedData[]>([]);
   const [tableRows, setTableRows] = useState<string[]>([]);
@@ -84,15 +84,29 @@ function NewPfEnrollment() {
     } else {
       toast.success("PF employee information is added successfully.");
     }
-  } else {
-    toast.error("Please upload appropriate CSV file");
-  }
-  
+    } else if (columnLength == 0) {
+      toast.error("Current CSV file is empty.Please upload appropriate CSV file");
+    }
+    else {
+      toast.error("Please upload appropriate CSV file");
+    } 
   };
 
  //Function for Onchange events
  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
   const file = event.target.files && event.target.files[0];
+
+  if (!file) {
+    return;
+  }
+ 
+  // Check if the file is a CSV
+  if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
+    toast.error("Please upload a CSV file.");
+    event.target.value = ""; // Clear the file input to allow selecting again
+    return;
+  }
+
   if (file) {
     Papa.parse(file, {
       header: true,
@@ -113,6 +127,7 @@ function NewPfEnrollment() {
 
         // Converting Set back to array of unique values
         setTableRows(Array.from(uniqueRows));
+        columnLength = Array.from(uniqueRows).length;
         setValues(valuesArray);
 
         // Display Table Div

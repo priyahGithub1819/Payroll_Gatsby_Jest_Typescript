@@ -23,7 +23,7 @@ interface CandidateRecord {
 function App() {
   // All use state
   const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
-  //const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
+  const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
   const [oldData, setOldata] = useState<CandidateRecord[]>([]);
   const [candiToEdit, setCandiToEdit] = useState<CandidateRecord>({
     candidateId: "",
@@ -40,9 +40,10 @@ function App() {
   const ctc = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
   const decimalRegex = /^\d+(\.\d{0,2})?$/;
   const education = /^[a-zA-Z\s\-.,()']{2,50}$/;
+
   const skills = /^[A-Za-z0-9 ,]+$/;
   const probationPeriod = /^(3|6|9) Months$/;
-
+        
   // To get all candidate from db
   const getAllCandidates = async () => {
     let rejectCandiArray: CandidateRecord[] = [];
@@ -56,6 +57,7 @@ function App() {
           oldCandiArray.push(record);
         }
       });
+
       setCandirecords([...rejectCandiArray]);
       setOldata([...oldCandiArray]);
     }
@@ -172,6 +174,11 @@ function App() {
     }
   };
 
+    }
+  };
+
+ 
+
   //On save button click
   const onSaveBtnClick = async (
     e: React.MouseEvent<HTMLElement>,
@@ -226,6 +233,7 @@ function App() {
           });
         }
       }
+
     } else if (!skills.test(candiToEdit.primarySkill)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
@@ -243,6 +251,7 @@ function App() {
         toast.error("Please enter only characters or numbers.");
       }
     } else if (!education.test(candiToEdit.eduQual)) {
+
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
         tableRow.querySelectorAll(".eduQual").forEach((input: any) => {
@@ -267,6 +276,7 @@ function App() {
           toast.error("Please enter correct details.");
         }
       } else if (
+
       !ctc.test(candiToEdit.expectedCTC) ||
       !decimalRegex.test(candiToEdit.expectedCTC)
     ) {
