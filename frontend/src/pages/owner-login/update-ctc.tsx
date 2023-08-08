@@ -118,7 +118,6 @@ interface EmployeeData {
 function App() {
   const [records, setRecords] = useState<EmployeeData[]>([]);
   const [allCtc, setAllCtc] = useState<CtcData[]>();
- // const [oldData, setOldData] = useState<EmployeeData | undefined>();
   const ctc = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
   const decimalRegex = /^\d+(\.\d{0,2})?$/;
 
@@ -149,8 +148,6 @@ function App() {
   }, []);
 
   const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    
     if (empToEdit)
       setEmpToEdit({ ...empToEdit, [e.target.name]: e.target.value });
   };
@@ -202,18 +199,14 @@ function App() {
     cancelBtn.style.display = "none";
     saveBtn.style.display = "none";
     editBtn.style.display = "";
-    let data:string="";
-    if(allCtc){
-      data= allCtc.filter(
-        (ctc: CtcData) =>
-          ctc.Emp_Id ===
-          empId
-      )[0].CTC;
-    }    
-    
-    if (empToEdit && rowData){
-      let elementValue=rowData[0] as HTMLInputElement;
-      elementValue.value=data;
+    let data: string = "";
+    if (allCtc) {
+      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
+    }
+
+    if (empToEdit && rowData) {
+      let elementValue = rowData[0] as HTMLInputElement;
+      elementValue.value = data;
     }
 
     const inputElements = tableRow?.querySelectorAll(".data");
@@ -234,14 +227,10 @@ function App() {
     name: string,
     lastName: string
   ) => {
-    let data:string="";
-    if(allCtc){
-      data= allCtc.filter(
-        (ctc: CtcData) =>
-          ctc.Emp_Id ===
-          empId
-      )[0].CTC;
-    }    
+    let data: string = "";
+    if (allCtc) {
+      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
+    }
     if (empToEdit) {
       const { CTC } = empToEdit;
       const target = e.target as HTMLElement;
@@ -271,8 +260,7 @@ function App() {
             }
           });
         }
-      } 
-      else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
+      } else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
         toast.error("CTC cannot be negative.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
@@ -296,8 +284,7 @@ function App() {
             }
           });
         }
-      }
-      else if (Number(empToEdit.CTC) < 1) {
+      } else if (Number(empToEdit.CTC) < 1) {
         toast.error("Field should not be zero.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
@@ -330,7 +317,7 @@ function App() {
           cancelBtn.style.display = "none";
           editBtn.style.display = "";
         }
-        
+
         toast.success(`Information of ${empId} is updated successfully`);
       }
     }
@@ -376,7 +363,6 @@ function App() {
                                     data-testid="ctc"
                                     name="CTC"
                                     type="number"
-                                    //pattern="[0-9]+"
                                     className="data inputFont CTC"
                                     onChange={onValueChange}
                                     defaultValue={
