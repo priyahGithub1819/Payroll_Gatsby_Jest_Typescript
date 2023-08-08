@@ -94,7 +94,6 @@ function App() {
   const getAllEmployees = async () => {
     let data = await allUserData();
     setRecords(data.employeeData);
-    //setOldProbation(data.employeeData);
   };
 
   useEffect(() => {
@@ -111,11 +110,10 @@ function App() {
     selectCount: number
   ) => {
     if (selectCount < 2) {
-      
       const tableRow = e.currentTarget.closest(
         "tr"
       ) as HTMLTableRowElement | null;
-      if (tableRow === null) return; // Handle the case where tableRow is null
+      if (tableRow === null) return; 
       const rowData = tableRow.querySelectorAll(".data");
       const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
       const saveBtn = tableRow?.querySelector(".save-btn") as HTMLElement;
@@ -136,9 +134,8 @@ function App() {
       }
 
       const currentEmp = await getSingleEmp(empId);
-      setOldProbation(currentEmp.basic.probationPeriod)
-      
-      
+      setOldProbation(currentEmp.basic.probationPeriod);
+
       setEmpToEdit(currentEmp);
       rowData.forEach((element: any) => {
         element.removeAttribute("readOnly");
@@ -166,18 +163,14 @@ function App() {
     cancelBtn.style.display = "none";
     saveBtn.style.display = "none";
     editBtn.style.display = "";
-    console.log(empId,oldProbation);
-    
-if(empId && oldProbation)
- {
-  records.filter((r)=> r.payrollData.empId === empId)[0].basic.probationPeriod = oldProbation
-  console.log(records);
-  
-  setRecords([...records])
- }
-    
-  
-    
+
+    if (empId && oldProbation) {
+      records.filter(
+        (r) => r.payrollData.empId === empId
+      )[0].basic.probationPeriod = oldProbation;
+      setRecords([...records]);
+    }
+
     tableRow.querySelectorAll(".data").forEach((input: any) => {
       input.style.border = "none";
       input.disabled = true;
@@ -198,7 +191,7 @@ if(empId && oldProbation)
     await editEmpStatusErp(empId, { probationPeriod });
     e.target.style.display = "none";
     const tableRow = e.target.closest("tr");
-    if (tableRow === null) return; // Handle the case where tableRow is null
+    if (tableRow === null) return;
     const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
     const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
     cancelBtn.style.display = "none";
@@ -234,7 +227,7 @@ if(empId && oldProbation)
         basic: {
           ...empToEdit!.basic,
           probationPeriod: Number(probationPeriod),
-          confirmationDate: confirmDate.toISOString(), // Format as string
+          confirmationDate: confirmDate.toISOString(), 
         },
       };
     } else {
@@ -242,7 +235,6 @@ if(empId && oldProbation)
       const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
       cancelBtn.style.display = "none";
       editBtn.style.display = "";
-      // If probation period is not 3, 6, or 9, just update the basic selectCount property
       updatedEmployee = {
         ...empToEdit!,
         basic: {
@@ -250,7 +242,6 @@ if(empId && oldProbation)
           selectCount: count + 1,
         },
       };
-      
     }
 
     setEmpToEdit(updatedEmployee);
@@ -328,8 +319,7 @@ if(empId && oldProbation)
                                     records[index].basic.probationPeriod =
                                       Number(e.target.value);
                                     setRecords(records);
-                                  }
-                                }
+                                  }}
                                   value={record.basic.probationPeriod}
                                 >
                                   <option value="3">3 Months</option>

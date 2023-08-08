@@ -118,7 +118,6 @@ interface EmployeeData {
 function App() {
   const [records, setRecords] = useState<EmployeeData[]>([]);
   const [allCtc, setAllCtc] = useState<CtcData[]>();
- // const [oldData, setOldData] = useState<EmployeeData | undefined>();
   const ctc = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
   const decimalRegex = /^\d+(\.\d{0,2})?$/;
 
@@ -149,8 +148,6 @@ function App() {
   }, []);
 
   const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    
     if (empToEdit)
       setEmpToEdit({ ...empToEdit, [e.target.name]: e.target.value });
   };
@@ -178,9 +175,6 @@ function App() {
     editBtn.style.display = "none";
     const currentEmp = await axios.get(`/api/v2/single-emp/${empId}`);
     setEmpToEdit(currentEmp.data);
-
-    //setOldData(currentEmp.data);
-
     rowData?.forEach((element: Element) => {
       if (element instanceof HTMLElement) {
         element.removeAttribute("readOnly");
@@ -202,18 +196,14 @@ function App() {
     cancelBtn.style.display = "none";
     saveBtn.style.display = "none";
     editBtn.style.display = "";
-    let data:string="";
-    if(allCtc){
-      data= allCtc.filter(
-        (ctc: CtcData) =>
-          ctc.Emp_Id ===
-          empId
-      )[0].CTC;
-    }    
-    
-    if (empToEdit && rowData){
-      let elementValue=rowData[0] as HTMLInputElement;
-      elementValue.value=data;
+    let data: string = "";
+    if (allCtc) {
+      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
+    }
+
+    if (empToEdit && rowData) {
+      let elementValue = rowData[0] as HTMLInputElement;
+      elementValue.value = data;
     }
 
     const inputElements = tableRow?.querySelectorAll(".data");
@@ -234,21 +224,29 @@ function App() {
     name: string,
     lastName: string
   ) => {
-    let data:string="";
-    if(allCtc){
-      data= allCtc.filter(
-        (ctc: CtcData) =>
-          ctc.Emp_Id ===
-          empId
-      )[0].CTC;
-    }    
+    let data: string = "";
+    if (allCtc) {
+      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
+    }
     if (empToEdit) {
       const { CTC } = empToEdit;
       const target = e.target as HTMLElement;
       const tableRow = target.closest("tr");
       const rowData = tableRow?.querySelectorAll(".data");
       if (String(empToEdit.CTC) === "") {
-        toast.error("CTC should not be empty.");
+        toast.error("Field should not be empty.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else if (empToEdit.CTC && empToEdit.CTC < Number(data)) {
+        toast.error("Updated CTC should be greater than old CTC.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -272,43 +270,6 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
-        toast.error("Please enter only 2 digit after decimal point.");
-        const target = e.currentTarget as HTMLElement;
-        const tableRow = target.closest("tr");
-        const inputElements = tableRow?.querySelectorAll(".CTC");
-        if (inputElements) {
-          inputElements.forEach((input: Element) => {
-            if (input instanceof HTMLElement) {
-              input.style.border = "2px solid red";
-            }
-          });
-        }
-      } else if (empToEdit.CTC && empToEdit.CTC < Number(data)) {
-        toast.error("Updated CTC should be greater than old CTC.");
-        const target = e.currentTarget as HTMLElement;
-        const tableRow = target.closest("tr");
-        const inputElements = tableRow?.querySelectorAll(".CTC");
-        if (inputElements) {
-          inputElements.forEach((input: Element) => {
-            if (input instanceof HTMLElement) {
-              input.style.border = "2px solid red";
-            }
-          });
-        }
-      } 
-      else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
-        toast.error("CTC cannot be negative.");
-        const target = e.currentTarget as HTMLElement;
-        const tableRow = target.closest("tr");
-        const inputElements = tableRow?.querySelectorAll(".CTC");
-        if (inputElements) {
-          inputElements.forEach((input: Element) => {
-            if (input instanceof HTMLElement) {
-              input.style.border = "2px solid red";
-            }
-          });
-        }
-      } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
         toast.error("Please enter only 2 digit after decimal.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
@@ -320,9 +281,8 @@ function App() {
             }
           });
         }
-      }
-      else if (Number(empToEdit.CTC) < 1) {
-        toast.error("CTC can not be zero.");
+      } else if (Number(empToEdit.CTC) < 1) {
+        toast.error("Field should not be zero.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -354,7 +314,7 @@ function App() {
           cancelBtn.style.display = "none";
           editBtn.style.display = "";
         }
-        
+
         toast.success(`Information of ${empId} is updated successfully`);
       }
     }
@@ -400,7 +360,6 @@ function App() {
                                     data-testid="ctc"
                                     name="CTC"
                                     type="number"
-                                    //pattern="[0-9]+"
                                     className="data inputFont CTC"
                                     onChange={onValueChange}
                                     defaultValue={

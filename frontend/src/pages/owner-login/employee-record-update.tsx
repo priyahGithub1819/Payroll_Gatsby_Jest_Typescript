@@ -197,32 +197,22 @@ function App() {
     cancelBtn.style.display = "none";
     saveBtn.style.display = "none";
     editBtn.style.display = "";
-    let data:string="";
-    let designationData:string="";
-    if(allCtc){
-      data= allCtc.filter(
-        (ctc: CtcData) =>
-          ctc.Emp_Id ===
-          empId
-      )[0].CTC;
-    }  
-    if(records){
-      designationData= records.filter(
-        (records: EmployeeData) =>
-        records.payrollData.empId ===
-          empId
+    let data: string = "";
+    let designationData: string = "";
+    if (allCtc) {
+      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
+    }
+    if (records) {
+      designationData = records.filter(
+        (records: EmployeeData) => records.payrollData.empId === empId
       )[0].basic.designation;
-    }  
+    }
 
-    console.log(empToEdit);
-    console.log(records);
-    console.log(designationData);
- 
-    if (empToEdit && rowData){
-      let elementValue=rowData[1] as HTMLInputElement;
-      elementValue.value=data;
-      let designationValue=rowData[0] as HTMLInputElement;
-      designationValue.value=designationData;
+    if (empToEdit && rowData) {
+      let elementValue = rowData[1] as HTMLInputElement;
+      elementValue.value = data;
+      let designationValue = rowData[0] as HTMLInputElement;
+      designationValue.value = designationData;
     }
 
     const inputElements = tableRow?.querySelectorAll(".data");
@@ -283,8 +273,7 @@ function App() {
             }
           });
         }
-      }
-      else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
+      } else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
         toast.error("CTC cannot be negative.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
@@ -320,32 +309,7 @@ function App() {
             }
           });
         }
-      } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
-        toast.error("Please enter only 2 digit after decimal.");
-        const target = e.currentTarget as HTMLElement;
-        const tableRow = target.closest("tr");
-        const inputElements = tableRow?.querySelectorAll(".CTC");
-        if (inputElements) {
-          inputElements.forEach((input: Element) => {
-            if (input instanceof HTMLElement) {
-              input.style.border = "2px solid red";
-            }
-          });
-        }
-      } else if (Number(empToEdit.CTC) < 1) {
-        toast.error("Field should not be zero.");
-        const target = e.currentTarget as HTMLElement;
-        const tableRow = target.closest("tr");
-        const inputElements = tableRow?.querySelectorAll(".CTC");
-        if (inputElements) {
-          inputElements.forEach((input: Element) => {
-            if (input instanceof HTMLElement) {
-              input.style.border = "2px solid red";
-            }
-          });
-        }
-      }
-      else {
+      } else {
         await editEmpStatusErp(empId, empToEdit);
         await editSingleCtc(empId, { CTC });
         const target = e.target as HTMLButtonElement;
@@ -424,7 +388,6 @@ function App() {
                                     data-testid="ctc"
                                     name="CTC"
                                     type="number"
-                                    //pattern="[0-9]+"
                                     className="data inputFont CTC"
                                     onChange={onValueChange}
                                     defaultValue={

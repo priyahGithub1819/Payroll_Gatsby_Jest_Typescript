@@ -23,7 +23,6 @@ interface CandidateRecord {
 function App() {
   // All use state
   const [candirecords, setCandirecords] = useState<CandidateRecord[]>([]);
-  //const [rejectCandi, setRejectCandi] = useState<CandidateRecord[]>([]);
   const [oldData, setOldata] = useState<CandidateRecord[]>([]);
   const [candiToEdit, setCandiToEdit] = useState<CandidateRecord>({
     candidateId: "",
@@ -122,6 +121,7 @@ function App() {
 
     if (candiId && oldData && rowData) {
       let filterData = oldData.filter((r) => r.candidateId === candiId);
+
       let cName = rowData[0] as HTMLInputElement;
       cName.value = filterData[0].candidateName;
       let cEduQual = rowData[1] as HTMLInputElement;
