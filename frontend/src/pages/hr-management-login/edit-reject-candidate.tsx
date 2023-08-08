@@ -161,7 +161,7 @@ function App() {
       candiToEdit.currentCTC === "" ||
       candiToEdit.expectedCTC === ""
     ) {
-      toast.error("Field should not be empty.");
+      toast.warn("Field should not be empty.");
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
         if (candiToEdit.candidateName === "") {
@@ -206,7 +206,7 @@ function App() {
         tableRow.querySelectorAll(".primarySkill").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Please enter only characters or numbers.");
+        toast.warn("Please enter only characters or numbers.");
       }
     } else if (!skills.test(candiToEdit.secondarySkill)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
@@ -214,7 +214,7 @@ function App() {
         tableRow.querySelectorAll(".secondarySkill").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Please enter only characters or numbers.");
+        toast.warn("Please enter only characters or numbers.");
       }
     } else if (!education.test(candiToEdit.eduQual)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
@@ -222,7 +222,7 @@ function App() {
         tableRow.querySelectorAll(".eduQual").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Please enter only characters");
+        toast.warn("Please enter only characters");
       }
     } else if (!education.test(candiToEdit.candidateName)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
@@ -230,7 +230,7 @@ function App() {
         tableRow.querySelectorAll(".name").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Please enter only characters");
+        toast.warn("Please enter only characters");
       }
     } else if (!probationPeriod.test(candiToEdit.noticePeriod)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
@@ -238,7 +238,7 @@ function App() {
         tableRow.querySelectorAll(".noticePeriod").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Please enter correct details.");
+        toast.warn("Please enter correct details.");
       }
     } else if (
       !ctc.test(candiToEdit.expectedCTC) ||
@@ -249,7 +249,7 @@ function App() {
         tableRow.querySelectorAll(".expectedCTC").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Please fill the appropriate value.");
+        toast.warn("Please fill the appropriate value.");
       }
     } else if (
       !ctc.test(candiToEdit.currentCTC) ||
@@ -260,7 +260,7 @@ function App() {
         tableRow.querySelectorAll(".currectCTC").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Please fill the appropriate value.");
+        toast.warn("Please fill the appropriate value.");
       }
     } else if (Number(candiToEdit.currentCTC) < 1) {
       const tableRow = (e.target as HTMLElement).closest("tr");
@@ -268,7 +268,7 @@ function App() {
         tableRow.querySelectorAll(".currectCTC").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Field should not be zero.");
+        toast.warn("Field should not be zero.");
       }
     } else if (Number(candiToEdit.expectedCTC) < 1) {
       const tableRow = (e.target as HTMLElement).closest("tr");
@@ -276,7 +276,7 @@ function App() {
         tableRow.querySelectorAll(".expectedCTC").forEach((input: any) => {
           input.style.border = "2px solid red";
         });
-        toast.error("Field should not be zero.");
+        toast.warn("Field should not be zero.");
       }
     } else {
       await axios.put(`/api/v2/edit-rejectcandi/${candiId}`, candiToEdit);
@@ -293,7 +293,7 @@ function App() {
         cancelBtn.style.display = "none";
         editBtn.style.display = "";
       }
-      toast.success("Information of " + name + " is updated successfully.");
+      toast.success("Information of " + candiId + " is updated successfully.");
     }
   };
 

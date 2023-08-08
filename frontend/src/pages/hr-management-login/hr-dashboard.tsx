@@ -9,7 +9,7 @@ const HrDashboard: React.FC = () => {
           <h2 className="text-center hrDashBoardH2" data-testid="hrHeading">
             Hr Admin Dashboard
           </h2>
-          <div className="row justify-content-center mt-5" id="access">
+          <div className="row justify-content-center mt-4" id="access">
             <div
               className="col-lg-2 card  p-3 m-3 hrDashBoardDiv"
               role="HrCard"

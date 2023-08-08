@@ -55,37 +55,20 @@ function App() {
     getAllCandidates();
   }, []);
 
-  // To Reject the candidate
-  // const saveRejectCandi = async () => {
-  //   if (rejectReason.rejectedMessage) {
-  //     toast.success(
-  //       "Candidate " + rejectReason.candidateName + " is rejected successfully"
-  //     );
 
-  //     await editCandiStatus(rejectReason.id, {
-  //       candiStatus: "Rejected",
-  //       rejectedMessage: rejectReason.rejectedMessage,
-  //     });
-  //     setRejectBoxShow(false);
-  //     setRejectReason(rejectedReasonInitialValue);
-  //     await getAllCandidates();
-  //   } else {
-  //     toast.success("Please select any reason to reject the candidate.");
-  //   }
-  // };
   // To Reject the candidate
   const saveRejectCandi = async () => {
     const rejectionMessage = rejectReason.rejectedMessage.trim();
 
     if (rejectionMessage.length === 0) {
-      toast.error("Please provide a reason to reject the candidate.");
+      toast.warn("Please provide a reason to reject the candidate.");
     } else if (!/^[A-Za-z\s]+$/.test(rejectionMessage)) {
-      toast.error("Rejection message should only contain letters and spaces.");
-    } else if (rejectionMessage.length < 30 || rejectionMessage.length > 255) {
-      toast.error("Rejection message should be between 30 and 255 characters.");
+      toast.warn("Rejection message should only contain letters and spaces.");
+    } else if (rejectionMessage.length < 10 || rejectionMessage.length > 255) {
+      toast.warn("Rejection message should be between 30 and 255 characters.");
     } else {
       toast.success(
-        "Candidate " + rejectReason.candidateName + " is rejected successfully"
+        "Candidate " + rejectReason.id + " is rejected successfully"
       );
 
       await editCandiStatus(rejectReason.id, {
@@ -98,6 +81,7 @@ function App() {
       await getAllCandidates();
     }
   };
+
   // To Select/Approve the candidate
   const saveApproveCandi = async (id: string, candidateName: string) => {
     await editCandiStatus(id, { candiStatus: "Selected" });

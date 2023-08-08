@@ -135,8 +135,9 @@ function PfEnrolledList() {
   const onSaveBtnClick = async (
     e: React.MouseEvent<HTMLElement>,
     empId: number,
-    name: string
-  ) => {
+    name: string,
+    employeeId: string
+   ) => {
     console.log(typeof pfEmpToEdit?.accountNumber);
 
     if (
@@ -145,7 +146,7 @@ function PfEnrolledList() {
       pfEmpToEdit?.accountNumber === 0 ||
       pfEmpToEdit?.address === ""
     ) {
-      toast.error("Field should not be empty.");
+      toast.warn("Field should not be empty.");
       const target = e.target as HTMLElement;
 
       const tableRow = target.closest("tr");
@@ -174,7 +175,7 @@ function PfEnrolledList() {
         }
       }
     } else if (!bankName.test(pfEmpToEdit?.bankName)) {
-      toast.error("Invalid bank name. Only alphabets are allowed.");
+      toast.warn("Invalid bank name. Only alphabets are allowed.");
       const target = e.target as HTMLElement;
       const tableRow = target.closest("tr");
       if (tableRow) {
@@ -183,7 +184,7 @@ function PfEnrolledList() {
         });
       }
     } else if (!ifscCode.test(pfEmpToEdit?.ifscCode)) {
-      toast.error("Invalid IFSC code. Please enter a valid IFSC code.");
+      toast.warn("Invalid IFSC code. Please enter a valid IFSC code.");
       const target = e.target as HTMLElement;
       const tableRow = target.closest("tr");
       if (tableRow) {
@@ -195,7 +196,7 @@ function PfEnrolledList() {
       pfEmpToEdit?.address.length < 3 ||
       pfEmpToEdit?.address.length > 255
     ) {
-      toast.error("Address length should be between 3 and 255 characters.");
+      toast.warn("Address length should be between 3 and 255 characters.");
       const target = e.target as HTMLElement;
       const tableRow = target.closest("tr");
       if (tableRow) {
@@ -208,7 +209,7 @@ function PfEnrolledList() {
       pfEmpToEdit?.accountNumber.toString().length !== 10 &&
       pfEmpToEdit?.accountNumber.toString().length !== 12
     ) {
-      toast.error("Account number should be 10 or 12 digits.");
+      toast.warn("Account number should be 10 or 12 digits.");
       const target = e.target as HTMLElement;
 
       const tableRow = target.closest("tr");
@@ -245,7 +246,7 @@ function PfEnrolledList() {
             input.style.border = "none";
           });
 
-          toast.success("Information of " + name + " is updated successfully.");
+          toast.success("Information of " + employeeId + " is updated successfully.");
 
           await getAllPfEmpList();
         }
@@ -292,7 +293,7 @@ function PfEnrolledList() {
 
   const onSaveLastWorkingDay = () => {
     if (!pfEmpToEdit.lastWorkingDay) {
-      toast.error("Please select the last working day of the employee.");
+      toast.warn("Please select the last working day of an employee.");
     } else {
       setLastWorkingDay(false);
     }
@@ -363,7 +364,7 @@ function PfEnrolledList() {
                   data-testid="dobOfEmp"
                   onChange={(event) => tableColumnHideShow("dobOfEmp")}
                 />
-                <label htmlFor="dobOfEmp" className="form-label">
+                <label htmlFor="dobOfEmp" className="form-label employeeInfo">
                   DOB of Employee
                 </label>
               </div>
@@ -378,7 +379,7 @@ function PfEnrolledList() {
                   data-testid="aadhar"
                   onChange={(event) => tableColumnHideShow("aadhar")}
                 />
-                <label htmlFor="date&time" className="form-label">
+                <label htmlFor="date&time" className="form-label employeeInfo">
                   Aadhar Number
                 </label>
               </div>
@@ -392,7 +393,7 @@ function PfEnrolledList() {
                   data-testid="panNum"
                   onChange={(event) => tableColumnHideShow("panNum")}
                 />
-                <label htmlFor="date&time" className="form-label">
+                <label htmlFor="date&time" className="form-label employeeInfo">
                   PAN Number
                 </label>
               </div>
@@ -406,7 +407,7 @@ function PfEnrolledList() {
                   data-testid="creationDate"
                   onChange={(event) => tableColumnHideShow("creationDate")}
                 />
-                <label htmlFor="date&time" className="form-label">
+                <label htmlFor="date&time" className="form-label employeeInfo">
                   Creation Details
                 </label>
               </div>
@@ -420,7 +421,7 @@ function PfEnrolledList() {
                   data-testid="updationDate"
                   onChange={(event) => tableColumnHideShow("updationDate")}
                 />
-                <label htmlFor="date&time" className="form-label">
+                <label htmlFor="date&time" className="form-label employeeInfo">
                   Updation Details
                 </label>
               </div>
@@ -546,7 +547,7 @@ function PfEnrolledList() {
                               className="bi bi-check-circle-fill save-btn editIcon data-toggle=modal data-target=#myModal saveBtnDisable"
                               data-testid="saveButton"
                               onClick={(e) => {
-                                onSaveBtnClick(e, record._id, record.name);
+                                onSaveBtnClick(e, record._id, record.name, record.empId);
                               }}
                             ></i>
                             <i
@@ -594,7 +595,7 @@ function PfEnrolledList() {
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h1 className="modal-title fs-5" id="exampleModalLabel">
+                      <h1 className="modal-title fs-6" id="exampleModalLabel">
                         Select Last Working Day of an Employee
                       </h1>
                       <button

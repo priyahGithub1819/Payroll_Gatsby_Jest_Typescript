@@ -74,7 +74,7 @@ function ShortlistedCandidate() {
         setValues([])
       }
     } else {
-      toast.error("Please upload appropriate CSV file");
+      toast.warn("Please upload appropriate CSV file");
     }
   };
 
