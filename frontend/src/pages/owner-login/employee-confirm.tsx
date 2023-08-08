@@ -191,7 +191,7 @@ function App() {
     await editEmpStatusErp(empId, { probationPeriod });
     e.target.style.display = "none";
     const tableRow = e.target.closest("tr");
-    if (tableRow === null) return; 
+    if (tableRow === null) return;
     const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
     const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
     cancelBtn.style.display = "none";

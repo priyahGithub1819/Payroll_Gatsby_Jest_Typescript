@@ -76,8 +76,8 @@ function App() {
 
   const saveOnboardCandi = async (id: string, candidateName: string) => {
     toast.success(`Candidate ${id} will be onboarded soon`);
-    editCandiStatus(id, { candiStatus: "Onboard" });
-    getAllCandidates();
+    await editCandiStatus(id, { candiStatus: "Onboard" });
+    await getAllCandidates();
   };
 
   return (
@@ -93,6 +93,9 @@ function App() {
                 <h2 className="text-center bulkText">
                   List of Selected Candidates
                 </h2>
+                {candirecords.length === 0 ? (
+                  <div className="noDataAvailable">Currently no candidate's data available.</div>
+                ) : (
                 <div className="empTable">
                   <table className="table-bordered ownersTable">
                     <thead>
@@ -160,6 +163,7 @@ function App() {
                     </tbody>
                   </table>
                 </div>
+                   )}
                 {rejectBoxShow && (
                   <div data-testid="reject-msg-modal" className="modal RejectReasonModal ">
                     <div className="modal-dialog">

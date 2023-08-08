@@ -34,22 +34,22 @@ interface ChangeHandlerList {
   "Name of Child 2": string;
   "Number of Members": string;
   "Payment Type": string;
-  Relationship: string;
+  "Relationship": string;
   "Account Number": string;
   "Auto password generator": string;
   "Bank Name": string;
   "Branch Name": string;
   "Confirmation date": string;
   "Contact No": string;
-  Department: string;
-  Designation: string;
+  "Department": string;
+  "Designation": string;
   "Email address": string;
   "Employee ID": string;
   "Full Name": string;
-  Gender: string;
+  "Gender": string;
   "IFSC Code": string;
   "Joining Date": string;
-  Location: string;
+  "Location": string;
   "Marital Status": string;
   "Name of Child 1": string;
   "Name of Father": string;
@@ -58,10 +58,11 @@ interface ChangeHandlerList {
   "PAN Number": string;
   "PF UAN Number": string;
   "Probation Period": string;
-  Role: string;
+  "Role": string;
   "Work Mode": string;
 }
 const rowsArray: string[] = [];
+const valuesArray: string[][] = [];
 function AddBulkEmployee() {
   //State to store table Column name
   const [tableRows, setTableRows] = useState<string[]>([]);
@@ -71,29 +72,18 @@ function AddBulkEmployee() {
   // On clear btn click
   const onClearBtnClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
-    var tableWrapper = document.getElementById(
-      "table-wrapper"
-    ) as HTMLDivElement;
-    var saveclearbtns = document.getElementById(
-      "save-clear-btns"
-    ) as HTMLDivElement;
-    var tableinfoheading = document.getElementById(
-      "table-info-heading"
-    ) as HTMLHeadingElement;
+    var form = document.getElementById("file-form") as HTMLFormElement;
+    var tableWrapper = document.getElementById("table-wrapper") as HTMLDivElement;
+    var saveclearbtns = document.getElementById("save-clear-btns") as HTMLDivElement;
 
-    // Clear the file input field
-    if (bulkfile) {
-      bulkfile.value = "";
+    // Clear the file input field by resetting the form
+    if (form) {
+      form.reset();
     }
 
     // Hide table and buttons
     tableWrapper.style.display = "none";
     saveclearbtns.style.display = "none";
-    tableinfoheading.classList.add("d-none");
-
-    // Auto-refresh the page
-    window.location.reload();
   };
 
   // On Save btn click
@@ -104,10 +94,9 @@ function AddBulkEmployee() {
   ) => {
     const columnLength = rowsArray.length;
     e.preventDefault();
+    const [tableColumnName] = document.querySelectorAll("thead tr");
+    const allTableRows = document.querySelectorAll("tbody tr");
     if (columnLength == 18) {
-      const [tableColumnName] = document.querySelectorAll("thead tr");
-      const allTableRows = document.querySelectorAll("tbody tr");
-
       allTableRows.forEach((tr) => {
         let obj: MyObject = {} as MyObject;
         let tableDataArray = tr.querySelectorAll("td");
@@ -139,11 +128,15 @@ function AddBulkEmployee() {
 
       if (error) {
         toast.error(error);
-      } else {
+      }
+      else {
         toast.success("Employee information uploded successfully.");
       }
-    } else {
-      toast.error("Please upload appropriate CSV file");
+    } else if (columnLength == 0) {
+      toast.warn("Current CSV file is empty.Please upload appropriate CSV file");
+    }
+    else {
+      toast.warn("Please upload appropriate CSV file");
     }
   };
 
@@ -151,12 +144,21 @@ function AddBulkEmployee() {
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     // Passing file data (event.target.files[0]) to parse using Papa.parse
     const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    // Check if the file is a CSV
+    if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
+      toast.warn("Please upload a CSV file.");
+      event.target.value = ""; // Clear the file input to allow selecting again
+      return;
+    }
     if (file) {
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
         complete: function (results) {
-          const valuesArray: string[][] = [];
           // Iterating data to get column name and their values
           (results.data as ChangeHandlerList[]).forEach(
             (d: ChangeHandlerList) => {
@@ -165,8 +167,6 @@ function AddBulkEmployee() {
             }
           );
 
-          // const lengthOfArray = rowsArray.length;
-          // Filtered Column Names
           setTableRows(
             rowsArray.filter(
               (value, index, self) => self.indexOf(value) === index
@@ -174,7 +174,6 @@ function AddBulkEmployee() {
           );
           // Filtered Values
           setValues(valuesArray);
-
           // Display Table Div
           var tableWrapper = document.getElementById(
             "table-wrapper"
@@ -208,16 +207,15 @@ function AddBulkEmployee() {
                 </h2>
                 <div className="col-12">
                   <div className="card shadow-lg p-4">
-                    <h4>Upload Bulk Employee Information</h4>
-                    <input
+                    <form id="file-form"><input
                       id="bulk-file"
                       type="file"
                       name="file"
                       className="form-control my-3 inputFont"
                       onChange={changeHandler}
                       accept=".csv"
-                      data-testid="csvFile"
-                    />
+                      data-testid="inputFile"
+                    /></form>
                     <h6 className="text-muted">
                       Hint : Upload bulk employee information CSV file here.
                     </h6>

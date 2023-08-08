@@ -30,7 +30,7 @@ router
   .route("/payroll/user/create")
   .post(
     isAuthenticated,
-    isAdmin("super-admin-login", "owner"),
+    isAdmin("superAdmin", "owner"),
     createdBy,
     createPayrollUser
   );

@@ -20,122 +20,126 @@ interface ParsedData {
   pfStatus: string;
 }
 const keysArray: string[] = [];
-
+let columnLength: number;
 function NewPfEnrollment() {
   // const [parsedData, setParsedData] = useState<ParsedData[]>([]);
   const [tableRows, setTableRows] = useState<string[]>([]);
   const [values, setValues] = useState<string[][]>([]);
- 
- // On clear btn click
- const onClearBtnClick = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  var bulkfile = document.getElementById("bulk-file") as HTMLInputElement;
-  var tableWrapper = document.getElementById(
-    "table-wrapper"
-  ) as HTMLDivElement;
-  var saveclearbtns = document.getElementById(
-    "save-clear-btns"
-  ) as HTMLDivElement;
-  var tableinfoheading = document.getElementById(
-    "table-info-heading"
-  ) as HTMLHeadingElement;
 
-  // Clear the file input field
-  if (bulkfile) {
-    bulkfile.value = "";
-  }
+  // On clear btn click
+  const onClearBtnClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    var form = document.getElementById("file-form") as HTMLFormElement;
+    var tableWrapper = document.getElementById("table-wrapper") as HTMLDivElement;
+    var saveclearbtns = document.getElementById("save-clear-btns") as HTMLDivElement;
 
-  // Hide table and buttons
-  tableWrapper.style.display = "none";
-  saveclearbtns.style.display = "none";
-  tableinfoheading.classList.add("d-none");
+    // Clear the file input field by resetting the form
+    if (form) {
+      form.reset();
+    }
 
-  // Auto-refresh the page
-  window.location.reload();
-};
+    // Hide table and buttons
+    tableWrapper.style.display = "none";
+    saveclearbtns.style.display = "none";
+  };
 
   const saveTableDataToDatabase = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (keysArray.length == 12) {
-    const allTableRows = document.querySelectorAll("tbody tr");
-    const pfEmp: ParsedData[] = [];
+      const allTableRows = document.querySelectorAll("tbody tr");
+      const pfEmp: ParsedData[] = [];
 
-    allTableRows.forEach((tr) => {
-      let obj: ParsedData = {} as ParsedData;
-      const tableDataArray = tr.querySelectorAll("td");
-      obj.name = tableDataArray[0].textContent!;
-      obj.empId = tableDataArray[1].textContent!;
-      obj.empDob = tableDataArray[2].textContent!;
-      obj.aadharNumber = tableDataArray[3].textContent!;
-      obj.panNumber = tableDataArray[4].textContent!;
-      obj.bankName = tableDataArray[5].textContent!;
-      obj.ifscCode = tableDataArray[6].textContent!;
-      obj.accountNumber = tableDataArray[7].textContent!;
-      obj.address = tableDataArray[8].textContent!;
-      obj.dateofRegistration = tableDataArray[9].textContent!;
-      obj.pfUanNumber = tableDataArray[10].textContent!;
-      obj.pfStatus = tableDataArray[11].textContent!;
-      pfEmp.push(obj);
-    });
+      allTableRows.forEach((tr) => {
+        let obj: ParsedData = {} as ParsedData;
+        const tableDataArray = tr.querySelectorAll("td");
+        obj.name = tableDataArray[0].textContent!;
+        obj.empId = tableDataArray[1].textContent!;
+        obj.empDob = tableDataArray[2].textContent!;
+        obj.aadharNumber = tableDataArray[3].textContent!;
+        obj.panNumber = tableDataArray[4].textContent!;
+        obj.bankName = tableDataArray[5].textContent!;
+        obj.ifscCode = tableDataArray[6].textContent!;
+        obj.accountNumber = tableDataArray[7].textContent!;
+        obj.address = tableDataArray[8].textContent!;
+        obj.dateofRegistration = tableDataArray[9].textContent!;
+        obj.pfUanNumber = tableDataArray[10].textContent!;
+        obj.pfStatus = tableDataArray[11].textContent!;
+        pfEmp.push(obj);
+      });
 
-    const { error } = await uploadPfEmpInfo(pfEmp);
-    if (error) {
-      toast.error(error);
-    } else {
-      toast.success("PF employee information is added successfully.");
+      const { error } = await uploadPfEmpInfo(pfEmp);
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("PF employee information is added successfully.");
+      }
+    } else if (columnLength == 0) {
+      toast.warn("Current CSV file is empty.Please upload appropriate CSV file");
     }
-  } else {
-    toast.error("Please upload appropriate CSV file");
-  }
-  
+    else {
+      toast.warn("Please upload appropriate CSV file");
+    }
   };
 
- //Function for Onchange events
- const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-  const file = event.target.files && event.target.files[0];
-  if (file) {
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: function (results) {
-        const valuesArray: string[][] = [];
-        const uniqueRows = new Set<string>(); // Using a Set to store unique values
+  //Function for Onchange events
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
 
-        // Iterating data to get column name and their values
-        (results.data as ParsedData[]).forEach((d: ParsedData) => {
-          const keys = Object.keys(d);
-          keysArray.push(...keys); // Spread the keys into keysArray
-          valuesArray.push(Object.values(d));
-          keys.forEach((key) => {
-            uniqueRows.add(key); // Add each column name to the Set
+    if (!file) {
+      return;
+    }
+
+    // Check if the file is a CSV
+    if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
+      toast.warn("Please upload a CSV file.");
+      event.target.value = ""; // Clear the file input to allow selecting again
+      return;
+    }
+
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          const valuesArray: string[][] = [];
+          const uniqueRows = new Set<string>(); // Using a Set to store unique values
+
+          // Iterating data to get column name and their values
+          (results.data as ParsedData[]).forEach((d: ParsedData) => {
+            const keys = Object.keys(d);
+            keysArray.push(...keys); // Spread the keys into keysArray
+            valuesArray.push(Object.values(d));
+            keys.forEach((key) => {
+              uniqueRows.add(key); // Add each column name to the Set
+            });
           });
-        });
 
-        // Converting Set back to array of unique values
-        setTableRows(Array.from(uniqueRows));
-        setValues(valuesArray);
+          // Converting Set back to array of unique values
+          setTableRows(Array.from(uniqueRows));
+          columnLength = Array.from(uniqueRows).length;
+          setValues(valuesArray);
 
-        // Display Table Div
-        var tableWrapper = document.getElementById(
-          "table-wrapper"
-        ) as HTMLDivElement;
-        tableWrapper.style.display = "block";
-        var saveclearbtns = document.getElementById(
-          "save-clear-btns"
-        ) as HTMLDivElement;
-        saveclearbtns.style.display = "block";
+          // Display Table Div
+          var tableWrapper = document.getElementById(
+            "table-wrapper"
+          ) as HTMLDivElement;
+          tableWrapper.style.display = "block";
+          var saveclearbtns = document.getElementById(
+            "save-clear-btns"
+          ) as HTMLDivElement;
+          saveclearbtns.style.display = "block";
 
-        // Check if the element exists before accessing its classList
-        var tableinfoheading = document.getElementById(
-          "table-info-heading"
-        ) as HTMLHeadingElement;
-        if (tableinfoheading) {
-          tableinfoheading.classList.remove("d-none");
-        }
-      },
-    });
-  }
-};
+          // Check if the element exists before accessing its classList
+          var tableinfoheading = document.getElementById(
+            "table-info-heading"
+          ) as HTMLHeadingElement;
+          if (tableinfoheading) {
+            tableinfoheading.classList.remove("d-none");
+          }
+        },
+      });
+    }
+  };
 
   return (
     <Layout>
@@ -151,7 +155,7 @@ function NewPfEnrollment() {
               <h2 className="bulkText" data-testid="heading">
                 Upload Employee PF Information
               </h2>
-              <input
+              <form id="file-form"><input
                 id="bulk-file"
                 type="file"
                 name="file"
@@ -159,7 +163,8 @@ function NewPfEnrollment() {
                 onChange={changeHandler}
                 accept=".csv"
                 data-testid="inputFile"
-              />
+              /></form>
+
               <h6 className="text-muted">
                 Hint: Upload Employee PF Information CSV file here.
               </h6>

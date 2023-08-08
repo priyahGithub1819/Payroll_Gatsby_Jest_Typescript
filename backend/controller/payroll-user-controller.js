@@ -73,15 +73,15 @@ function getBusinessDateCount(startDate, endDate) {
 
 //create new employee (not in use)
 exports.createPayrollUser = catchAysncError(async (req, res, next) => {
-  
+
   const payrollUser = await PayrollUser.updateOne(
     { empId: req.body.empId },
     req.body
   );
-  
+
   res.status(200).json({
     success: true,
-    message: "Employee added to payroll successfully",
+    message: "Employee added to the Payroll system successfully",
     employeeId: payrollUser.empId,
   });
 });
@@ -99,7 +99,7 @@ exports.updatePayrollEmployee = catchAysncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: "Employee added to payroll successfully",
+    message: "Employee added to the Payroll system successfully",
     employeeId: payrollUser.empId,
     tempPassword: req.body.tempPassword,
   });
@@ -168,12 +168,12 @@ exports.getAllPayrollUser = catchAysncError(async (req, res, next) => {
     },
     { tempPassword: 0, password: 0 }
   ).sort({ emp_Id: 1 });
-  
+
   const erpEmployee = await ERPUser.find(
     { email: { $exists: cond } },
     ERPRequiredField
   ).sort({ emp_Id: 1 });
-  
+
   let payrollUser = new Map();
 
   for (let i = 0; i < payrollEmployee.length; i++) {
@@ -210,14 +210,14 @@ exports.editEmployeePayroll = catchAysncError(async (req, res) => {
   if (!data) {
     return next(new ErrorHandler("No PayrollData was sent", 400));
   } else if (!id) {
-    return next(new ErrorHandler("id was not sent", 400));
+    return next(new ErrorHandler("Id was not sent", 400));
   }
 
   const acknowledge = await PayrollUser.updateOne({ empId: id }, data);
 
   res
     .status(200)
-    .json({ success: true, message: "successfully updated employee" });
+    .json({ success: true, message: "Successfully updated the employee details" });
 });
 
 //edit ERP data from here
@@ -227,14 +227,14 @@ exports.editEmployeeERP = catchAysncError(async (req, res) => {
   if (!data) {
     return next(new ErrorHandler("No Payroll data was sent", 400));
   } else if (!id) {
-    return next(new ErrorHandler("id was not sent", 400));
+    return next(new ErrorHandler("Id was not sent", 400));
   }
 
   const acknowledge = await ERPUser.updateOne({ employeeId: id }, data);
 
   res.status(200).json({
     success: true,
-    message: "successfully updated employee",
+    message: "Successfully updated the employee details",
     acknowledge,
   });
 });
@@ -250,7 +250,7 @@ exports.loginUser = catchAysncError(async (req, res, next) => {
   const payrollUser = await PayrollUser.findOne({ empId }).select(
     "+password +tempPassword"
   );
-  
+
   const erpUser = await ERPUser.findOne(
     { employeeId: empId },
     { employmentStatus: 1, _id: 0 }
@@ -277,7 +277,7 @@ exports.loginUser = catchAysncError(async (req, res, next) => {
 
       res.status(200).json({
         success: true,
-        message: "Please Enter new Password",
+        message: "Please enter new Password",
       });
     }
   } else {
@@ -300,7 +300,7 @@ exports.loginUser = catchAysncError(async (req, res, next) => {
 exports.createPassword = catchAysncError(async (req, res, next) => {
   const { password } = req.body;
   if (!password) {
-    return next(new ErrorHandler("Please fill all the field of form", 200));
+    return next(new ErrorHandler("Please fill up all the fields in the form", 200));
   }
   let payrollUser = await PayrollUser.findOne({
     empId: req.newEmployee.empId,
@@ -443,7 +443,7 @@ exports.userData = catchAysncError(async (req, res, next) => {
 
     if (+new Date(payrollUser.dateOfJoining) > +reqMonth) {
       return next(
-        new ErrorHandler("Please select month after you joining date")
+        new ErrorHandler("Please select the month after joining date")
       );
     }
 
@@ -498,7 +498,7 @@ exports.userData = catchAysncError(async (req, res, next) => {
             ) {
               return next(
                 new ErrorHandler(
-                  `attendance not found for month ${attendanceMonth} of ${attendanceYear}`,
+                  `Attendance not found for month ${attendanceMonth} of ${attendanceYear}`,
 
                   200
                 )
@@ -515,11 +515,11 @@ exports.userData = catchAysncError(async (req, res, next) => {
       //sending error to client
 
       if (notFound === true) {
-        return next(new ErrorHandler("Employee attendance not found", 200));
+        return next(new ErrorHandler("Employee's attendance not found", 200));
       }
 
       // holiday update here
-      
+
       finalData[key].holiday = holiday[0].holidayData[`${attendanceYear}`]
         ? holiday[0].holidayData[`${attendanceYear}`][attendanceMonth].length
         : 0;

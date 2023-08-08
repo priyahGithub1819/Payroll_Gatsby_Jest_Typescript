@@ -175,9 +175,6 @@ function App() {
     editBtn.style.display = "none";
     const currentEmp = await axios.get(`/api/v2/single-emp/${empId}`);
     setEmpToEdit(currentEmp.data);
-
-    //setOldData(currentEmp.data);
-
     rowData?.forEach((element: Element) => {
       if (element instanceof HTMLElement) {
         element.removeAttribute("readOnly");

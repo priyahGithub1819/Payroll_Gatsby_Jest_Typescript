@@ -71,7 +71,6 @@ function App() {
     candiId: string
   ) => {
     const { name, value } = e.target;
-
     candirecords.filter((candi) => candi.candidateId === candiId)[0][name] =
       value;
     setCandirecords([...candirecords]);
