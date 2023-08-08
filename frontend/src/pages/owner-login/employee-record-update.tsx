@@ -238,7 +238,7 @@ function App() {
       const target = e.target as HTMLElement;
       const tableRow = target.closest("tr");
       if (String(empToEdit.CTC) === "") {
-        toast.error("Field should not be empty.");
+        toast.warn("Field should not be empty.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -250,7 +250,7 @@ function App() {
           });
         }
       } else if (empToEdit.designation === "") {
-        toast.error("Field should not be empty.");
+        toast.warn("Field should not be empty.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".designation");
@@ -262,7 +262,7 @@ function App() {
           });
         }
       } else if (!designation.test(empToEdit.designation)) {
-        toast.error("Please enter only characters");
+        toast.warn("Please enter only characters");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".designation");
@@ -274,7 +274,7 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
-        toast.error("CTC cannot be negative.");
+        toast.warn("CTC cannot be negative.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -286,7 +286,7 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
-        toast.error("Please enter only 2 digit after decimal.");
+        toast.warn("Please enter only 2 digit after decimal.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -298,7 +298,7 @@ function App() {
           });
         }
       } else if (Number(empToEdit.CTC) < 1) {
-        toast.error("Field should not be zero.");
+        toast.warn("Field should not be zero.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");

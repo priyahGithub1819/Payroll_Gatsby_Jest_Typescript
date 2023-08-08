@@ -141,7 +141,7 @@ function App() {
         element.removeAttribute("readOnly");
       });
     } else {
-      toast.error("Sorry!! Can not edit");
+      toast.error("Sorry!! Can not edit the record");
     }
   };
 

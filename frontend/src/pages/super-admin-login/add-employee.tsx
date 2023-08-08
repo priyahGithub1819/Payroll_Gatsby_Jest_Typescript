@@ -482,7 +482,7 @@ const Superadmin = () => {
       !employeeData1.role ||
       !employeeData1.tempPassword
     ) {
-      return toast.error("Please fill the form first");
+      return toast.warn("Please fill the form first");
     } else if (employeeData1.empId !== employeeData1.tempPassword) {
       form1ErrorMsg.style.color = "red";
       return (form1ErrorMsg.innerHTML = "You have entered wrong password");
@@ -502,7 +502,7 @@ const Superadmin = () => {
     ) as HTMLInputElement;
     if (!employeeData2.numberOfMember) {
       form2ErrorMsg.style.color = "red";
-      return toast.error("Please fill the form first");
+      return toast.warn("Please fill up the form first");
     }
 
     // validation for status single
@@ -512,7 +512,7 @@ const Superadmin = () => {
         (!employeeData2.NameofFather && !employeeData2.NameofMother) ||
         (!employeeData2.DOB3 && !employeeData2.DOB4)
       ) {
-        return toast.error("Please fill details of either Father or Mother");
+        return toast.warn("Please fill up details of either Father or Mother");
       }
     } else {
       if (
@@ -521,7 +521,7 @@ const Superadmin = () => {
         !employeeData2.DOB3 ||
         !employeeData2.DOB4
       ) {
-        return toast.error("Please fill both details of Father and Mother");
+        return toast.warn("Please fill up both the details of Father and Mother");
       }
     }
 
@@ -532,7 +532,7 @@ const Superadmin = () => {
         !employeeData2.relationship ||
         !employeeData2.DOB)
     ) {
-      return toast.error("Please fill the form first");
+      return toast.warn("Please fill up the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
       ref.current?.checked &&
@@ -540,7 +540,7 @@ const Superadmin = () => {
         !employeeData2.child1Gender ||
         !employeeData2.DOB1)
     ) {
-      return toast.error("Please fill the form first");
+      return toast.warn("Please fill up the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
       ref1.current?.checked &&
@@ -548,7 +548,7 @@ const Superadmin = () => {
         !employeeData2.child2Gender ||
         !employeeData2.DOB2)
     ) {
-      return toast.error("Please fill the form first");
+      return toast.warn("Please fill up the form first");
     } else {
       const allUserData = {
         ...employeeData1,

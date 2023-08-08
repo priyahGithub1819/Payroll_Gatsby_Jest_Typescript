@@ -234,7 +234,7 @@ function App() {
       const tableRow = target.closest("tr");
       const rowData = tableRow?.querySelectorAll(".data");
       if (String(empToEdit.CTC) === "") {
-        toast.error("Field should not be empty.");
+        toast.warn("Field should not be empty.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -246,7 +246,7 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && empToEdit.CTC < Number(data)) {
-        toast.error("Updated CTC should be greater than old CTC.");
+        toast.warn("Updated CTC should be greater than old CTC.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -258,7 +258,7 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
-        toast.error("CTC cannot be negative.");
+        toast.warn("CTC cannot be negative.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -270,7 +270,7 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
-        toast.error("Please enter only 2 digit after decimal.");
+        toast.warn("Please enter only 2 digit after decimal.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -282,7 +282,7 @@ function App() {
           });
         }
       } else if (Number(empToEdit.CTC) < 1) {
-        toast.error("Field should not be zero.");
+        toast.warn("Field should not be zero.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -314,8 +314,7 @@ function App() {
           cancelBtn.style.display = "none";
           editBtn.style.display = "";
         }
-
-        toast.success(`Information of ${empId} is updated successfully`);
+        toast.success(`CTC of ${empId} is updated successfully`);
       }
     }
   };
