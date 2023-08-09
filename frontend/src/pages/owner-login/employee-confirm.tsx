@@ -249,9 +249,9 @@ function App() {
   };
 
   const confirmBtnClick = async (id: string, name: string) => {
-    editEmpStatusPayroll(id, { empStatus: "Confirmed" });
+   await editEmpStatusPayroll(id, { empStatus: "Confirmed" });
     toast.success(id + " confirmed successfully");
-    getAllEmployees();
+   await getAllEmployees();
   };
 
   return (

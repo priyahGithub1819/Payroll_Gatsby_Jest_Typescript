@@ -246,7 +246,7 @@ function App() {
           });
         }
       } else if (empToEdit.CTC && empToEdit.CTC < Number(data)) {
-        toast.warn("Updated CTC should be greater than old CTC.");
+        toast.warn("CTC should be greater than old CTC.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
