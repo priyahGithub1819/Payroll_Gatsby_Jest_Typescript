@@ -81,6 +81,7 @@ function ShortlistedCandidate() {
   //Function for Onchange events
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
+    console.log(file?.size)
     if (file) {
       if (file.size > 1024 * 1024 * 2) {
         // if already any file exits 
@@ -107,9 +108,20 @@ function ShortlistedCandidate() {
               });
             });
 
-            // Converting Set back to array of unique values
-            setTableRows(Array.from(uniqueRows));
-            setValues(valuesArray);
+          if(valuesArray.length>0){
+               // Converting Set back to array of unique values
+          setTableRows(Array.from(uniqueRows));
+          setValues(valuesArray);
+          }else {
+               // Converting Set back to array of unique values
+          setTableRows(["CSV File is empty"]);
+          setValues([["Please upload appropriate CSV file"]]);
+          }
+
+          console.log(uniqueRows)
+          console.log(valuesArray)
+
+       
 
             // Display Table Div
             var tableWrapper = document.getElementById(
