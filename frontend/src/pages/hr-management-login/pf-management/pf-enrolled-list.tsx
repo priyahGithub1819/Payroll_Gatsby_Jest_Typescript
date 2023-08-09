@@ -81,7 +81,6 @@ function PfEnrolledList() {
   ) => {
     const { name, value } = e.target;
     setPfEmpToEdit({ ...pfEmpToEdit, [name]: value });
-
     if (name === "pfStatus" && value === "Exited") {
       setLastWorkingDay(true);
     }
@@ -91,8 +90,6 @@ function PfEnrolledList() {
     e: React.MouseEvent<HTMLElement>,
     empId: string
   ) => {
-    console.log(empId);
-
     const target = e.target as HTMLElement;
     const tableRow = target.closest("tr");
     if (tableRow) {
@@ -137,8 +134,9 @@ function PfEnrolledList() {
     empId: number,
     name: string,
     employeeId: string
-   ) => {
-    console.log(typeof pfEmpToEdit?.accountNumber);
+  ) => {
+    console.log(pfEmpToEdit.lastWorkingDay);
+    console.log(pfEmpToEdit.pfStatus);
 
     if (
       pfEmpToEdit?.bankName === "" ||
@@ -218,7 +216,16 @@ function PfEnrolledList() {
           input.style.border = "2px solid red";
         });
       }
-    } else {
+    }
+    // else if (
+    //   pfEmpToEdit?.pfStatus === "Exited" &&
+    //   pfEmpToEdit?.lastWorkingDay === undefined
+    // ) {
+    //   toast.warn(
+    //     "You have selected PF Status 'Exited' please provide exited date"
+    //   );
+    // }
+    else {
       try {
         await axios.put(`/api/v2/edit-pfemp/${empId}`, pfEmpToEdit);
         const target = e.target as HTMLElement;
@@ -246,7 +253,9 @@ function PfEnrolledList() {
             input.style.border = "none";
           });
 
-          toast.success("Information of " + employeeId + " is updated successfully.");
+          toast.success(
+            "Information of " + employeeId + " is updated successfully."
+          );
 
           await getAllPfEmpList();
         }
@@ -335,6 +344,13 @@ function PfEnrolledList() {
     }
   }
 
+  const modalCancelBtn = async () => {
+    console.log(pfEmpToEdit?.pfStatus);
+    console.log(pfEmpToEdit?.lastWorkingDay);
+    setLastWorkingDay(false);
+    setPfEmpToEdit({ ...pfEmpToEdit, pfStatus: "Active" });
+    await getAllPfEmpList();
+  };
   return (
     <Layout>
       <div className="container-fluid pfEnrolledListContainer">
@@ -547,7 +563,12 @@ function PfEnrolledList() {
                               className="bi bi-check-circle-fill save-btn editIcon data-toggle=modal data-target=#myModal saveBtnDisable"
                               data-testid="saveButton"
                               onClick={(e) => {
-                                onSaveBtnClick(e, record._id, record.name, record.empId);
+                                onSaveBtnClick(
+                                  e,
+                                  record._id,
+                                  record.name,
+                                  record.empId
+                                );
                               }}
                             ></i>
                             <i
@@ -603,7 +624,7 @@ function PfEnrolledList() {
                         className="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                        onClick={onSaveLastWorkingDay}
+                        onClick={modalCancelBtn}
                       ></button>
                     </div>
                     <div className="modal-body">
