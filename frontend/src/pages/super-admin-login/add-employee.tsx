@@ -17,7 +17,7 @@ const validEmailType = ["uvxcel.com", "uvxcel.in"];
 const nameValidation = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 
 interface NewUsersList {
-empId: string;
+  empId: string;
 }
 
 const Superadmin = () => {
@@ -25,17 +25,16 @@ const Superadmin = () => {
   const [id, setId] = useState<NewUsersList[]>([]);
   const getAllEmployees = async () => {
     let data = await getNewUsers();
-    setId(data.data); 
+    setId(data.data);
   };
- 
+
   useEffect(() => {
     getAllEmployees();
   }, []);
 
   function spaceBlock() {
-    let allInputs = document.querySelectorAll<HTMLInputElement>(
-      ".preventSpaces"
-    )
+    let allInputs =
+      document.querySelectorAll<HTMLInputElement>(".preventSpaces");
     allInputs.forEach((input) => {
       if (input.selectionStart === 0) {
       }
@@ -77,11 +76,13 @@ const Superadmin = () => {
     ) {
       var parentT = document.getElementById("parents") as HTMLElement;
       parentT.style.display = "none";
-      document.querySelectorAll<HTMLInputElement>(".singleParent").forEach((parent) => {
-        if (parent.checked) {
-          parent.checked = false;
-        }
-      });
+      document
+        .querySelectorAll<HTMLInputElement>(".singleParent")
+        .forEach((parent) => {
+          if (parent.checked) {
+            parent.checked = false;
+          }
+        });
       document.querySelectorAll<HTMLElement>(".motherDiv").forEach((item) => {
         item.style.display = "block";
       });
@@ -138,8 +139,10 @@ const Superadmin = () => {
     }
   };
   const child2Click = () => {
-    const children2 = document.getElementsByClassName("child2")[0] as HTMLInputElement;
-  
+    const children2 = document.getElementsByClassName(
+      "child2"
+    )[0] as HTMLInputElement;
+
     if (ref1.current?.checked) {
       children2.style.display = "block";
     } else {
@@ -151,10 +154,14 @@ const Superadmin = () => {
   const ref2 = useRef<HTMLInputElement | null>(null);
   const childInfoClick = () => {
     if (ref2.current?.checked) {
-      var childCheckBox = document.getElementById("childCheckBox") as HTMLInputElement;
+      var childCheckBox = document.getElementById(
+        "childCheckBox"
+      ) as HTMLInputElement;
       childCheckBox.style.display = "block";
     } else {
-      var childCheckBox = document.getElementById("childCheckBox") as HTMLInputElement;
+      var childCheckBox = document.getElementById(
+        "childCheckBox"
+      ) as HTMLInputElement;
       childCheckBox.style.display = "none";
     }
   };
@@ -205,7 +212,11 @@ const Superadmin = () => {
   }
 
   //1st form On change - Basic Information of Employee
-  const handleFirstFormInput = async (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> ) => {
+  const handleFirstFormInput = async (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     // validations for 1st form
     const { name, value, localName } = e.target;
     if (name === "empId") {
@@ -263,7 +274,10 @@ const Superadmin = () => {
         inputRef.classList.remove("inputSuccess");
         errorRef.classList.add("errorRef");
         errorRef.innerHTML = "EmpId must contain  5 letter and 4 digits";
-      } else if (value.length === 9 && isNaN(parseInt(value.slice(5))) === true) {
+      } else if (
+        value.length === 9 &&
+        isNaN(parseInt(value.slice(5))) === true
+      ) {
         inputRef.classList.add("inputError");
         inputRef.classList.remove("inputSuccess");
         errorRef.classList.add("errorRef");
@@ -283,11 +297,17 @@ const Superadmin = () => {
   };
 
   //2nd form On change - Employee Position
-  const handleSecondFormInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSecondFormInput = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     // validations for 2nd form
     const { name, value } = e.target;
     const relationship = employeeData2.relationship;
-    const inputRef = document.querySelector(`[name = ${name}]`) as HTMLInputElement;
+    const inputRef = document.querySelector(
+      `[name = ${name}]`
+    ) as HTMLInputElement;
     const errorRef = inputRef?.closest(".mb-3")?.lastChild as HTMLInputElement;
 
     if (name === "NameofSpouse" && value.length > 0) {
@@ -462,8 +482,7 @@ const Superadmin = () => {
       !employeeData1.role ||
       !employeeData1.tempPassword
     ) {
-      form1ErrorMsg.style.color = "red";
-      return (form1ErrorMsg.innerHTML = "Please fill the form first");
+      return toast.warn("Please fill the form first");
     } else if (employeeData1.empId !== employeeData1.tempPassword) {
       form1ErrorMsg.style.color = "red";
       return (form1ErrorMsg.innerHTML = "You have entered wrong password");
@@ -474,26 +493,36 @@ const Superadmin = () => {
   };
 
   // on second form submit
-  const handleSecondForm: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+  const handleSecondForm: React.MouseEventHandler<HTMLButtonElement> = async (
+    e
+  ) => {
     e.preventDefault();
     var form2ErrorMsg = document.getElementById(
       "form2ErrorMsg"
     ) as HTMLInputElement;
     if (!employeeData2.numberOfMember) {
       form2ErrorMsg.style.color = "red";
-      return (form2ErrorMsg.innerHTML = "Please fill the form first");
+      return toast.warn("Please fill up the form first");
     }
 
     // validation for status single
-    if (
-      defaultValue.maritalStatus === "SINGLE" &&
-      (!employeeData2.NameofFather ||
-        !employeeData2.DOB3 ||
+    // Check if the number of members is 1
+    if (employeeData2.numberOfMember === "1") {
+      if (
+        (!employeeData2.NameofFather && !employeeData2.NameofMother) ||
+        (!employeeData2.DOB3 && !employeeData2.DOB4)
+      ) {
+        return toast.warn("Please fill up details of either Father or Mother");
+      }
+    } else {
+      if (
+        !employeeData2.NameofFather ||
         !employeeData2.NameofMother ||
-        !employeeData2.DOB4)
-    ) {
-      form2ErrorMsg.style.color = "red";
-      return (form2ErrorMsg.innerHTML = "Please fill the form first");
+        !employeeData2.DOB3 ||
+        !employeeData2.DOB4
+      ) {
+        return toast.warn("Please fill up both the details of Father and Mother");
+      }
     }
 
     // validation for status married
@@ -503,9 +532,7 @@ const Superadmin = () => {
         !employeeData2.relationship ||
         !employeeData2.DOB)
     ) {
-      form2ErrorMsg.style.color = "red";
-
-      return (form2ErrorMsg.innerHTML = "Please fill the form first");
+      return toast.warn("Please fill up the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
       ref.current?.checked &&
@@ -513,8 +540,7 @@ const Superadmin = () => {
         !employeeData2.child1Gender ||
         !employeeData2.DOB1)
     ) {
-      form2ErrorMsg.style.color = "red";
-      return (form2ErrorMsg.innerHTML = "Please fill the form first");
+      return toast.warn("Please fill up the form first");
     } else if (
       defaultValue.maritalStatus === "MARRIED" &&
       ref1.current?.checked &&
@@ -522,8 +548,7 @@ const Superadmin = () => {
         !employeeData2.child2Gender ||
         !employeeData2.DOB2)
     ) {
-      form2ErrorMsg.style.color = "red";
-      return (form2ErrorMsg.innerHTML = "Please fill the form first");
+      return toast.warn("Please fill up the form first");
     } else {
       const allUserData = {
         ...employeeData1,

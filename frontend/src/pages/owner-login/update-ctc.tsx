@@ -111,14 +111,15 @@ interface EmployeeData {
     pfUanNumber: string;
     paymentType: string;
   };
-  CTC?: number,
-  designation: string,
+  CTC?: number;
+  designation: string;
 }
 
 function App() {
   const [records, setRecords] = useState<EmployeeData[]>([]);
   const [allCtc, setAllCtc] = useState<CtcData[]>();
   const ctc = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
+  const decimalRegex = /^\d+(\.\d{0,2})?$/;
 
   const [ctcToEdit, setCtcToEdit] = useState<Employee>({
     Name: "",
@@ -166,19 +167,54 @@ function App() {
         }
       });
     }
+    const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
     const saveBtn = tableRow?.querySelector(".save-btn") as HTMLElement;
-    if (saveBtn) {
-      saveBtn.style.display = "";
-    }
-
+    const editBtn = tableRow?.querySelector(".editBtn") as HTMLElement;
+    cancelBtn.style.display = "";
+    saveBtn.style.display = "";
+    editBtn.style.display = "none";
     const currentEmp = await axios.get(`/api/v2/single-emp/${empId}`);
     setEmpToEdit(currentEmp.data);
-
     rowData?.forEach((element: Element) => {
       if (element instanceof HTMLElement) {
         element.removeAttribute("readOnly");
       }
     });
+  };
+
+  const onCancelClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    empId: string
+  ) => {
+    e.preventDefault();
+    const target = e.target as HTMLElement;
+    const tableRow = target.closest("tr");
+    const rowData = tableRow?.querySelectorAll(".data");
+    const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+    const saveBtn = tableRow?.querySelector(".save-btn") as HTMLElement;
+    const editBtn = tableRow?.querySelector(".editBtn") as HTMLElement;
+    cancelBtn.style.display = "none";
+    saveBtn.style.display = "none";
+    editBtn.style.display = "";
+    let data: string = "";
+    if (allCtc) {
+      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
+    }
+
+    if (empToEdit && rowData) {
+      let elementValue = rowData[0] as HTMLInputElement;
+      elementValue.value = data;
+    }
+
+    const inputElements = tableRow?.querySelectorAll(".data");
+    if (inputElements) {
+      inputElements.forEach((input: Element) => {
+        if (input instanceof HTMLInputElement) {
+          input.style.border = "none";
+          input.readOnly = true;
+        }
+      });
+    }
   };
 
   //To save updated designation and CTC
@@ -188,11 +224,17 @@ function App() {
     name: string,
     lastName: string
   ) => {
+    let data: string = "";
+    if (allCtc) {
+      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
+    }
     if (empToEdit) {
       const { CTC } = empToEdit;
-
+      const target = e.target as HTMLElement;
+      const tableRow = target.closest("tr");
+      const rowData = tableRow?.querySelectorAll(".data");
       if (String(empToEdit.CTC) === "") {
-        alert("Field should not be empty.");
+        toast.warn("Field should not be empty.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -203,9 +245,44 @@ function App() {
             }
           });
         }
-      }
-      else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
-        alert("CTC cannot be negative.");
+      } else if (empToEdit.CTC && empToEdit.CTC < Number(data)) {
+        toast.warn("Updated CTC should be greater than old CTC.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else if (empToEdit.CTC && !ctc.test(String(empToEdit.CTC))) {
+        toast.warn("CTC cannot be negative.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
+        toast.warn("Please enter only 2 digit after decimal.");
+        const target = e.currentTarget as HTMLElement;
+        const tableRow = target.closest("tr");
+        const inputElements = tableRow?.querySelectorAll(".CTC");
+        if (inputElements) {
+          inputElements.forEach((input: Element) => {
+            if (input instanceof HTMLElement) {
+              input.style.border = "2px solid red";
+            }
+          });
+        }
+      } else if (Number(empToEdit.CTC) < 1) {
+        toast.warn("Field should not be zero.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
         const inputElements = tableRow?.querySelectorAll(".CTC");
@@ -220,19 +297,24 @@ function App() {
         await editEmpStatusErp(empId, empToEdit);
         await editSingleCtc(empId, { CTC });
         const target = e.target as HTMLButtonElement;
+        const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+        const editBtn = tableRow?.querySelector(".editBtn") as HTMLElement;
         if (target) {
           target.style.display = "none";
           const tableRow = target.closest("tr");
           const inputElements = tableRow?.querySelectorAll(".data");
           if (inputElements) {
             inputElements.forEach((input: Element) => {
-              if (input instanceof HTMLElement) {
+              if (input instanceof HTMLInputElement) {
                 input.style.border = "none";
+                input.readOnly = true;
               }
             });
           }
+          cancelBtn.style.display = "none";
+          editBtn.style.display = "";
         }
-        toast.success(`Information of ${empId} is updated successfully`);
+        toast.success(`CTC of ${empId} is updated successfully`);
       }
     }
   };
@@ -277,21 +359,20 @@ function App() {
                                     data-testid="ctc"
                                     name="CTC"
                                     type="number"
-                                    //pattern="[0-9]+"
                                     className="data inputFont CTC"
                                     onChange={onValueChange}
                                     defaultValue={
                                       allCtc &&
-                                        allCtc.filter(
-                                          (ctc: CtcData) =>
-                                            ctc.Emp_Id ===
-                                            record.payrollData.empId
-                                        ).length > 0
+                                      allCtc.filter(
+                                        (ctc: CtcData) =>
+                                          ctc.Emp_Id ===
+                                          record.payrollData.empId
+                                      ).length > 0
                                         ? allCtc.filter(
-                                          (ctc: CtcData) =>
-                                            ctc.Emp_Id ===
-                                            record.payrollData.empId
-                                        )[0].CTC
+                                            (ctc: CtcData) =>
+                                              ctc.Emp_Id ===
+                                              record.payrollData.empId
+                                          )[0].CTC
                                         : "CTC not found"
                                     }
                                     readOnly
@@ -306,6 +387,16 @@ function App() {
                                     }
                                   >
                                     Edit{" "}
+                                  </button>
+                                  <button
+                                    id="editBtn"
+                                    className="cancel-btn editBtn"
+                                    style={{ display: "none" }}
+                                    onClick={(e) =>
+                                      onCancelClick(e, record.payrollData.empId)
+                                    }
+                                  >
+                                    Cancel{" "}
                                   </button>
                                   <button
                                     id="saveBtn"

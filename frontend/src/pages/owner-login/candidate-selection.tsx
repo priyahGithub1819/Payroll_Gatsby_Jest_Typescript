@@ -55,22 +55,30 @@ function App() {
     getAllCandidates();
   }, []);
 
+
   // To Reject the candidate
   const saveRejectCandi = async () => {
-    if (rejectReason.rejectedMessage) {
+    const rejectionMessage = rejectReason.rejectedMessage.trim();
+
+    if (rejectionMessage.length === 0) {
+      toast.warn("Please provide a reason to reject the candidate.");
+    } else if (!/^[A-Za-z\s]+$/.test(rejectionMessage)) {
+      toast.warn("Rejection message should only contain letters and spaces.");
+    } else if (rejectionMessage.length < 10 || rejectionMessage.length > 255) {
+      toast.warn("Rejection message should be between 30 and 255 characters.");
+    } else {
       toast.success(
-        "Candidate " + rejectReason.candidateName + " is rejected successfully"
+        "Candidate " + rejectReason.id + " is rejected successfully"
       );
 
       await editCandiStatus(rejectReason.id, {
         candiStatus: "Rejected",
-        rejectedMessage: rejectReason.rejectedMessage,
+        rejectedMessage: rejectionMessage,
       });
+
       setRejectBoxShow(false);
       setRejectReason(rejectedReasonInitialValue);
       await getAllCandidates();
-    } else {
-      toast.success("Please select any reason to reject the candidate.");
     }
   };
 
@@ -123,66 +131,69 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {candirecords.map((candirecord: Candidate, index: number) => {
-                        if (candirecord.candiStatus === "Pending") {
-                          return (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{candirecord.candidateId}</td>
-                              <td>{candirecord.candidateName}</td>
-                              <td>{candirecord.eduQual}</td>
-                              <td>{candirecord.primarySkill}</td>
-                              <td>{candirecord.secondarySkill}</td>
-                              <td>{candirecord.noticePeriod}</td>
-                              <td>{candirecord.currentCTC}</td>
-                              <td>{candirecord.expectedCTC}</td>
-                              <td>
-                                <div className="col-4 offset-8 d-flex justify-content-end">
-                                  <button
-                                    className="btn btn-success"
-                                    data-testid="selectBtn"
-                                    onClick={(e) =>
-                                      saveApproveCandi(
-                                        candirecord.candidateId,
-                                        candirecord.candidateName
-                                      )
-                                    }
-                                  >
-                                    Select
-                                  </button>
-                                  <button
-                                    className="btn btn-info"
-                                    data-testid="holdBtn"
-                                    onClick={(e) =>
-                                      saveHoldCandi(
-                                        candirecord.candidateId,
-                                        candirecord.candidateName
-                                      )
-                                    }
-                                  >
-                                    Hold
-                                  </button>
-                                  <button
-                                    className="btn btn-danger"
-                                    data-testid="rejectBtn"
-                                    onClick={() => {
-                                      setRejectBoxShow(true);
-                                      setRejectReason({
-                                        ...rejectReason,
-                                        id: candirecord.candidateId,
-                                        candidateName: candirecord.candidateName,
-                                      });
-                                    }}
-                                  >
-                                    Reject
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          );
+                      {candirecords.map(
+                        (candirecord: Candidate, index: number) => {
+                          if (candirecord.candiStatus === "Pending") {
+                            return (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{candirecord.candidateId}</td>
+                                <td>{candirecord.candidateName}</td>
+                                <td>{candirecord.eduQual}</td>
+                                <td>{candirecord.primarySkill}</td>
+                                <td>{candirecord.secondarySkill}</td>
+                                <td>{candirecord.noticePeriod}</td>
+                                <td>{candirecord.currentCTC}</td>
+                                <td>{candirecord.expectedCTC}</td>
+                                <td>
+                                  <div className="col-4 offset-8 d-flex justify-content-end">
+                                    <button
+                                      className="btn btn-success"
+                                      data-testid="selectBtn"
+                                      onClick={(e) =>
+                                        saveApproveCandi(
+                                          candirecord.candidateId,
+                                          candirecord.candidateName
+                                        )
+                                      }
+                                    >
+                                      Select
+                                    </button>
+                                    <button
+                                      className="btn btn-info"
+                                      data-testid="holdBtn"
+                                      onClick={(e) =>
+                                        saveHoldCandi(
+                                          candirecord.candidateId,
+                                          candirecord.candidateName
+                                        )
+                                      }
+                                    >
+                                      Hold
+                                    </button>
+                                    <button
+                                      className="btn btn-danger"
+                                      data-testid="rejectBtn"
+                                      onClick={() => {
+                                        setRejectBoxShow(true);
+                                        setRejectReason({
+                                          ...rejectReason,
+                                          id: candirecord.candidateId,
+                                          candidateName:
+                                            candirecord.candidateName,
+                                        });
+                                      }}
+                                    >
+                                      Reject
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          }
+                          return null;
                         }
-                        return null;
-                      })}
+                      )}
                     </tbody>
                   </table>
                 </div>

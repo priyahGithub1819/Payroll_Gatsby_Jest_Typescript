@@ -41,13 +41,13 @@ const Login = (props: RouteComponentProps) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!userData.username || !userData.password) {
-      return toast.error("Please fill the login detail first")
+      return toast.warn("Please fill up the login details first")
     } else {
       const { success, role, error, message } = await getLogin(userData)
       if (success === false) {
-        toast.error("Invalid Employee ID or Password");
+        toast.warn("Invalid Employee ID or Password");
       } else if (success === true && message) {
-        navigate("/createPassword")
+        navigate("/create-password")
       } else if (success === true && !message) {
         if (role === "superAdmin") {
           navigate("/app/super-admin-dashboard")

@@ -140,7 +140,7 @@ const allRoleLinks: Record<string, { href: string; text: string }[]> = {
   ],
   hrAdmin: [
     { href: "/", text: "Home |" },
-    { href: "/hrPayroll", text: "Payroll |" },
+    { href: "/hr-payroll", text: "Payroll |" },
     { href: "/projects", text: "Projects |" },
     { href: "/attendance", text: "Attendance system |" },
     { href: "/hr-management-login/hr-profile/", text: "My Profile |" },

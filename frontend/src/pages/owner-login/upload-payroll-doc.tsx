@@ -18,7 +18,7 @@ const UploadDocument = () => {
     if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
 
-        if(file.size>1024*1024*2){
+        if(file.size>1024*1024*2) {
             // if already any file exits 
             e.target.value = ""
             setUploadFile(null)
@@ -26,8 +26,8 @@ const UploadDocument = () => {
         }
 
       setUploadFile(e.target.files[0]);
-    }else{
-        toast.warn("Please select the file")
+    } else {
+        toast.warn("Please select the file");
     }
   };
 
@@ -130,7 +130,7 @@ const UploadDocument = () => {
                   <h6 className="text-muted mt-3">
                     Hint : You can upload all types of files here.
                   </h6><h6 className="text-muted">
-                    Hint : File size limit - upto 2MB.
+                    Note : File size limit - upto 2MB.
                   </h6>
                 </div>
                 {uploadFile && (

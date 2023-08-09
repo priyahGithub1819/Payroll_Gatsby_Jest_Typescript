@@ -54,13 +54,13 @@ interface SalaryValue {
 
 interface PreviousAttendance {
   "casual leave": number;
-  holiday: number;
-  month: string;
-  present: number;
+  "holiday": number;
+  "month": string;
+  "present": number;
   "privilege leave": number;
   "sick leave": number;
-  totalBusinessDay: number;
-  year: string;
+  "totalBusinessDay": number;
+  "year": string;
 }
 
 interface CalculateSalary extends PreviousAttendance {

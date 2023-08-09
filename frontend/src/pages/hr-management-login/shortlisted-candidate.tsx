@@ -74,7 +74,7 @@ function ShortlistedCandidate() {
         setValues([])
       }
     } else {
-      toast.error("Please upload appropriate CSV file");
+      toast.warn("Please upload appropriate CSV file");
     }
   };
 
@@ -83,30 +83,30 @@ function ShortlistedCandidate() {
     const file = event.target.files && event.target.files[0];
     console.log(file?.size)
     if (file) {
-      if(file.size>1024*1024*2){
+      if (file.size > 1024 * 1024 * 2) {
         // if already any file exits 
         event.target.value = ""
         setTableRows([])
         setValues([])
         return toast.warn("file size exceeds")
-    }else{
+      } else {
 
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: function (results) {
-          const valuesArray: string[][] = [];
-          const uniqueRows = new Set<string>(); // Using a Set to store unique values
+        Papa.parse(file, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function (results) {
+            const valuesArray: string[][] = [];
+            const uniqueRows = new Set<string>(); // Using a Set to store unique values
 
-          // Iterating data to get column name and their values
-          (results.data as Candidate[]).forEach((d: Candidate) => {
-            const keys = Object.keys(d);
-            keysArray.push(...keys); // Spread the keys into keysArray
-            valuesArray.push(Object.values(d));
-            keys.forEach((key) => {
-              uniqueRows.add(key); // Add each column name to the Set
+            // Iterating data to get column name and their values
+            (results.data as Candidate[]).forEach((d: Candidate) => {
+              const keys = Object.keys(d);
+              keysArray.push(...keys); // Spread the keys into keysArray
+              valuesArray.push(Object.values(d));
+              keys.forEach((key) => {
+                uniqueRows.add(key); // Add each column name to the Set
+              });
             });
-          });
 
           if(valuesArray.length>0){
                // Converting Set back to array of unique values
@@ -123,23 +123,23 @@ function ShortlistedCandidate() {
 
        
 
-          // Display Table Div
-          var tableWrapper = document.getElementById(
-            "table-wrapper"
-          ) as HTMLDivElement;
-          tableWrapper.style.display = "block";
+            // Display Table Div
+            var tableWrapper = document.getElementById(
+              "table-wrapper"
+            ) as HTMLDivElement;
+            tableWrapper.style.display = "block";
 
-          // Check if the element exists before accessing its classList
-          var tableinfoheading = document.getElementById(
-            "table-info-heading"
-          ) as HTMLHeadingElement;
-          if (tableinfoheading) {
-            tableinfoheading.classList.remove("d-none");
-          }
-        },
-      });
-            
-    }
+            // Check if the element exists before accessing its classList
+            var tableinfoheading = document.getElementById(
+              "table-info-heading"
+            ) as HTMLHeadingElement;
+            if (tableinfoheading) {
+              tableinfoheading.classList.remove("d-none");
+            }
+          },
+        });
+
+      }
     }
   };
 
@@ -215,7 +215,7 @@ function ShortlistedCandidate() {
               className="row my-3"
               id="save-clear-btns"
             >
-             { tableRows.length > 0 ?  <div className="col-4 offset-8 d-flex justify-content-end">
+              {tableRows.length > 0 ? <div className="col-4 offset-8 d-flex justify-content-end">
                 <button
                   className="btn btn-success"
                   onClick={(e) => saveCandiInfoToDb(e)}
@@ -225,7 +225,7 @@ function ShortlistedCandidate() {
                 <button className="btn btn-danger" onClick={onClearBtnClick}>
                   Clear
                 </button>
-              </div> : "" }
+              </div> : ""}
             </div>
           </div>
         </div>

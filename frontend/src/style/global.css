@@ -312,9 +312,9 @@ a {
   margin-bottom: 8px !important;
 }
 
-.footer-contact {
+/* .footer-contact {
   text-align: right;
-}
+} */
 
 /*Footer END*/
 
@@ -530,11 +530,12 @@ input .larger {
   color: #000 !important;
 }
 
-.editIcon {
-  font-size: 23px !important;
+.editIcon .cancelIcon {
+  font-size: 20px !important;
   margin-left: 2px !important;
-  cursor: pointer;
+  cursor: pointer !important;
 }
+
 
 .HrEmployeeContainer {
   min-height: 100vh;
@@ -609,10 +610,18 @@ input .larger {
 .pfManagementContainer h1 {
   text-align: center;
   font-weight: 700 !important;
+  background: blueviolet;
+  border-radius: 10px;
+  padding: 20px;
+  width: 80%;
 }
 
 .pfcards {
   background: #ffdfd3 !important;
+}
+
+.employeeInfo {
+  padding-left: 5px;
 }
 
 /*HR ADMIN pf management end*/
@@ -683,12 +692,12 @@ h4.card-title {
 }
 
 .hrDashBoardH2 {
-  background-color: #00adad;
-  width: 88%;
+  background-color: #E34D5E;
+  width: 80%;
   text-align: center;
   margin: auto;
   margin-top: 7rem;
-  border-radius: 40px;
+  border-radius: 10px;
 }
 
 .hrDashBoardDiv {
@@ -1156,7 +1165,8 @@ td {
 }
 
 .superAdminBtnDiv {
-  padding-left: 0px !important;
+  /* padding-left: 0px !important; */
+  text-align: center;
   margin: 30px 0px 10px 0px !important;
 }
 
@@ -1164,7 +1174,7 @@ td {
   font-weight: 500 !important;
   color: black !important;
   margin-top: 10px;
-  background: #aaa5f8 !important;
+  background: yellow !important;
   border: 1px solid #aaa5f8 !important;
 }
 
@@ -1207,7 +1217,7 @@ hr {
 
 .superAdminP {
   margin: 0px 10px 10px 10px !important;
-  background-color: #daf1e6 !important;
+  background-color: #DEEAFF !important;
 }
 
 .superAdminP p {
@@ -2400,7 +2410,7 @@ div.content {
 
 /*Code by Priya for edit confirmation date*/
 .editConfirmDate {
-  width: 30px;
+  width: 25px;
   height: 30px;
 }
 
@@ -2498,7 +2508,7 @@ div.content {
   padding-bottom: 20px;
 }
 
-.save-btn {
+.save-btn .cancelIco{
   margin-left: 5px;
 }
 
@@ -2506,6 +2516,18 @@ div.content {
   display: none;
 }
 .saveBtnEnable {
+  display: block;
+}
+.cancelIconDisable {
+  display: none;
+}
+.cancelIconEnable {
+  display: block;
+}
+.editIconDisable {
+  display: none;
+}
+.editIconEnable {
   display: block;
 }
 .table> :not(caption)>*>* {
