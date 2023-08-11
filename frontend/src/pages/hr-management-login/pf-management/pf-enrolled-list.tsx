@@ -81,10 +81,6 @@ function PfEnrolledList() {
   ) => {
     const { name, value } = e.target;
     setPfEmpToEdit({ ...pfEmpToEdit, [name]: value });
-
-    console.log(pfEmpToEdit.lastWorkingDay);
-    console.log(pfEmpToEdit.pfStatus);
-
     if (name === "pfStatus" && value === "Exited") {
       setLastWorkingDay(true);
     }
@@ -220,17 +216,16 @@ function PfEnrolledList() {
           input.style.border = "2px solid red";
         });
       }
-    } else if (
-      pfEmpToEdit?.pfStatus === "Exited" &&
-      pfEmpToEdit?.lastWorkingDay === undefined
-    ) {
-      console.log("in condition");
-      toast.warn(
-        "You have selected PF Status 'Exited' please provide exited date"
-      );
-      console.log(pfEmpToEdit?.pfStatus);
-      console.log(pfEmpToEdit.lastWorkingDay);
-    } else {
+    }
+    // else if (
+    //   pfEmpToEdit?.pfStatus === "Exited" &&
+    //   pfEmpToEdit?.lastWorkingDay === undefined
+    // ) {
+    //   toast.warn(
+    //     "You have selected PF Status 'Exited' please provide exited date"
+    //   );
+    // }
+    else {
       try {
         await axios.put(`/api/v2/edit-pfemp/${empId}`, pfEmpToEdit);
         const target = e.target as HTMLElement;
@@ -349,6 +344,13 @@ function PfEnrolledList() {
     }
   }
 
+  const modalCancelBtn = async () => {
+    console.log(pfEmpToEdit?.pfStatus);
+    console.log(pfEmpToEdit?.lastWorkingDay);
+    setLastWorkingDay(false);
+    setPfEmpToEdit({ ...pfEmpToEdit, pfStatus: "Active" });
+    await getAllPfEmpList();
+  };
   return (
     <Layout>
       <div className="container-fluid pfEnrolledListContainer">
@@ -622,9 +624,7 @@ function PfEnrolledList() {
                         className="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                        onClick={() => {
-                          setLastWorkingDay(false);
-                        }}
+                        onClick={modalCancelBtn}
                       ></button>
                     </div>
                     <div className="modal-body">
