@@ -168,6 +168,17 @@ function App() {
         }
       });
     }
+    const allRow = document.querySelectorAll(".tableDataRow");
+    const remainingRow = Array.from(allRow).filter((r) => r.id !== empId);
+    remainingRow.forEach((row) => {
+      const rowEditBtn = row.querySelector(".editBtn") as HTMLButtonElement;
+      rowEditBtn.disabled = true;
+      rowEditBtn.style.color="lightgray";
+    })
+
+
+
+
     const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
     const saveBtn = tableRow?.querySelector(".save-btn") as HTMLElement;
     const editBtn = tableRow?.querySelector(".editBtn") as HTMLElement;
@@ -224,6 +235,14 @@ function App() {
         }
       });
     }
+
+    const allRow = document.querySelectorAll(".tableDataRow");
+    // const remainingRow = Array.from(allRow).filter((r) => r.id !== empId);
+    allRow.forEach((row) => {
+      const rowEditBtn = row.querySelector(".editBtn") as HTMLButtonElement;
+      rowEditBtn.disabled = false;
+      rowEditBtn.style.color="rgb(99, 144, 230)";
+    })
   };
 
   //To save updated designation and CTC
@@ -233,10 +252,10 @@ function App() {
     name: string,
     lastName: string
   ) => {
-    let data: string = "";
-    if (allCtc) {
-      data = allCtc.filter((ctc: CtcData) => ctc.Emp_Id === empId)[0].CTC;
-    }
+    console.log(empId);
+    console.log(empToEdit);
+    console.log(empToEdit?.basic.employeeId);
+
     if (empToEdit) {
       const { CTC } = empToEdit;
       const target = e.target as HTMLElement;
@@ -289,20 +308,7 @@ function App() {
             }
           });
         }
-      } else if (empToEdit.CTC && empToEdit.CTC < Number(data)) {
-        toast.warn("CTC should be greater than old CTC.");
-        const target = e.currentTarget as HTMLElement;
-        const tableRow = target.closest("tr");
-        const inputElements = tableRow?.querySelectorAll(".CTC");
-        if (inputElements) {
-          inputElements.forEach((input: Element) => {
-            if (input instanceof HTMLElement) {
-              input.style.border = "2px solid red";
-            }
-          });
-        }
-      }
-       else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
+      } else if (empToEdit.CTC && !decimalRegex.test(String(empToEdit.CTC))) {
         toast.warn("Please enter only 2 digit after decimal.");
         const target = e.currentTarget as HTMLElement;
         const tableRow = target.closest("tr");
@@ -347,8 +353,20 @@ function App() {
           cancelBtn.style.display = "none";
           editBtn.style.display = "";
         }
+
         toast.success(`Information of ${empId} is updated successfully`);
+
+        const allRow = document.querySelectorAll(".tableDataRow");
+        // const remainingRow = Array.from(allRow).filter((r) => r.id !== empId);
+        allRow.forEach((row) => {
+          const rowEditBtn = row.querySelector(".editBtn") as HTMLButtonElement;
+          rowEditBtn.disabled = false;
+          rowEditBtn.style.color="rgb(99, 144, 230)";
+
+        })
+
       }
+
     }
   };
 
@@ -380,7 +398,7 @@ function App() {
                         records.map((record: EmployeeData, Index: number) => {
                           if (record.payrollData.empStatus === "Confirmed")
                             return (
-                              <tr key={Index}>
+                              <tr key={Index} className="tableDataRow" id={record.payrollData.empId}>
                                 <td></td>
                                 <td>{record.payrollData.empId}</td>
                                 <td>
@@ -399,7 +417,6 @@ function App() {
                                     readOnly
                                   />
                                 </td>
-
                                 <td>
                                   <input
                                     data-testid="ctc"
@@ -409,16 +426,16 @@ function App() {
                                     onChange={onValueChange}
                                     defaultValue={
                                       allCtc &&
-                                      allCtc.filter(
-                                        (ctc: CtcData) =>
-                                          ctc.Emp_Id ===
-                                          record.payrollData.empId
-                                      ).length > 0
+                                        allCtc.filter(
+                                          (ctc: CtcData) =>
+                                            ctc.Emp_Id ===
+                                            record.payrollData.empId
+                                        ).length > 0
                                         ? allCtc.filter(
-                                            (ctc: CtcData) =>
-                                              ctc.Emp_Id ===
-                                              record.payrollData.empId
-                                          )[0].CTC
+                                          (ctc: CtcData) =>
+                                            ctc.Emp_Id ===
+                                            record.payrollData.empId
+                                        )[0].CTC
                                         : "CTC not found"
                                     }
                                     readOnly
