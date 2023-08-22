@@ -330,6 +330,12 @@ function App() {
             <div className="row ownerColumn justify-content-end">
               <div className="margin col-lg-11 col-md-9 col-sm-10 wrapper">
                 <h2 className="text-center bulkText">Update CTC</h2>
+                <label>
+                  <input type="radio" name="visibility" value="show" id="showRadio" /> Show
+                </label>
+                <label>
+                  <input type="radio" name="visibility" value="hide" id="hideRadio" /> Hide
+                </label>
                 <div className="empTable">
                   <table className="table table-bordered css-serial">
                     <thead>
