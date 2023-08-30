@@ -333,7 +333,7 @@ return (
         <div className="col-lg-9">
           <div className="row ownerColumn justify-content-end">
             <div className="margin col-lg-11 col-md-9 col-sm-10 wrapper">
-              <h2 className="text-center bulkText">Update CTC</h2>
+              <h2 className="text-center bulkText">Types of Employees</h2>
               <div> <label className="radioMargin">
                 <input
                   type="radio"
@@ -342,7 +342,7 @@ return (
                   id="fte"
                   onClick={() => setSelectedTable("fte") }
                 />{" "}
-                FTE: Full Time Employee
+                FTE : Full Time Employee
               </label>
               <label className="radioMargin">
                 <input
@@ -352,7 +352,7 @@ return (
                   id="pte"
                   onClick={() => setSelectedTable("pte")}
                 />{" "}
-                PTE/Contractual employee: Part Time 
+                PTE/Contractual employee :Part Time Employee 
               </label>
               <label className="radioMargin">
                 <input
@@ -362,10 +362,10 @@ return (
                   id="intern"
                   onClick={() => setSelectedTable("intern")}
                 />{" "}
-                INTERN
+                INTERN 
               </label></div>
              
-              {selectedTable === "fte" && ( // Conditionally render the table based on showTable state
+              {selectedTable === "fte" && (
                 <div className="empTable">
                   <table className="table table-bordered css-serial">
                   <thead>
@@ -373,8 +373,6 @@ return (
                         <th className="heading">Sr. No.</th>
                         <th className="heading">Employee Id</th>
                         <th className="heading">Name of Employee</th>
-                        <th className="heading">CTC</th>
-                        <th className="heading">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -390,67 +388,6 @@ return (
                                   {record.basic.name.middleName}{" "}
                                   {record.basic.name.lastName}
                                 </td>
-                                <td>
-                                  <input
-                                    data-testid="ctc"
-                                    name="CTC"
-                                    type="number"
-                                    className="data inputFont CTC"
-                                    onChange={onValueChange}
-                                    defaultValue={
-                                      allCtc &&
-                                      allCtc.filter(
-                                        (ctc: CtcData) =>
-                                          ctc.Emp_Id ===
-                                          record.payrollData.empId
-                                      ).length > 0
-                                        ? allCtc.filter(
-                                            (ctc: CtcData) =>
-                                              ctc.Emp_Id ===
-                                              record.payrollData.empId
-                                          )[0].CTC
-                                        : "CTC not found"
-                                    }
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <button
-                                    id="editBtn"
-                                    className="editBtn"
-                                    onClick={(e) =>
-                                      onEditClick(e, record.payrollData.empId)
-                                    }
-                                  >
-                                    Edit{" "}
-                                  </button>
-                                  <button
-                                    id="editBtn"
-                                    className="cancel-btn editBtn"
-                                    style={{ display: "none" }}
-                                    onClick={(e) =>
-                                      onCancelClick(e, record.payrollData.empId)
-                                    }
-                                  >
-                                    Cancel{" "}
-                                  </button>
-                                  <button
-                                    id="saveBtn"
-                                    data-testid="saveBtn"
-                                    className=" save-btn editBtn"
-                                    style={{ display: "none" }}
-                                    onClick={(e) =>
-                                      onSaveClick(
-                                        e,
-                                        record.payrollData.empId,
-                                        record.basic.name.firstName,
-                                        record.basic.name.lastName
-                                      )
-                                    }
-                                  >
-                                    Save{" "}
-                                  </button>
-                                </td>
                               </tr>
                             );
                         })}
@@ -458,7 +395,7 @@ return (
                   </table>
                 </div>
               )}
-               {selectedTable === "pte" && ( // Conditionally render the table based on showTable state
+               {selectedTable === "pte" && ( 
                 <div className="empTable">
                   <table className="table table-bordered css-serial">
                   <thead>
@@ -466,8 +403,6 @@ return (
                         <th className="heading">Sr. No.</th>
                         <th className="heading">Employee Id</th>
                         <th className="heading">Name of Employee</th>
-                        <th className="heading">CTC</th>
-                        <th className="heading">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -482,67 +417,6 @@ return (
                                   {record.basic.name.firstName}{" "}
                                   {record.basic.name.middleName}{" "}
                                   {record.basic.name.lastName}
-                                </td>
-                                <td>
-                                  <input
-                                    data-testid="ctc"
-                                    name="CTC"
-                                    type="number"
-                                    className="data inputFont CTC"
-                                    onChange={onValueChange}
-                                    defaultValue={
-                                      allCtc &&
-                                      allCtc.filter(
-                                        (ctc: CtcData) =>
-                                          ctc.Emp_Id ===
-                                          record.payrollData.empId
-                                      ).length > 0
-                                        ? allCtc.filter(
-                                            (ctc: CtcData) =>
-                                              ctc.Emp_Id ===
-                                              record.payrollData.empId
-                                          )[0].CTC
-                                        : "CTC not found"
-                                    }
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <button
-                                    id="editBtn"
-                                    className="editBtn"
-                                    onClick={(e) =>
-                                      onEditClick(e, record.payrollData.empId)
-                                    }
-                                  >
-                                    Edit{" "}
-                                  </button>
-                                  <button
-                                    id="editBtn"
-                                    className="cancel-btn editBtn"
-                                    style={{ display: "none" }}
-                                    onClick={(e) =>
-                                      onCancelClick(e, record.payrollData.empId)
-                                    }
-                                  >
-                                    Cancel{" "}
-                                  </button>
-                                  <button
-                                    id="saveBtn"
-                                    data-testid="saveBtn"
-                                    className=" save-btn editBtn"
-                                    style={{ display: "none" }}
-                                    onClick={(e) =>
-                                      onSaveClick(
-                                        e,
-                                        record.payrollData.empId,
-                                        record.basic.name.firstName,
-                                        record.basic.name.lastName
-                                      )
-                                    }
-                                  >
-                                    Save{" "}
-                                  </button>
                                 </td>
                               </tr>
                             );
@@ -559,8 +433,6 @@ return (
                         <th className="heading">Sr. No.</th>
                         <th className="heading">Employee Id</th>
                         <th className="heading">Name of Employee</th>
-                        <th className="heading">CTC</th>
-                        <th className="heading">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -575,67 +447,6 @@ return (
                                   {record.basic.name.firstName}{" "}
                                   {record.basic.name.middleName}{" "}
                                   {record.basic.name.lastName}
-                                </td>
-                                <td>
-                                  <input
-                                    data-testid="ctc"
-                                    name="CTC"
-                                    type="number"
-                                    className="data inputFont CTC"
-                                    onChange={onValueChange}
-                                    defaultValue={
-                                      allCtc &&
-                                      allCtc.filter(
-                                        (ctc: CtcData) =>
-                                          ctc.Emp_Id ===
-                                          record.payrollData.empId
-                                      ).length > 0
-                                        ? allCtc.filter(
-                                            (ctc: CtcData) =>
-                                              ctc.Emp_Id ===
-                                              record.payrollData.empId
-                                          )[0].CTC
-                                        : "CTC not found"
-                                    }
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <button
-                                    id="editBtn"
-                                    className="editBtn"
-                                    onClick={(e) =>
-                                      onEditClick(e, record.payrollData.empId)
-                                    }
-                                  >
-                                    Edit{" "}
-                                  </button>
-                                  <button
-                                    id="editBtn"
-                                    className="cancel-btn editBtn"
-                                    style={{ display: "none" }}
-                                    onClick={(e) =>
-                                      onCancelClick(e, record.payrollData.empId)
-                                    }
-                                  >
-                                    Cancel{" "}
-                                  </button>
-                                  <button
-                                    id="saveBtn"
-                                    data-testid="saveBtn"
-                                    className=" save-btn editBtn"
-                                    style={{ display: "none" }}
-                                    onClick={(e) =>
-                                      onSaveClick(
-                                        e,
-                                        record.payrollData.empId,
-                                        record.basic.name.firstName,
-                                        record.basic.name.lastName
-                                      )
-                                    }
-                                  >
-                                    Save{" "}
-                                  </button>
                                 </td>
                               </tr>
                             );

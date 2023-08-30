@@ -158,6 +158,32 @@ const Owner = () => {
           </Link>
           <h6>Upload and View payroll documents</h6>
         </div>
+        <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
+          <h3> Types of Employee </h3>{" "}
+          <Link to="/owner-login/employee-type"
+          data-testid="employee-type">
+            {" "}
+            <img
+              src="/viewDocument.png"
+              alt="UploadImg"
+              className="icon img-fluid "
+            />
+          </Link>
+          <h6>Types of Employee</h6>
+        </div>
+        <div className="col-xl-2 col-lg-4 col-md-5 listOfEmp1">
+          <h3>Candidate status</h3>{" "}
+          <Link to="/owner-login/candidate-status"
+          data-testid="candidate-status">
+            {" "}
+            <img
+              src="/viewDocument.png"
+              alt="UploadImg"
+              className="icon img-fluid "
+            />
+          </Link>
+          <h6>Candidate status</h6>
+        </div>
       </div>
     </div>
   )
