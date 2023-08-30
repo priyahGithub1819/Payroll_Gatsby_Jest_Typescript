@@ -113,7 +113,7 @@ function App() {
       const tableRow = e.currentTarget.closest(
         "tr"
       ) as HTMLTableRowElement | null;
-      if (tableRow === null) return; 
+      if (tableRow === null) return;
       const rowData = tableRow.querySelectorAll(".data");
       const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
       const saveBtn = tableRow?.querySelector(".save-btn") as HTMLElement;
@@ -210,26 +210,44 @@ function App() {
     }
 
     let updatedEmployee: Employee | null = null;
-    if (
-      probationPeriod === 3 ||
-      probationPeriod === 6 ||
-      probationPeriod === 9
-    ) {
+    if (probationPeriod === 3) {
       const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
       const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
       cancelBtn.style.display = "none";
       editBtn.style.display = "";
       const confirmDate = new Date(joiningDate);
-      confirmDate.setMonth(confirmDate.getMonth() + Number(probationPeriod));
-
-      updatedEmployee = {
-        ...empToEdit!,
-        basic: {
-          ...empToEdit!.basic,
-          probationPeriod: Number(probationPeriod),
-          confirmationDate: confirmDate.toISOString(), 
-        },
-      };
+      confirmDate.setMonth(confirmDate.getMonth() + 3);
+      console.log(confirmDate);
+      editEmpStatusErp(empId, {
+        confirmationDate: confirmDate,
+        probationPeriod: probationPeriod,
+      });
+    }
+    if (probationPeriod === 6) {
+      const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+      const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
+      cancelBtn.style.display = "none";
+      editBtn.style.display = "";
+      const confirmDate = new Date(joiningDate);
+      confirmDate.setMonth(confirmDate.getMonth() + 6);
+      console.log(confirmDate);
+      editEmpStatusErp(empId, {
+        confirmationDate: confirmDate,
+        probationPeriod: probationPeriod,
+      });
+    }
+    if (probationPeriod === 9) {
+      const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
+      const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
+      cancelBtn.style.display = "none";
+      editBtn.style.display = "";
+      const confirmDate = new Date(joiningDate);
+      confirmDate.setMonth(confirmDate.getMonth() + 9);
+      console.log(confirmDate);
+      editEmpStatusErp(empId, {
+        confirmationDate: confirmDate,
+        probationPeriod: probationPeriod,
+      });
     } else {
       const cancelBtn = tableRow?.querySelector(".cancel-btn") as HTMLElement;
       const editBtn = tableRow?.querySelector("#editBtn") as HTMLElement;
@@ -249,9 +267,9 @@ function App() {
   };
 
   const confirmBtnClick = async (id: string, name: string) => {
-    editEmpStatusPayroll(id, { empStatus: "Confirmed" });
+    await editEmpStatusPayroll(id, { empStatus: "Confirmed" });
     toast.success(id + " confirmed successfully");
-    getAllEmployees();
+    await getAllEmployees();
   };
 
   return (

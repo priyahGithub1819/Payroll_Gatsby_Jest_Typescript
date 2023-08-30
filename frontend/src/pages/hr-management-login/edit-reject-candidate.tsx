@@ -208,7 +208,16 @@ function App() {
         });
         toast.warn("Please enter only characters or numbers.");
       }
-    } else if (!skills.test(candiToEdit.secondarySkill)) {
+    }else if (candiToEdit.primarySkill === "0"){
+      const tableRow = (e.target as HTMLElement).closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".primarySkill").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+        toast.warn("Please enter valide input.");
+      }
+    }
+     else if (!skills.test(candiToEdit.secondarySkill)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
         tableRow.querySelectorAll(".secondarySkill").forEach((input: any) => {
@@ -216,7 +225,16 @@ function App() {
         });
         toast.warn("Please enter only characters or numbers.");
       }
-    } else if (!education.test(candiToEdit.eduQual)) {
+    } else if (candiToEdit.secondarySkill === "0") {
+      const tableRow = (e.target as HTMLElement).closest("tr");
+      if (tableRow) {
+        tableRow.querySelectorAll(".secondarySkill").forEach((input: any) => {
+          input.style.border = "2px solid red";
+        });
+        toast.warn("Please enter valide input.");
+      }
+    } 
+    else if (!education.test(candiToEdit.eduQual)) {
       const tableRow = (e.target as HTMLElement).closest("tr");
       if (tableRow) {
         tableRow.querySelectorAll(".eduQual").forEach((input: any) => {
