@@ -12,12 +12,13 @@ const CreatePassword = () => {
     confirmPassword: "",
   })
 
-  const handlePasswordInput = event => {
+  const handlePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, localName } = event.target
     setNewPassword({ ...newPassword, [name]: value })
 
-    const inputRef = document.querySelector(`${localName}[name = ${name}]`)
-    const errorRef = inputRef.closest(".mb-3").lastChild
+    const inputRef = document.querySelector(`${localName}[name = ${name}]`)as HTMLInputElement;
+    const errorContainer  = inputRef.closest(".mb-3")as HTMLInputElement;
+    const errorRef = errorContainer.lastChild
     const isWhitespace = /^(?=.*\s)/
     const isContainsUppercase = /^(?=.*[A-Z])/
     const isContainsLowercase = /^(?=.*[a-z])/
@@ -28,87 +29,111 @@ const CreatePassword = () => {
     if (isWhitespace.test(value)) {
       inputRef.classList.add("inputError")
       inputRef.classList.remove("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.add("errorRef")
       return (errorRef.innerHTML = "Password must not contain Whitespaces.")
+      }
     } else {
       inputRef.classList.remove("inputError")
       inputRef.classList.add("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.remove("errorRef")
       errorRef.style.display = "none"
+      }
     }
     if (!isContainsUppercase.test(value)) {
       inputRef.classList.add("inputError")
       inputRef.classList.remove("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.add("errorRef")
       return (errorRef.innerHTML =
         "Password must have at least one Uppercase Character.")
+      }
     } else {
       inputRef.classList.remove("inputError")
       inputRef.classList.add("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.remove("errorRef")
       errorRef.style.display = "none"
     }
+  }
     if (!isContainsLowercase.test(value)) {
       inputRef.classList.add("inputError")
       inputRef.classList.remove("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.add("errorRef")
       return (errorRef.innerHTML =
         "Password must have at least one Lowercase Character.")
+      }
     } else {
       inputRef.classList.remove("inputError")
       inputRef.classList.add("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.remove("errorRef")
       errorRef.style.display = "none"
     }
+  }
     if (!isContainsNumber.test(value)) {
       inputRef.classList.add("inputError")
       inputRef.classList.remove("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.add("errorRef")
       return (errorRef.innerHTML = "Password must contain at least one Digit.")
+      }
     } else {
       inputRef.classList.remove("inputError")
       inputRef.classList.add("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.remove("errorRef")
       errorRef.style.display = "none"
     }
+  }
     if (!isContainsSymbol.test(value)) {
       inputRef.classList.add("inputError")
       inputRef.classList.remove("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.add("errorRef")
       return (errorRef.innerHTML =
         "Password must contain at least one Special Symbol.")
+      }
     } else {
       inputRef.classList.remove("inputError")
       inputRef.classList.add("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.remove("errorRef")
       errorRef.style.display = "none"
     }
+  }
     if (!isValidLength.test(value)) {
       inputRef.classList.add("inputError")
       inputRef.classList.remove("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.add("errorRef")
       return (errorRef.innerHTML = "Password must be 10-16 Characters Long.")
+      }
     } else {
       inputRef.classList.remove("inputError")
       inputRef.classList.add("inputSuccess")
+      if (errorRef instanceof HTMLElement) {
       errorRef.classList.remove("errorRef")
       errorRef.style.display = "none"
     }
   }
+  }
 
-  const handlePasswordInput1 = event => {
+  const handlePasswordInput1 = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setNewPassword({ ...newPassword, [name]: value })
   }
-  const updatePassword = async event => {
+  const updatePassword = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     if (!newPassword.changePassword || !newPassword.confirmPassword) {
       return window.alert("please fill the form first")
     } else if (newPassword.changePassword !== newPassword.confirmPassword) {
       return window.alert("password is not matched")
     }
-    const password = newPassword.changePassword
-    const { success, error } = await createNewPassword({ password })
+    const password = newPassword.changePassword;
+    const { success, error } = await createNewPassword(password)
     if (success === false) {
       return window.alert(error)
     } else {
@@ -118,7 +143,7 @@ const CreatePassword = () => {
   }
   //  show password
   const showPasswordFunction = () => {
-    var password = document.getElementById("employeePassword")
+    var password = document.getElementById("employeePassword") as HTMLInputElement
     if (password.type === "password") {
       password.type = "text"
     } else {
@@ -131,13 +156,13 @@ const CreatePassword = () => {
       <div className="container login-wrapper margin">
         <div className="row justify-content-center">
           <div className="col-xl-5 col-lg-7 col-md-9">
-            <form class="login_form loginCard card" method="post">
+            <form className="login_form loginCard card" method="post">
               <div className="row justify-content-center">
                 <h1>Change Password</h1>
                 <hr />
                 <div className="col-11">
-                  <div class="font mb-3 form-group">
-                    <label className="fw-bold" for="exampleInputUserID">
+                  <div className="font mb-3 form-group">
+                    <label className="fw-bold" htmlFor="exampleInputUserID">
                       Change Password
                     </label>
                     <input
@@ -152,8 +177,8 @@ const CreatePassword = () => {
                   </div>
                 </div>
                 <div className="col-11">
-                  <div class="font font2 form-group mb-4">
-                    <label className="fw-bold" for="employeePassword">
+                  <div className="font font2 form-group mb-4">
+                    <label className="fw-bold" htmlFor="employeePassword">
                       Confirm Password
                     </label>
                     <input
@@ -174,7 +199,7 @@ const CreatePassword = () => {
                       onChange={showPasswordFunction}
                       className="showPass form-check-input inputFont"
                     />{" "}
-                    <label className="form-check-label" for="exampleCheck1">
+                    <label className="form-check-label" htmlFor="exampleCheck1">
                       Show Password
                     </label>
                   </div>
